@@ -19,6 +19,8 @@ import {LogComponent} from '@/components/log/log.component';
 import {WhatsNewComponent} from '@/components/whats-new/whats-new.component';
 import {ImpressumComponent} from '@/components/impressum/impressum.component';
 import {ProgressComponent} from '@/components/progress/progress.component';
+import { LinkCardComponent } from './components/link-card/link-card.component';
+import { ConfigLinkComponent } from './components/config-link/config-link.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +36,8 @@ import {ProgressComponent} from '@/components/progress/progress.component';
     MainComponent,
     WelcomeComponent,
     ImpressumComponent,
+    LinkCardComponent,
+    ConfigLinkComponent,
   ],
   imports: [
     BrowserModule,

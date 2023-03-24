@@ -3,6 +3,10 @@ import {Utils} from '@/classes/utils';
 import {Log} from '@/_services/log.service';
 import {HttpClient, HttpRequest} from '@angular/common/http';
 import {lastValueFrom, throwError, timeout} from 'rxjs';
+import {LinkData} from '@/_model/link-data';
+import {ComponentType} from '@angular/cdk/overlay';
+import {oauth2SyncType} from '@/_services/sync/oauth2pkce';
+import {moveItemInArray} from '@angular/cdk/drag-drop';
 
 class CustomTimeoutError extends Error {
   constructor() {
@@ -21,18 +25,20 @@ export class GlobalsService {
   skipStorageClear = false;
   debugFlag = 'debug';
   debugActive = 'yes';
+  appMode = 'standard';
   editPart: string;
   maxLogEntries = 20;
   storageVersion: string;
   currentPage: string;
+  _syncType: oauth2SyncType;
   oauth2AccessToken: string = null;
   private flags = '';
+  private sortOrder: string = '';
 
   constructor(public http: HttpClient) {
     GLOBALS = this;
     this.loadWebData();
     this.loadSharedData();
-    let pos = Utils.partlist.length * 3 + 3;
     if (Utils.isEmpty(this.storageVersion)) {
       this.currentPage = 'welcome';
     } else if (this.storageVersion !== this.version) {
@@ -42,6 +48,20 @@ export class GlobalsService {
     }
     this.saveWebData();
     this.saveSharedData();
+  }
+
+  private _links: LinkData[];
+
+  public get links(): LinkData[] {
+    const ret = this._links.filter(e => e);
+    switch (this.sortOrder) {
+      case 'lastUsed':
+        ret.sort((a, b) => {
+          return -Utils.compare(a.lastUsed ?? 0, b.lastUsed ?? 0);
+        });
+        break;
+    }
+    return ret;
   }
 
   _isDebug = false;
@@ -87,6 +107,12 @@ export class GlobalsService {
     return document.querySelector('head>title').innerHTML;
   }
 
+  public setIndexToLinks(): void {
+    for (let i = 0; i < this._links.length; i++) {
+      this._links[i].index = i;
+    }
+  }
+
   loadSharedData(): void {
     let storage: any = {};
     try {
@@ -95,12 +121,34 @@ export class GlobalsService {
     }
 
     this.storageVersion = storage.s1;
+    this._links = storage.s2?.map((l: any) => {
+      return LinkData.fromJson(l);
+    });
+
     // validate values
+    if (this._links == null) {
+      this._links = [
+        new LinkData('Google Drive', 'https://drive.google.com'),
+        new LinkData('Dropbox', 'https://dropbox.com'),
+        new LinkData('Nighscout Reporter', 'https://nightrep-dev.zreptil.de')
+      ];
+      // const links: LinkData[] = [];
+      // for (let i = 0; i < 10; i++) {
+      //   for (const link of this._links) {
+      //     links.push(new LinkData(link.label, link.url));
+      //   }
+      // }
+      // this._links = links;
+    }
+    this.setIndexToLinks();
   }
 
   saveSharedData(): void {
     const storage: any = {
       s1: this.version,
+      s2: this._links.map(l => {
+        return l.asJson
+      })
     };
     localStorage.setItem('sharedData', JSON.stringify(storage));
     // if (this.sync.hasSync) {
@@ -109,32 +157,29 @@ export class GlobalsService {
   }
 
   loadWebData(): void {
-    // let storage: any = {};
-    // try {
-    //   storage = JSON.parse(localStorage.getItem('webData')) ?? {};
-    // } catch {
-    // }
-    //
-    // this._syncType = storage.w1;
-    // this.oauth2AccessToken = storage.w2;
-    //
-    // // validate values
-    // if (this.oauth2AccessToken == null) {
-    //   this._syncType = oauth2SyncType.none;
-    // }
+    let storage: any = {};
+    try {
+      storage = JSON.parse(localStorage.getItem('webData')) ?? {};
+    } catch {
+    }
+
+    this._syncType = storage.w1;
+    this.oauth2AccessToken = storage.w2;
+
+    // validate values
+    if (this.oauth2AccessToken == null) {
+      this._syncType = oauth2SyncType.none;
+    }
   }
 
   saveWebData(): void {
-    // const storage: any = {
-    //   w1: this._syncType,
-    //   w2: this.oauth2AccessToken
-    // };
-    // localStorage.setItem('webData', JSON.stringify(storage));
+    const storage: any = {
+      w1: this._syncType,
+      w2: this.oauth2AccessToken
+    };
+    localStorage.setItem('webData', JSON.stringify(storage));
   }
 
-  private may(key: string): boolean {
-    return this.flags.indexOf(`|${key}|`) >= 0;
-  }
   async requestJson(url: string, params?: { method?: string, options?: any, body?: any, showError?: boolean, asJson?: boolean, timeout?: number }) {
     return this.request(url, params).then(response => {
       return response?.body;
@@ -176,5 +221,23 @@ export class GlobalsService {
       }
     }
     return params.asJson ? response.body : response;
+  }
+
+  dragName(type: ComponentType<any>): string {
+    return Utils.camelToKebab(type.name).toLowerCase().replace(/-component$/, '');
+  }
+
+  deleteLink(link: LinkData) {
+    this._links.splice(link.index, 1);
+    this.setIndexToLinks();
+  }
+
+  moveLink(previousIndex: number, currentIndex: number) {
+    moveItemInArray(this._links, previousIndex, currentIndex);
+    this.setIndexToLinks();
+  }
+
+  private may(key: string): boolean {
+    return this.flags.indexOf(`|${key}|`) >= 0;
   }
 }

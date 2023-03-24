@@ -1,0 +1,35 @@
+<div cdkDrag cdkDragBoundary=".cdk-overlay-container"
+     cdkDragRootElement=".dialog-box.config-link">
+  <div cdkDragHandle mat-dialog-title>
+    <h1 i18n="title for configlink dialog">
+      <mat-icon>link</mat-icon>
+      Link
+    </h1>
+    <div>
+      <button (click)="clickCancel($event)"
+              mat-icon-button>
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <mat-dialog-content>
+    <mat-form-field>
+      <mat-label i18n>Label</mat-label>
+      <input [(ngModel)]="data.label" matInput>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label i18n>Url</mat-label>
+      <input [(ngModel)]="data.url" matInput>
+    </mat-form-field>
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <div>
+    </div>
+    <button (click)="clickSave($event)" mat-flat-button>
+      <mat-icon>save</mat-icon>
+      <div i18n="buttonlabel for saving data">Speichern</div>
+    </button>
+  </mat-dialog-actions>
+</div>

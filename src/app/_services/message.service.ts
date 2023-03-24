@@ -3,6 +3,8 @@ import {Injectable} from '@angular/core';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {Observable, of} from 'rxjs';
 import {DialogComponent} from '@/components/dialog/dialog.component';
+import {ComponentType} from '@angular/cdk/overlay';
+import {GLOBALS} from '@/_services/globals.service';
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +26,15 @@ export class MessageService {
 
   ask(content: string | string[], type: IDialogDef, params?: DialogParams): Observable<DialogResult> {
     return this.showDialog(type, content, false, params);
+  }
+
+  showPopup(dlg: ComponentType<any>, data: any): Observable<DialogResult> {
+    const dlgRef = this.dialog.open(dlg, {
+      data: data,
+      panelClass: ['dialog-box', GLOBALS.dragName(dlg)],
+      disableClose: true
+    });
+    return dlgRef.afterClosed();
   }
 
   showDialog(type: DialogType | IDialogDef, content: string | string[], disableClose = false, params?: DialogParams): Observable<DialogResult> {

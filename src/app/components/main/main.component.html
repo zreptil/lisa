@@ -1,44 +1,71 @@
-<!--
-<button (click)="checkDB()">Mach mal</button>
-<textarea style="width:90vw;height:80vh">{{checkDB()}}</textarea>
--->
-<div mainpanel>
+<div [class]="classForMainpanel" mainpanel>
   <div toolbar>
-    <div controls>
-      <button (click)="globals.isDebug = !globals.isDebug" *ngIf="globals.mayDebug" id="debug" mat-icon-button>
-        <mat-icon *ngIf="!globals.isDebug">bug_report</mat-icon>
-        <mat-icon *ngIf="globals.isDebug">pest_control</mat-icon>
-      </button>
-      <button (click)="sync.toggleSyncDropbox()" id="sync" mat-icon-button>
-        <ng-container *ngIf="!sync.hasSync">
-          <mat-icon>sync_disabled</mat-icon>
-        </ng-container>
-        <ng-container *ngIf="sync.hasSync">
-          <img alt="dropbox" src="assets/images/dropbox.png">
-        </ng-container>
-      </button>
-      <button (click)="globals.currentPage='news'" id="news" mat-icon-button>
-        <mat-icon>info_outline</mat-icon>
-      </button>
-      <button (click)="globals.currentPage='impressum'" id="impressum" mat-icon-button>
-        <mat-icon>account_balance</mat-icon>
-      </button>
-      <button (click)="globals.currentPage='welcome'" id="welcome" mat-icon-button>
-        <mat-icon>school</mat-icon>
-      </button>
+    <div [ngSwitch]="globals.appMode">
+      <ng-container *ngSwitchCase="'edit'">
+        <button (click)="clickSave($event)" mat-flat-button>
+          <mat-icon>save</mat-icon>
+        </button>
+        <button (click)="clickAdd($event)" mat-flat-button>
+          <mat-icon>add</mat-icon>
+        </button>
+        <button (mouseout)="mouseoutDelete($event)" (mouseover)="mouseoverDelete($event)" mat-flat-button>
+          <mat-icon id="link-delete">delete</mat-icon>
+        </button>
+      </ng-container>
+      <ng-container *ngSwitchDefault>
+        <button (click)="globals.appMode='edit'" mat-flat-button>
+          <mat-icon>edit</mat-icon>
+        </button>
+      </ng-container>
+    </div>
+    <button (click)="sync.toggleSyncDropbox()" id="sync" mat-icon-button>
+      <ng-container *ngIf="!sync.hasSync">
+        <mat-icon>sync_disabled</mat-icon>
+      </ng-container>
+      <ng-container *ngIf="sync.hasSync">
+        <img alt="dropbox" src="../../../assets/images/dropbox.png">
+      </ng-container>
+    </button>
+  </div>
+  <div (cdkDropListDropped)="linkDropped($event)" cdkDropList cdkDropListSortingDisabled content>
+    <div (cdkDragStarted)="dragstart($event)" *ngFor="let link of globals.links"
+         [cdkDragData]="link"
+         [cdkDragDisabled]="globals.appMode!='edit'"
+         cdkDrag
+         id="link-{{link.index}}">
+      <app-link-card [link]="link"></app-link-card>
     </div>
   </div>
-  <div contentpanel>
-    <div sidebar>
-    </div>
-    <div contentback>
-      <div content>
-        <app-impressum *ngIf="globals.currentPage==='impressum'"></app-impressum>
-        <app-welcome *ngIf="globals.currentPage==='welcome'"></app-welcome>
-        <app-whats-new *ngIf="globals.currentPage==='news'"></app-whats-new>
+  <!--
+    <div toolbar>
+      <div controls>
+        <button (click)="globals.isDebug = !globals.isDebug" *ngIf="globals.mayDebug" id="debug" mat-icon-button>
+          <mat-icon *ngIf="!globals.isDebug">bug_report</mat-icon>
+          <mat-icon *ngIf="globals.isDebug">pest_control</mat-icon>
+        </button>
+        <button (click)="globals.currentPage='news'" id="news" mat-icon-button>
+          <mat-icon>info_outline</mat-icon>
+        </button>
+        <button (click)="globals.currentPage='impressum'" id="impressum" mat-icon-button>
+          <mat-icon>account_balance</mat-icon>
+        </button>
+        <button (click)="globals.currentPage='welcome'" id="welcome" mat-icon-button>
+          <mat-icon>school</mat-icon>
+        </button>
       </div>
     </div>
-  </div>
+    <div contentpanel>
+      <div sidebar>
+      </div>
+      <div contentback>
+        <div content>
+          <app-impressum *ngIf="globals.currentPage==='impressum'"></app-impressum>
+          <app-welcome *ngIf="globals.currentPage==='welcome'"></app-welcome>
+          <app-whats-new *ngIf="globals.currentPage==='news'"></app-whats-new>
+        </div>
+      </div>
+    </div>
+  -->
 </div>
 <app-progress></app-progress>
 <div hidden id="mark"></div>

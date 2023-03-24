@@ -1,0 +1,38 @@
+mat-card {
+  cursor: pointer;
+  max-width: 20em;
+
+  mat-card-header {
+    display: flex;
+    align-items: center;
+
+    mat-card-title {
+      img {
+        margin-right: 0.5em;
+      }
+    }
+  }
+
+  .mat-card-header .mat-card-title {
+    margin-bottom: 0;
+  }
+
+  mat-card-content {
+    margin-bottom: 0;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+
+  mat-card-footer {
+    display: flex;
+    flex-flow: row;
+    align-items: flex-end;
+    justify-content: space-between;
+    font-size: 0.7em;
+
+    div {
+      margin-right: 0.7em;
+      margin-bottom: 0.5em;
+    }
+  }
+}
