@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="de" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="9090867213238754343" datatype="html">
+        <source>Es gab keine Antwort innerhalb von <x id="PH" equiv-text="params.timeout / 1000"/> Sekunden bei <x id="PH_1" equiv-text="url"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
+          <context context-type="linenumber">171</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3404402744117770812" datatype="html">
+        <source>Die Datei <x id="PH" equiv-text="filename"/> wurde von Dropbox heruntergeladen.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/_services/sync/dropbox.service.ts</context>
+          <context context-type="linenumber">142</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6578229403555686596" datatype="html">
+        <source>Die Datei <x id="PH" equiv-text="filename"/> wurde nicht hochgeladen, da sich der Inhalt nicht geändert hat.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/_services/sync/dropbox.service.ts</context>
+          <context context-type="linenumber">179</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5549537844932210821" datatype="html">
+        <source>Die Datei <x id="PH" equiv-text="filename"/> wurde auf Dropbox hochgeladen.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/_services/sync/dropbox.service.ts</context>
+          <context context-type="linenumber">184</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1232839296875773478" datatype="html">
+        <source>Access to Dropbox could not be established again.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/_services/sync/dropbox.service.ts</context>
+          <context context-type="linenumber">297</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="730703184011067892" datatype="html">
+        <source>Dropbox</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/_services/sync/sync.service.ts</context>
+          <context context-type="linenumber">50</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5125540569203253391" datatype="html">
+        <source>The connection to <x id="PH" equiv-text="serviceName"/> requires a confirmation
+                      that <x id="PH_1" equiv-text="GLOBALS.appTitle"/> can read and write the data from
+                       <x id="PH_2" equiv-text="serviceName"/>. This confirmation is requested with special
+                        dialogs from <x id="PH_3" equiv-text="serviceName"/>. Everything that has to be
+                        confirmed there is beyond <x id="PH_4" equiv-text="GLOBALS.appTitle"/>&apos;s control.
+                         Should the confirmation process be started?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/_services/sync/sync.service.ts</context>
+          <context context-type="linenumber">69,74</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8550844560794870731" datatype="html">
+        <source>Do you want to unsync with Dropbox?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/_services/sync/sync.service.ts</context>
+          <context context-type="linenumber">88</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6942991069579974059" datatype="html">
+        <source>vor <x id="PH" equiv-text="hours"/>:<x id="PH_1" equiv-text="Utils.pad(-minutes % 60)"/> Std</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/classes/utils.ts</context>
+          <context context-type="linenumber">96</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1655600906414706904" datatype="html">
+        <source>in <x id="PH" equiv-text="hours"/>:<x id="PH_1" equiv-text="Utils.pad(minutes % 60)"/> Std</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/classes/utils.ts</context>
+          <context context-type="linenumber">98</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7474325248670696284" datatype="html">
+        <source>vor <x id="PH" equiv-text="-minutes"/> Min</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/classes/utils.ts</context>
+          <context context-type="linenumber">101</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8323150325400475247" datatype="html">
+        <source>in <x id="PH" equiv-text="minutes"/> Min</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/classes/utils.ts</context>
+          <context context-type="linenumber">101</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8321702175940480370" datatype="html">
+        <source>dd.MM.yyyy</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/classes/utils.ts</context>
+          <context context-type="linenumber">139</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3884532559361891104" datatype="html">
+        <source>Was bisher geschah...</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/whats-new/whats-new.component.html</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+        <note priority="1" from="description">title of whatsnew</note>
+      </trans-unit>
+      <trans-unit id="2724055831234181057" datatype="html">
+        <source>Version</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/whats-new/whats-new.component.html</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+        <note priority="1" from="description">version</note>
+      </trans-unit>
+      <trans-unit id="8946691832586567504" datatype="html">
+        <source>1.0.0 - 23.03.2023</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/whats-new/whats-new.component.html</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+        <note priority="1" from="description">v100</note>
+      </trans-unit>
+      <trans-unit id="5362544797046449925" datatype="html">
+        <source> Initiale Version, alles ist neu! </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/whats-new/whats-new.component.html</context>
+          <context context-type="linenumber">15,17</context>
+        </context-group>
+        <note priority="1" from="description">v100a1</note>
+      </trans-unit>
+      <trans-unit id="1034342214183348854" datatype="html">
+        <source>Farbauswahl</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/controls/color-picker/color-picker-dialog.html</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5625678343679985724" datatype="html">
+        <source> Mit dem Button rechts unten kann ein Bild<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br&gt;"/>geladen werden. Aus diesem kann dann<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br&gt;"/>eine Farbe entnommen werden. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/controls/color-picker/color-picker-image/color-picker-image.component.html</context>
+          <context context-type="linenumber">3,5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8026176613641286090" datatype="html">
+        <source>The file has <x id="PH" equiv-text="file.size"/> Bytes, but may have a maximum of <x id="PH_1" equiv-text="this.data.maxFilesize"/> Bytes.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/controls/color-picker/color-picker-image/color-picker-image.component.ts</context>
+          <context context-type="linenumber">99</context>
+        </context-group>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

@@ -1,0 +1,17 @@
+{
+  "display": "standalone",
+  "icons": [
+    {
+      "sizes": "176x176",
+      "src": "themes/standard/favicon.png",
+      "type": "image/png"
+    }
+  ],
+  "name": "Lisa",
+  "permissions": [],
+  "prefer_related_applications": true,
+  "related_applications": [],
+  "short_name": "Lisa",
+  "start_url": "/index.html",
+  "url": "https://lisa.zreptil.de/"
+}

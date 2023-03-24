@@ -40,3 +40,12 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+*.dart
+/tools/**/*.js
+/tools/**/*.js.map
+/src/locale/messages.*.xlf
+
+/temp/
+/src/locale/translated/
+/nightrep (translations).zip
+/nightrep (english) (translations).zip
