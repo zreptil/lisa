@@ -95,4 +95,13 @@ export class SyncService {
       this.dbs.connect();
     }
   }
+
+  async uploadFile(filename: string, content: string) {
+    switch (this.syncType) {
+      case oauth2SyncType.dropbox:
+        return this.dbs.uploadFile(filename, content);
+    }
+    return null;
+  }
 }
+

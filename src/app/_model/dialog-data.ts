@@ -1,5 +1,3 @@
-import { $localize } from "@angular/localize/init";
-
 export enum DialogResultButton {
   ok,
   cancel,

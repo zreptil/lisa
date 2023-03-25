@@ -1,7 +1,8 @@
 import {Component, Inject} from '@angular/core';
-import {GlobalsService} from '@/_services/globals.service';
+import {GLOBALS, GlobalsService} from '@/_services/globals.service';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {LinkData} from '@/_model/link-data';
+import {Utils} from '@/classes/utils';
 
 @Component({
   selector: 'app-config-link',
@@ -27,6 +28,23 @@ export class ConfigLinkComponent {
 
   clickSave(evt: MouseEvent) {
     evt.stopPropagation();
+    if (this.data.index == null) {
+      GLOBALS.insertLink(this.data);
+    }
     this.dlgRef.close({btn: 1});
+  }
+
+  onLabelFocus(_evt: FocusEvent) {
+    if (this.data.url != null && Utils.isEmpty(this.data.label)) {
+      const url = `https://corg.zreptil.de/?url=${this.data.url}`;
+      GLOBALS.request(url, {options: {responseType: 'text'}}).then((response: any) => {
+        console.log(response);
+        const title = response?.body?.match(/<title>(.*)<\/title>/);
+        console.log(title);
+        if (title != null) {
+          this.data.label = title?.[1];
+        }
+      });
+    }
   }
 }

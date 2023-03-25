@@ -1,8 +1,6 @@
 import {Log} from '@/_services/log.service';
 
 export class Utils {
-  static partlist: string[] = ['body', 'eyes', 'brows', 'nose', 'mouth', 'ears', 'hair'];
-
   static replace(text: string, src: string | string[], dst: string | string[]): string {
     if (!Array.isArray(src) && !Array.isArray(dst)) {
       src = [src];
@@ -93,12 +91,12 @@ export class Utils {
     const hours = Math.floor(Math.abs(minutes) / 60);
     if (hours != 0) {
       if (isPast) {
-        return $localize`vor ${hours}\:${Utils.pad(-minutes % 60)} Std`;
+        return $localize`${hours}\:${Utils.pad(-minutes % 60)} hours ago`;
       } else {
-        return $localize`in ${hours}\:${Utils.pad(minutes % 60)} Std`;
+        return $localize`in ${hours}\:${Utils.pad(minutes % 60)} hours`;
       }
     }
-    return isPast ? $localize`vor ${-minutes} Min` : $localize`in ${minutes} Min`;
+    return isPast ? $localize`${-minutes} min ago` : $localize`in ${minutes} min`;
   }
 
   static sortTime(list: any[], map: (m: any) => { time: number } = m => m): any[] {
@@ -119,7 +117,7 @@ export class Utils {
     }
     const hour = Math.floor(time / 60);
     const minute = time % 60;
-    return Utils.fmtDate(new Date(0, 0, 0, hour, minute), 'hh:mm Uhr');
+    return Utils.fmtDate(new Date(0, 0, 0, hour, minute), 'hh:mm');
   }
 
   static parseDate(value: string): Date {

@@ -1,7 +1,7 @@
 <input #imgSelect (change)="fileSelected($event)" accept="image/png,image/gif,image/jpeg,image/apng,image/avif,image/webp" type="file">
 <div #canvasBox image>
   <div *ngIf="data.imageDataUrl == null" i18n>
-    Mit dem Button rechts unten kann ein Bild<br>geladen werden. Aus diesem kann dann<br>eine Farbe entnommen werden.
+    With the button to the bottom right an image<br>can be loaded. From this you can<br>select a color.
   </div>
   <canvas #canvasImage
           (click)="clickCanvas($event)"

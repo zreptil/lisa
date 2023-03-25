@@ -40,17 +40,18 @@ body {
   --logDebugColor: 255, 255, 0;
   --logDebugBack: repeating-linear-gradient(45deg, rgba(var(--logDebugColor), 0.6), rgba(var(--logDebugColor), 0.6) 10px, rgba(var(--logDebugColor), 0.8) 10px, rgba(var(--logDebugColor), 0.8) 20px);
   --logDebugFore: #000;
-  --toolbarBack: rgba(0, 0, 0, 0.3);
-  --toolbarFore: #fff;
   --helpBack: #fff;
   --helpFore: #000;
   --markBorder: 1px solid #000;
 
-  --primaryBack: #e3e;
-  --primaryFore: white;
-  --secondaryBack: #c3c;
-  --secondaryFore: black;
-  --trashcan: #fcc;
+  --toolbarBack: rgba(0, 0, 0, 0.3);
+  --toolbarFore: rgba(255, 255, 255, 0.9);
+  --mainBack: #c3c;
+  --mainFore: black;
+  --trashcan: rgba(255, 255, 255, 0.3);
+
+  --confirmBack: aqua;
+  --confirmFore: black;
 
   --debugFirst: #220;
   --debugSecond: #550;
@@ -134,6 +135,11 @@ body {
   --datepickerDowInactiveFore: #eda29b;
   --sendCountFore: black;
   --sendCountFrame: white;
+
+  --mainHeaderBack: var(--toolbarBack);
+  --mainHeaderFore: var(--toolbarFore);
+  --mainBodyBack: inherit;
+  --mainBodyFore: inherit;
 }
 
 mat-icon[small] {
@@ -274,8 +280,8 @@ mat-icon[small] {
 }
 
 .mat-raised-button {
-  background-color: var(--primaryBack);
-  color: var(--primaryFore);
+  background-color: var(--toolbarBack);
+  color: var(--toolbarFore);
 }
 
 .mat-flat-button, .mat-fab, .mat-mini-fab {
@@ -460,8 +466,15 @@ form.oauth2 {
   input {
     width: 50em;
     border: none;
-    background: var(--primaryBack);
-    color: var(--primaryFore);
+    background: var(--toolbarBack);
+    color: var(--toolbarFore);
     border-radius: 0.5em;
+  }
+}
+
+.dialog-box.confirm {
+  .mat-dialog-container {
+    background-color: var(--confirmBack);
+    color: var(--confirmFore);
   }
 }

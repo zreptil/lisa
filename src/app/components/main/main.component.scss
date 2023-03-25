@@ -1,9 +1,10 @@
 :host {
   display: flex;
+  position: relative;
 }
 
 [mainpanel].trashing {
-  background: var(--trashcan);
+  background: var(--toolbarBack);
 }
 
 [mainpanel] {
@@ -11,18 +12,26 @@
   flex-flow: column;
   width: 100vw;
   height: 100vh;
-  background-color: var(--secondaryBack);
-  color: var(--secondaryFore);
+  background-color: var(--mainBack);
+  color: var(--mainFore);
+
+  [trash] {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    font-size: 1em;
+    color: var(--trashcan);
+  }
 
   [toolbar] {
     display: flex;
     flex-flow: row;
     justify-content: space-between;
-    background-color: var(--primaryBack);
-    color: var(--primaryFore);
+    background-color: var(--toolbarBack);
+    color: var(--toolbarFore);
 
     mat-icon {
-      color: var(--primaryFore);
+      color: var(--toolbarFore);
     }
 
     mat-icon#link-delete {

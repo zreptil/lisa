@@ -139,7 +139,7 @@ export class DropboxService {
     try {
       response = await lastValueFrom(this.http.request(req));
       ret = response?.body;
-      this.lastStatus = new DBSStatus(dbsStatus.info, $localize`Die Datei ${filename} wurde von Dropbox heruntergeladen.`);
+      this.lastStatus = new DBSStatus(dbsStatus.info, $localize`The file ${filename} was downloaded from Dropbox.`);
     } catch (ex) {
       console.error('error when downloading file from Dropbox', ex);
       response = await this.checkRefreshToken(req, ex);
@@ -176,12 +176,12 @@ export class DropboxService {
     try {
       const check = await this.downloadFile(filename);
       if (this.isSameContent(check, content)) {
-        this.lastStatus = new DBSStatus(dbsStatus.info, $localize`Die Datei ${filename} wurde nicht hochgeladen, da sich der Inhalt nicht geändert hat.`);
+        this.lastStatus = new DBSStatus(dbsStatus.info, $localize`The file ${filename} was not uploaded, since the content didn't change.`);
         console.log(this.lastStatus.text);
         return;
       }
       await lastValueFrom(this.http.request(req));
-      this.lastStatus = new DBSStatus(dbsStatus.info, $localize`Die Datei ${filename} wurde auf Dropbox hochgeladen.`);
+      this.lastStatus = new DBSStatus(dbsStatus.info, $localize`The file ${filename} was uploaded to Dropbox.`);
     } catch (ex) {
       console.error('error when uploading file to Dropbox', ex);
       await this.checkRefreshToken(req, ex);

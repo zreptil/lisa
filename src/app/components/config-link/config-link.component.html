@@ -2,7 +2,7 @@
      cdkDragRootElement=".dialog-box.config-link">
   <div cdkDragHandle mat-dialog-title>
     <h1 i18n="title for configlink dialog">
-      <mat-icon>link</mat-icon>
+      <img alt="favicon" src="{{data.favicon}}">
       Link
     </h1>
     <div>
@@ -15,12 +15,17 @@
 
   <mat-dialog-content>
     <mat-form-field>
-      <mat-label i18n>Label</mat-label>
-      <input [(ngModel)]="data.label" matInput>
+      <mat-label i18n>Url</mat-label>
+      <input [(ngModel)]="data.url" autofocus matInput>
     </mat-form-field>
     <mat-form-field>
-      <mat-label i18n>Url</mat-label>
-      <input [(ngModel)]="data.url" matInput>
+      <mat-label i18n>Label</mat-label>
+      <input (focus)="onLabelFocus($event)" [(ngModel)]="data.label" matInput>
+    </mat-form-field>
+    <mat-form-field>
+      
+      <mat-label i18n>Info</mat-label>
+      <input [(ngModel)]="data.info" matInput>
     </mat-form-field>
   </mat-dialog-content>
 
@@ -29,7 +34,7 @@
     </div>
     <button (click)="clickSave($event)" mat-flat-button>
       <mat-icon>save</mat-icon>
-      <div i18n="buttonlabel for saving data">Speichern</div>
+      <div i18n="buttonlabel for saving data">Save</div>
     </button>
   </mat-dialog-actions>
 </div>

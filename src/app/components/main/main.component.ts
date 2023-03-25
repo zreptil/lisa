@@ -5,6 +5,7 @@ import {CdkDragDrop, CdkDragStart} from '@angular/cdk/drag-drop';
 import {LinkData} from '@/_model/link-data';
 import {DialogResultButton} from '@/_model/dialog-data';
 import {MessageService} from '@/_services/message.service';
+import {ConfigLinkComponent} from '@/components/config-link/config-link.component';
 
 @Component({
   selector: 'app-main',
@@ -19,6 +20,9 @@ export class MainComponent {
   constructor(public globals: GlobalsService,
               public sync: SyncService,
               public ms: MessageService) {
+    setTimeout(() => {
+      this.ms.confirm('Und nu?');
+    }, 1000);
   }
 
   get classForMainpanel(): string[] {
@@ -47,6 +51,8 @@ export class MainComponent {
 
   clickAdd(evt: MouseEvent) {
     evt.stopPropagation();
+    const link = new LinkData(null, null);
+    this.ms.showPopup(ConfigLinkComponent, link);
   }
 
   clickSave(evt: MouseEvent) {
@@ -67,7 +73,6 @@ export class MainComponent {
     }
     let parent = document.elementFromPoint(evt.dropPoint.x, evt.dropPoint.y);
     while (parent != null && !parent.id?.startsWith('link-')) {
-      console.log(parent);
       parent = parent.parentElement;
     }
     if (parent == null) {
@@ -76,7 +81,6 @@ export class MainComponent {
     }
     const dstIdx = +parent?.id.substring(5);
     const srcIdx = this.dragLink.index;
-    console.log(evt, this.dragLink);
     GLOBALS.moveLink(srcIdx, dstIdx);
     this.dragLink = null;
   }

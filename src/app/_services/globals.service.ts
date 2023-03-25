@@ -7,6 +7,9 @@ import {LinkData} from '@/_model/link-data';
 import {ComponentType} from '@angular/cdk/overlay';
 import {oauth2SyncType} from '@/_services/sync/oauth2pkce';
 import {moveItemInArray} from '@angular/cdk/drag-drop';
+import {SyncService} from '@/_services/sync/sync.service';
+import {LanguageService} from '@/_services/language.service';
+import {LangData} from '@/_model/lang-data';
 
 class CustomTimeoutError extends Error {
   constructor() {
@@ -30,12 +33,15 @@ export class GlobalsService {
   maxLogEntries = 20;
   storageVersion: string;
   currentPage: string;
+  language: LangData;
   _syncType: oauth2SyncType;
   oauth2AccessToken: string = null;
   private flags = '';
   private sortOrder: string = '';
 
-  constructor(public http: HttpClient) {
+  constructor(public http: HttpClient,
+              public sync: SyncService,
+              public ls: LanguageService) {
     GLOBALS = this;
     this.loadWebData();
     this.loadSharedData();
@@ -151,9 +157,9 @@ export class GlobalsService {
       })
     };
     localStorage.setItem('sharedData', JSON.stringify(storage));
-    // if (this.sync.hasSync) {
-    //   this.sync.uploadFile('creatoor-db.json', JSON.stringify(this.creatoorData));
-    // }
+    if (this.sync.hasSync) {
+      this.sync.uploadFile('lisa.json', JSON.stringify(this._links));
+    }
   }
 
   loadWebData(): void {
@@ -163,8 +169,10 @@ export class GlobalsService {
     } catch {
     }
 
-    this._syncType = storage.w1;
-    this.oauth2AccessToken = storage.w2;
+    const code = storage.w0 ?? 'en-GB';
+    this.language = this.ls.languageList.find((lang) => lang.code === code);
+    this._syncType = storage.w1 ?? oauth2SyncType.none;
+    this.oauth2AccessToken = localStorage.getItem('dropboxsync');
 
     // validate values
     if (this.oauth2AccessToken == null) {
@@ -174,8 +182,8 @@ export class GlobalsService {
 
   saveWebData(): void {
     const storage: any = {
-      w1: this._syncType,
-      w2: this.oauth2AccessToken
+      w0: this.language.code ?? 'de_DE',
+      w1: this._syncType
     };
     localStorage.setItem('webData', JSON.stringify(storage));
   }
@@ -213,7 +221,7 @@ export class GlobalsService {
       }
     } catch (ex: any) {
       if (ex instanceof CustomTimeoutError) {
-        response = $localize`Es gab keine Antwort innerhalb von ${params.timeout / 1000} Sekunden bei ${url}`;
+        response = $localize`There was no answer within ${params.timeout / 1000} seconds at ${url}`;
       } else if (ex?.messge != null) {
         response = ex.message;
       } else {
@@ -225,6 +233,11 @@ export class GlobalsService {
 
   dragName(type: ComponentType<any>): string {
     return Utils.camelToKebab(type.name).toLowerCase().replace(/-component$/, '');
+  }
+
+  insertLink(link: LinkData) {
+    this._links.splice(0, 0, link);
+    this.setIndexToLinks();
   }
 
   deleteLink(link: LinkData) {

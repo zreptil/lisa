@@ -1,7 +1,7 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
 
-import { AppComponent } from './app.component';
+import {AppComponent} from './app.component';
 import {DialogComponent} from '@/components/dialog/dialog.component';
 import {ColorPickerComponent} from '@/controls/color-picker/color-picker.component';
 import {ColorPickerDialog} from '@/controls/color-picker/color-picker-dialog';
@@ -19,11 +19,13 @@ import {LogComponent} from '@/components/log/log.component';
 import {WhatsNewComponent} from '@/components/whats-new/whats-new.component';
 import {ImpressumComponent} from '@/components/impressum/impressum.component';
 import {ProgressComponent} from '@/components/progress/progress.component';
-import { LinkCardComponent } from './components/link-card/link-card.component';
-import { ConfigLinkComponent } from './components/config-link/config-link.component';
+import {LinkCardComponent} from './components/link-card/link-card.component';
+import {ConfigLinkComponent} from './components/config-link/config-link.component';
+import {AutofocusDirective} from '@/_directives/autofocus.directive';
 
 @NgModule({
   declarations: [
+    AutofocusDirective,
     AppComponent,
     DialogComponent,
     ColorPickerComponent,
@@ -51,4 +53,5 @@ import { ConfigLinkComponent } from './components/config-link/config-link.compon
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

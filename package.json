@@ -32,13 +32,14 @@
     "typescript": "~4.9.4",
     "xliff": "^6.1.0"
   },
-  "name": "Lisa",
+  "name": "lisa",
   "private": true,
   "scripts": {
     "build": "ng build",
-    "i18n-01-extract": "ng extract-i18n --output-path src/locale --out-file messages.de-DE.xliff --format xliff --progress",
+    "i18n-01-extract": "ng extract-i18n app --output-path src/locale --out-file messages.en-GB.xliff --format xliff --progress",
     "i18n-02-upload-english": "start https://crowdin.com/project/lisa/content/files",
     "i18n-03-create-messages": "tsc tools/i18n-create-messages.ts && node tools/i18n-create-messages.js",
+    "i18n": "npm run i18n-01-extract && npm run i18n-03-create-messages",
     "ng": "ng",
     "start": "ng serve --port 3200 --open",
     "test": "ng test",

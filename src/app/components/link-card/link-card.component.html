@@ -1,14 +1,15 @@
 <mat-card (click)="clickLink($event, link)" *ngIf="!link.url.startsWith('@')">
   <mat-card-header>
     <mat-card-title>
-      <img alt="favicon" src="https://s2.googleusercontent.com/s2/favicons?domain={{link.url}}">
+      <img alt="favicon" src="{{link.favicon}}">
       <span>{{link.label}}</span>
     </mat-card-title>
   </mat-card-header>
-  <mat-card-content *ngIf="globals.appMode==='edit'">{{link.url}}</mat-card-content>
+  <mat-card-content *ngIf="globals.appMode==='edit'">{{link.info}}</mat-card-content>
   <mat-card-footer *ngIf="globals.appMode==='edit'">
     <div></div>
-    <div>{{link.lastUsed | date: 'dd.MM.yyyy, HH:mm'}}</div>
+    <div *ngIf="link.lastUsed != null">{{link.lastUsed | date: 'dd.MM.yyyy, HH:mm'}}</div>
+    <div *ngIf="link.lastUsed == null" i18n>never visited</div>
   </mat-card-footer>
 </mat-card>
 <button *ngIf="link.url.startsWith('@')" mat-fab>

@@ -2,19 +2,21 @@
 // which contains all the translations
 import * as fs from 'fs';
 import * as path from 'path';
-const extract = require('extract-zip');
 // @ts-ignore
 import xliff from 'xliff';
 import {MessageId, TargetMessage} from '@angular/localize';
-import {GLOBALS} from '@/_services/globals.service';
+
+// const extract = require('extract-zip');
+
 const outFile = '../src/assets/messages.json';
 
 async function main() {
   try {
-    let zipfile = getPath(`../${GLOBALS.appTitle} (translations).zip`);
-    console.log('extracting', zipfile, '...');
-    await extract(zipfile, {dir: getPath('../temp')});
-    createJson(['en-GB', 'en-US', 'de-DE'], []);
+    createJson(['@en-GB'], []);
+    // let zipfile = getPath(`../${GLOBALS.appTitle} (translations).zip`);
+    // console.log('extracting', zipfile, '...');
+    // await extract(zipfile, {dir: getPath('../temp')});
+    // createJson(['@en-GB', 'en-US', 'de-DE'], []);
   } catch (ex) {
     console.error('error when creating messages', ex);
   }
