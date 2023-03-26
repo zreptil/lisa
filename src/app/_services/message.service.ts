@@ -1,10 +1,11 @@
 import {DialogData, DialogParams, DialogResult, DialogResultButton, DialogType, IDialogDef} from '@/_model/dialog-data';
 import {Injectable} from '@angular/core';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
-import {Observable, of} from 'rxjs';
+import {map, Observable, of} from 'rxjs';
 import {DialogComponent} from '@/components/dialog/dialog.component';
 import {ComponentType} from '@angular/cdk/overlay';
 import {GLOBALS} from '@/_services/globals.service';
+import {LinkData} from '@/_model/link-data';
 
 @Injectable({
   providedIn: 'root'
@@ -75,5 +76,14 @@ export class MessageService {
     }
 
     return this.dlgRef.afterClosed();
+  }
+
+  askDeleteLink(link: LinkData): Observable<DialogResult> {
+    return this.confirm($localize`Do you really want to delete this link?`).pipe(map((result: DialogResult) => {
+      if (result.btn === DialogResultButton.yes) {
+        GLOBALS.deleteLink(link);
+      }
+      return result;
+    }));
   }
 }

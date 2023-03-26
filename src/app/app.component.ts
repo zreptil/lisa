@@ -3,6 +3,7 @@ import {LogService} from '@/_services/log.service';
 import {SyncService} from '@/_services/sync/sync.service';
 import {StorageService} from '@/_services/storage.service';
 import {EnvironmentService} from '@/_services/environment.service';
+import {GLOBALS} from '@/_services/globals.service';
 
 @Component({
   selector: 'app-root',
@@ -12,8 +13,18 @@ import {EnvironmentService} from '@/_services/environment.service';
 export class AppComponent {
   constructor(ss: StorageService,
               cr: ChangeDetectorRef,
-              _sync: SyncService,
+              sync: SyncService,
               public env: EnvironmentService) {
     LogService.cr = cr;
+    sync.onSetCredentialsToStorage = (value, _isRefreshing) => {
+      GLOBALS.oauth2AccessToken = value;
+      GLOBALS.saveWebData();
+    };
+    sync.onGetCredentialsFromStorage = (): string => {
+      GLOBALS.loadWebData();
+      return GLOBALS.oauth2AccessToken;
+    };
+    sync.init();
+    GLOBALS.loadSharedData();
   }
 }

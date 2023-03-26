@@ -1,7 +1,7 @@
 <mat-card (click)="clickLink($event, link)" *ngIf="!link.url.startsWith('@')">
   <mat-card-header>
     <mat-card-title>
-      <img alt="favicon" src="{{link.favicon}}">
+      <img (error)="globals.noImage($event)" [src]="link.favicon" alt="favicon">
       <span>{{link.label}}</span>
     </mat-card-title>
   </mat-card-header>

@@ -3,7 +3,6 @@ import {LinkData} from '@/_model/link-data';
 import {GLOBALS, GlobalsService} from '@/_services/globals.service';
 import {MessageService} from '@/_services/message.service';
 import {ConfigLinkComponent} from '@/components/config-link/config-link.component';
-import {DialogResultButton} from '@/_model/dialog-data';
 
 @Component({
   selector: 'app-link-card',
@@ -34,10 +33,6 @@ export class LinkCardComponent {
 
   clickDelete(evt: MouseEvent, link: LinkData) {
     evt.stopPropagation();
-    this.ms.confirm($localize`Do you really want to delete this link?`).subscribe(result => {
-      if (result.btn === DialogResultButton.yes) {
-        GLOBALS.deleteLink(link);
-      }
-    });
+    this.ms.askDeleteLink(link);
   }
 }

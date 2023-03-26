@@ -10,14 +10,28 @@ import {map, Observable} from 'rxjs';
   providedIn: 'root'
 })
 export class SyncService {
+  /**
+   * is called when the credentials are set to storage. Can be overwritten
+   * to execute custom code instead of the default code that is executed
+   * by the specialized sync-service.
+   */
+  onSetCredentialsToStorage: (value: string, isRefreshing: boolean) => void;
+
+  /**
+   * is called when the credentials should be retrieved from storage. Can be
+   * overwritten to execute custom code instead of the default code that is
+   * executed by the specialized sync-service.
+   *
+   * @return credentials read from storage
+   */
+  onGetCredentialsFromStorage: () => string;
+
   constructor(public dbs: DropboxService,
               public ms: MessageService) {
+    dbs.onSetCredentialsToStorage = this._onSetCredentialsToStorage.bind(this);
+    dbs.onGetCredentialsFromStorage = this._onGetCredentialsFromStorage.bind(this);
     dbs.startOauth2Workflow = this.startOauth2Workflow.bind(this);
     dbs.isSameContent = this.isSameContent.bind(this);
-    dbs.init();
-    if (dbs.status === oauthStatus.hasAccessToken) {
-      this._syncType = oauth2SyncType.dropbox;
-    }
   }
 
   _syncType: oauth2SyncType = oauth2SyncType.none;
@@ -27,11 +41,9 @@ export class SyncService {
   }
 
   set syncType(value: oauth2SyncType) {
-    console.log('syncType', value);
     this._syncType = value ?? oauth2SyncType.none;
     // GLOBALS.saveWebData();
     if (this._syncType === oauth2SyncType.none) {
-      this.dbs.setCredentialsToStorage(null);
       // GLOBALS.saveWebData();
     } else {
       this.dbs.connect();
@@ -41,6 +53,13 @@ export class SyncService {
 
   get hasSync(): boolean {
     return this.syncType !== oauth2SyncType.none;
+  }
+
+  init(): void {
+    this.dbs.init();
+    if (this.dbs.status === oauthStatus.hasAccessToken) {
+      this._syncType = oauth2SyncType.dropbox;
+    }
   }
 
   /**
@@ -74,13 +93,6 @@ export class SyncService {
                          Should the confirmation process be started?`;
   }
 
-  // async uploadFile(filename: string, content: string) {
-  //   switch (GLOBALS.syncType) {
-  //     case oauth2SyncType.dropbox:
-  //       return this.dbs.uploadFile(filename, content);
-  //   }
-  // }
-
   toggleSyncDropbox() {
     if (this.syncType === oauth2SyncType.dropbox) {
       const params = new DialogParams();
@@ -96,12 +108,44 @@ export class SyncService {
     }
   }
 
+  // async uploadFile(filename: string, content: string) {
+  //   switch (GLOBALS.syncType) {
+  //     case oauth2SyncType.dropbox:
+  //       return this.dbs.uploadFile(filename, content);
+  //   }
+  // }
+
+  /**
+   * download a file.
+   *
+   * @param filename name of the file to upload (containig path)   */
+  async downloadFile(filename: string) {
+    switch (this.syncType) {
+      case oauth2SyncType.dropbox:
+        return this.dbs.downloadFile(filename);
+    }
+    return null;
+  }
+
   async uploadFile(filename: string, content: string) {
     switch (this.syncType) {
       case oauth2SyncType.dropbox:
         return this.dbs.uploadFile(filename, content);
     }
     return null;
+  }
+
+  private _onSetCredentialsToStorage(value: string, isRefreshing: boolean): void {
+    if (this.onSetCredentialsToStorage != null) {
+      this.onSetCredentialsToStorage(value, isRefreshing);
+    }
+  }
+
+  private _onGetCredentialsFromStorage(): string {
+    if (this.onGetCredentialsFromStorage != null) {
+      return this.onGetCredentialsFromStorage();
+    }
+    return '';
   }
 }
 

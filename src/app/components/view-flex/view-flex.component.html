@@ -1,0 +1,14 @@
+<script src="../main/main.component.ts"></script>
+<div (cdkDropListDropped)="linkDropped($event)" cdkDropList cdkDropListSortingDisabled content>
+  <div (cdkDragStarted)="dragstart($event)" *ngFor="let link of globals.links"
+       [cdkDragData]="link"
+       [cdkDragDisabled]="globals.appMode!='edit'"
+       cdkDrag
+       id="link-{{link.index}}"
+       style="transform:scale(1.0)">
+    <app-link-card [link]="link"></app-link-card>
+  </div>
+</div>
+<div *ngIf="ds.trashOpen" trash>
+  <mat-icon>delete</mat-icon>
+</div>

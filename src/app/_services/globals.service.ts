@@ -10,6 +10,7 @@ import {moveItemInArray} from '@angular/cdk/drag-drop';
 import {SyncService} from '@/_services/sync/sync.service';
 import {LanguageService} from '@/_services/language.service';
 import {LangData} from '@/_model/lang-data';
+import {EnvironmentService} from '@/_services/environment.service';
 
 class CustomTimeoutError extends Error {
   constructor() {
@@ -36,30 +37,36 @@ export class GlobalsService {
   language: LangData;
   _syncType: oauth2SyncType;
   oauth2AccessToken: string = null;
+  viewMode = 'flex';
+  theme: string;
+  viewModes = [
+    {id: 'world', icon: 'public'},
+    {id: 'flex', icon: 'wrap_text'}
+  ];
   private flags = '';
   private sortOrder: string = '';
 
   constructor(public http: HttpClient,
               public sync: SyncService,
-              public ls: LanguageService) {
+              public ls: LanguageService,
+              public env: EnvironmentService) {
     GLOBALS = this;
     this.loadWebData();
-    this.loadSharedData();
-    if (Utils.isEmpty(this.storageVersion)) {
-      this.currentPage = 'welcome';
-    } else if (this.storageVersion !== this.version) {
-      this.currentPage = 'news';
-    } else {
-      this.currentPage = 'main';
-    }
-    this.saveWebData();
-    this.saveSharedData();
+    this.loadSharedData().then(_ => {
+      if (Utils.isEmpty(this.storageVersion)) {
+        this.currentPage = 'welcome';
+      } else if (this.storageVersion !== this.version) {
+        this.currentPage = 'news';
+      } else {
+        this.currentPage = 'main';
+      }
+    });
   }
 
   private _links: LinkData[];
 
   public get links(): LinkData[] {
-    const ret = this._links.filter(e => e);
+    const ret = this._links?.filter(e => e) ?? [];
     switch (this.sortOrder) {
       case 'lastUsed':
         ret.sort((a, b) => {
@@ -119,25 +126,34 @@ export class GlobalsService {
     }
   }
 
-  loadSharedData(): void {
+  async loadSharedData() {
     let storage: any = {};
     try {
       storage = JSON.parse(localStorage.getItem('sharedData')) ?? {};
     } catch {
     }
+    let syncData: any = await this.sync.downloadFile(this.env.settingsFilename);
+    if (syncData != null) {
+      try {
+        if (+syncData.s0 > +(storage.s0 ?? 0)) {
+          storage = syncData;
+        }
+      } catch {
+      }
+    }
 
     this.storageVersion = storage.s1;
     this._links = storage.s2?.map((l: any) => {
       return LinkData.fromJson(l);
-    });
+    }) ?? [];
 
     // validate values
     if (this._links == null) {
-      this._links = [
-        new LinkData('Google Drive', 'https://drive.google.com'),
-        new LinkData('Dropbox', 'https://dropbox.com'),
-        new LinkData('Nighscout Reporter', 'https://nightrep-dev.zreptil.de')
-      ];
+      this._links = [];
+      //   new LinkData('Google Drive', 'https://drive.google.com'),
+      //   new LinkData('Dropbox', 'https://dropbox.com'),
+      //   new LinkData('Nighscout Reporter', 'https://nightrep-dev.zreptil.de')
+      // ];
       // const links: LinkData[] = [];
       // for (let i = 0; i < 10; i++) {
       //   for (const link of this._links) {
@@ -151,14 +167,16 @@ export class GlobalsService {
 
   saveSharedData(): void {
     const storage: any = {
+      s0: Date.now(),
       s1: this.version,
       s2: this._links.map(l => {
         return l.asJson
       })
     };
-    localStorage.setItem('sharedData', JSON.stringify(storage));
+    const data = JSON.stringify(storage);
+    localStorage.setItem('sharedData', data);
     if (this.sync.hasSync) {
-      this.sync.uploadFile('lisa.json', JSON.stringify(this._links));
+      this.sync.uploadFile(this.env.settingsFilename, data);
     }
   }
 
@@ -172,7 +190,9 @@ export class GlobalsService {
     const code = storage.w0 ?? 'en-GB';
     this.language = this.ls.languageList.find((lang) => lang.code === code);
     this._syncType = storage.w1 ?? oauth2SyncType.none;
-    this.oauth2AccessToken = localStorage.getItem('dropboxsync');
+//    this.oauth2AccessToken = localStorage.getItem('dropboxsync');
+    this.oauth2AccessToken = storage.w2;
+    this.theme = storage.w3 ?? 'standard';
 
     // validate values
     if (this.oauth2AccessToken == null) {
@@ -183,7 +203,9 @@ export class GlobalsService {
   saveWebData(): void {
     const storage: any = {
       w0: this.language.code ?? 'de_DE',
-      w1: this._syncType
+      w1: this._syncType,
+      w2: this.oauth2AccessToken,
+      w3: this.theme
     };
     localStorage.setItem('webData', JSON.stringify(storage));
   }
@@ -248,6 +270,10 @@ export class GlobalsService {
   moveLink(previousIndex: number, currentIndex: number) {
     moveItemInArray(this._links, previousIndex, currentIndex);
     this.setIndexToLinks();
+  }
+
+  noImage(evt: ErrorEvent) {
+    (evt.target as any).src = 'assets/images/empty.png';
   }
 
   private may(key: string): boolean {

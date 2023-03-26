@@ -14,14 +14,7 @@
   height: 100vh;
   background-color: var(--mainBack);
   color: var(--mainFore);
-
-  [trash] {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    font-size: 1em;
-    color: var(--trashcan);
-  }
+  overflow: hidden;
 
   [toolbar] {
     display: flex;
@@ -38,28 +31,4 @@
       color: var(--trashcan);
     }
   }
-
-  [content] {
-    display: flex;
-    flex-flow: row;
-    flex-wrap: wrap;
-    gap: 0.5em;
-    align-items: center;
-    justify-content: center;
-    overflow-y: auto;
-  }
 }
-
-.cdk-drag-placeholder {
-  opacity: 0;
-}
-
-.cdk-drag-preview {
-  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
-  0 8px 10px 1px rgba(0, 0, 0, 0.14),
-  0 3px 14px 2px rgba(0, 0, 0, 0.12);
-  opacity: 0.6;
-
-  pointer-events: none;
-}
-

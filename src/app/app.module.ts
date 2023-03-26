@@ -22,6 +22,8 @@ import {ProgressComponent} from '@/components/progress/progress.component';
 import {LinkCardComponent} from './components/link-card/link-card.component';
 import {ConfigLinkComponent} from './components/config-link/config-link.component';
 import {AutofocusDirective} from '@/_directives/autofocus.directive';
+import { ViewFlexComponent } from './components/view-flex/view-flex.component';
+import { ViewWorldComponent } from './components/view-world/view-world.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +42,8 @@ import {AutofocusDirective} from '@/_directives/autofocus.directive';
     ImpressumComponent,
     LinkCardComponent,
     ConfigLinkComponent,
+    ViewFlexComponent,
+    ViewWorldComponent,
   ],
   imports: [
     BrowserModule,

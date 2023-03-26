@@ -35,6 +35,22 @@ export class DropboxService {
   status: oauthStatus = oauthStatus.none;
   lastStatus: DBSStatus = new DBSStatus();
 
+  /**
+   * is called when the credentials are set to storage. Can be overwritten
+   * to execute custom code instead of the default code that sets the
+   * credentials in variable dropboxsync in localStorage.
+   */
+  onSetCredentialsToStorage: (value: string, isRefreshing: boolean) => void;
+
+  /**
+   * is called when the credentials should be retrieved from storage. Can be
+   * overwritten to execute custom code instead of the default code that gets
+   * the credentials from variable dropboxsync in localStorage.
+   *
+   * @return credentials read from storage
+   */
+  onGetCredentialsFromStorage: () => string;
+
   constructor(public env: EnvironmentService,
               public http: HttpClient) {
   }
@@ -48,27 +64,6 @@ export class DropboxService {
       authorization: `Bearer ${this.loadCredentials().at}`,
       ...headers
     });
-  }
-
-  /**
-   * reads the credentials from storage.
-   */
-  getCredentialsFromStorage(): string {
-    return localStorage.getItem('dropboxsync');
-  }
-
-  /**
-   * writes the credentials to storage.
-   *
-   * @param value the value to write to storage
-   * @param isRefreshing if true, then a refrehtoken is being written
-   */
-  setCredentialsToStorage(value: string, isRefreshing = false): void {
-    if (value == null || value === 'null') {
-      localStorage.removeItem('dropboxsync');
-    } else {
-      localStorage.setItem('dropboxsync', value);
-    }
   }
 
   disconnect(): void {
@@ -186,6 +181,34 @@ export class DropboxService {
       console.error('error when uploading file to Dropbox', ex);
       await this.checkRefreshToken(req, ex);
       await lastValueFrom(this.http.request(req));
+    }
+  }
+
+  /**
+   * reads the credentials from storage.
+   */
+  private getCredentialsFromStorage(): string {
+    if (this.onGetCredentialsFromStorage != null) {
+      return this.onGetCredentialsFromStorage();
+    }
+    return localStorage.getItem('dropboxsync');
+  }
+
+  /**
+   * writes the credentials to storage.
+   *
+   * @param value the value to write to storage
+   * @param isRefreshing if true, then a refrehtoken is being written
+   */
+  private setCredentialsToStorage(value: string, isRefreshing = false): void {
+    if (this.onSetCredentialsToStorage != null) {
+      this.onSetCredentialsToStorage(value === 'null' ? null : value, isRefreshing);
+      return;
+    }
+    if (value == null || value === 'null') {
+      localStorage.removeItem('dropboxsync');
+    } else {
+      localStorage.setItem('dropboxsync', value);
     }
   }
 
@@ -323,8 +346,6 @@ export class DropboxService {
     this.http.request(req).subscribe((response: any) => {
       if (response?.body?.access_token != null) {
         const data = {
-          // ac: authorization_code,
-          // cv: codeVerifier,
           at: response.body.access_token,
           rt: response.body.refresh_token
         }

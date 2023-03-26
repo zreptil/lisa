@@ -478,3 +478,7 @@ form.oauth2 {
     color: var(--confirmFore);
   }
 }
+
+img[alt=favicon] {
+  max-height: 24px;
+}

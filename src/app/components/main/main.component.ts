@@ -1,11 +1,10 @@
-import {Component} from '@angular/core';
+import {Component, HostListener} from '@angular/core';
 import {GLOBALS, GlobalsService} from '@/_services/globals.service';
 import {SyncService} from '@/_services/sync/sync.service';
-import {CdkDragDrop, CdkDragStart} from '@angular/cdk/drag-drop';
 import {LinkData} from '@/_model/link-data';
-import {DialogResultButton} from '@/_model/dialog-data';
 import {MessageService} from '@/_services/message.service';
 import {ConfigLinkComponent} from '@/components/config-link/config-link.component';
+import {DragService} from '@/_services/drag.service';
 
 @Component({
   selector: 'app-main',
@@ -13,23 +12,23 @@ import {ConfigLinkComponent} from '@/components/config-link/config-link.componen
   styleUrls: ['./main.component.scss']
 })
 export class MainComponent {
-  dragLink: LinkData;
-  dragElement: any;
-  trashOpen = false;
+  scale = 1.0;
 
   constructor(public globals: GlobalsService,
               public sync: SyncService,
-              public ms: MessageService) {
-    setTimeout(() => {
-      this.ms.confirm('Und nu?');
-    }, 1000);
+              public ms: MessageService,
+              public ds: DragService) {
+  }
+
+  get iconForView(): string {
+    return GLOBALS.viewModes.find(v => v.id === GLOBALS.viewMode)?.icon ?? 'question_mark';
   }
 
   get classForMainpanel(): string[] {
-    const ret = [];
-    if (this.trashOpen) {
-      ret.push('trashing')
-    }
+    const ret: any = [];
+    // if (this.trashOpen) {
+    //   ret.push('trashing')
+    // }
     return ret;
   }
 
@@ -61,42 +60,37 @@ export class MainComponent {
     GLOBALS.appMode = 'standard';
   }
 
-  linkDropped(evt: CdkDragDrop<LinkData[]>) {
-    if (this.trashOpen) {
-      this.ms.confirm($localize`Do you really want to delete this link?`).subscribe(result => {
-        if (result.btn === DialogResultButton.yes) {
-          GLOBALS.deleteLink(this.dragLink);
-        }
-        this.dragLink = null;
-      });
-      return;
-    }
-    let parent = document.elementFromPoint(evt.dropPoint.x, evt.dropPoint.y);
-    while (parent != null && !parent.id?.startsWith('link-')) {
-      parent = parent.parentElement;
-    }
-    if (parent == null) {
-      this.dragLink = null;
-      return;
-    }
-    const dstIdx = +parent?.id.substring(5);
-    const srcIdx = this.dragLink.index;
-    GLOBALS.moveLink(srcIdx, dstIdx);
-    this.dragLink = null;
-  }
-
-  dragstart(evt: CdkDragStart) {
-    this.dragLink = evt.source.data;
-    this.dragElement = evt.source.element?.nativeElement;
-  }
-
   mouseoverDelete(_evt: MouseEvent) {
-    if (this.dragLink != null) {
-      this.trashOpen = true;
+    if (this.ds.dragLink != null) {
+      this.ds.trashOpen = true;
     }
   }
 
   mouseoutDelete(_evt: MouseEvent) {
-    this.trashOpen = false;
+    this.ds.trashOpen = false;
+  }
+
+  @HostListener('wheel', ['$event'])
+  public onScroll(evt: WheelEvent) {
+    const diff = Math.sign(evt.deltaY) / 10;
+    if (this.scale + diff > 0.1 && this.scale + diff < 2.0) {
+      this.scale += diff;
+    }
+  }
+
+  styleForView(): any {
+    const ret: { [key: string]: any } = {};
+    ret['transform'] = `translate(0px,0px) scale(${this.scale})`;
+    return ret;
+  }
+
+  clickView(evt: MouseEvent) {
+    evt.stopPropagation();
+    let idx = GLOBALS.viewModes.findIndex(v => v.id === GLOBALS.viewMode);
+    idx++;
+    if (idx >= GLOBALS.viewModes.length) {
+      idx = 0;
+    }
+    GLOBALS.viewMode = GLOBALS.viewModes[idx].id;
   }
 }
