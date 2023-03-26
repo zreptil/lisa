@@ -12,6 +12,15 @@ export class LinkData {
   ) {
   }
 
+  get dragPosition(): any {
+    return {x: this.x, y: this.y};
+  }
+
+  set dragPosition(value: any) {
+    this.x = value.x;
+    this.y = value.y;
+  }
+
   get favicon(): string {
     // return `https://s2.googleusercontent.com/s2/favicons?domain=${this.url}`;
     if (this.iconUrl?.startsWith('assets/')) {

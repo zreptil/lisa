@@ -1,0 +1,21 @@
+<div #dragGhost ghost>
+  <div #dragScaled [ngStyle]="styleForCopy"></div>
+</div>
+<div #source
+     (dragend)="dragEnd($event)"
+     (dragstart)="dragStart($event)"
+     [ngStyle]="styleForRoot"
+     class="root"
+     draggable="true">
+  <ng-content></ng-content>
+  <div *ngIf="isDebug" class="debug">
+    <div>Position: {{x}} / {{y}}</div>
+    <div>Scale: {{scale}}</div>
+    <div>Mouse: {{mx}} / {{my}}</div>
+  </div>
+</div>
+<!--
+     (mousedown)="mouseDown($event)"
+     (mousemove)="mouseMove($event)"
+     (mouseup)="mouseUp($event)"
+-->

@@ -1,6 +1,7 @@
 :host {
   display: flex;
   position: relative;
+  overflow: hidden;
 }
 
 [mainpanel].trashing {
@@ -22,6 +23,7 @@
     justify-content: space-between;
     background-color: var(--toolbarBack);
     color: var(--toolbarFore);
+    z-index: 2;
 
     mat-icon {
       color: var(--toolbarFore);
@@ -31,4 +33,9 @@
       color: var(--trashcan);
     }
   }
+}
+
+::ng-deep mat-card {
+  background: var(--linkBack) !important;
+  color: var(--linkFore) !important;
 }

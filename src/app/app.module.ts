@@ -24,6 +24,7 @@ import {ConfigLinkComponent} from './components/config-link/config-link.componen
 import {AutofocusDirective} from '@/_directives/autofocus.directive';
 import { ViewFlexComponent } from './components/view-flex/view-flex.component';
 import { ViewWorldComponent } from './components/view-world/view-world.component';
+import { DragQueenComponent } from './controls/drag-queen/drag-queen.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { ViewWorldComponent } from './components/view-world/view-world.component
     ConfigLinkComponent,
     ViewFlexComponent,
     ViewWorldComponent,
+    DragQueenComponent,
   ],
   imports: [
     BrowserModule,

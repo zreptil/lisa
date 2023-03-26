@@ -1,0 +1,18 @@
+.root {
+  position: absolute;
+}
+
+.debug {
+  display: flex;
+  flex-flow: row;
+  flex-wrap: wrap;
+  font-size: 0.5em;
+  gap: 0.5em;
+}
+
+[ghost] {
+  position: absolute;
+  top: -1000px;
+  display: none;
+  opacity: 1;
+}

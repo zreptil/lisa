@@ -44,7 +44,7 @@ body {
   --helpFore: #000;
   --markBorder: 1px solid #000;
 
-  --toolbarBack: rgba(0, 0, 0, 0.3);
+  --toolbarBack: #828;
   --toolbarFore: rgba(255, 255, 255, 0.9);
   --mainBack: #c3c;
   --mainFore: black;
@@ -52,6 +52,9 @@ body {
 
   --confirmBack: aqua;
   --confirmFore: black;
+
+  --linkBack: rgba(255, 255, 255, 0.4);
+  --linkFore: black;
 
   --debugFirst: #220;
   --debugSecond: #550;

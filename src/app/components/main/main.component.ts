@@ -1,4 +1,4 @@
-import {Component, HostListener} from '@angular/core';
+import {Component} from '@angular/core';
 import {GLOBALS, GlobalsService} from '@/_services/globals.service';
 import {SyncService} from '@/_services/sync/sync.service';
 import {LinkData} from '@/_model/link-data';
@@ -12,8 +12,6 @@ import {DragService} from '@/_services/drag.service';
   styleUrls: ['./main.component.scss']
 })
 export class MainComponent {
-  scale = 1.0;
-
   constructor(public globals: GlobalsService,
               public sync: SyncService,
               public ms: MessageService,
@@ -70,20 +68,6 @@ export class MainComponent {
     this.ds.trashOpen = false;
   }
 
-  @HostListener('wheel', ['$event'])
-  public onScroll(evt: WheelEvent) {
-    const diff = Math.sign(evt.deltaY) / 10;
-    if (this.scale + diff > 0.1 && this.scale + diff < 2.0) {
-      this.scale += diff;
-    }
-  }
-
-  styleForView(): any {
-    const ret: { [key: string]: any } = {};
-    ret['transform'] = `translate(0px,0px) scale(${this.scale})`;
-    return ret;
-  }
-
   clickView(evt: MouseEvent) {
     evt.stopPropagation();
     let idx = GLOBALS.viewModes.findIndex(v => v.id === GLOBALS.viewMode);
@@ -92,5 +76,6 @@ export class MainComponent {
       idx = 0;
     }
     GLOBALS.viewMode = GLOBALS.viewModes[idx].id;
+    GLOBALS.saveSharedData();
   }
 }
