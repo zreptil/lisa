@@ -22,6 +22,9 @@
       <button (click)="clickView($event)" mat-flat-button>
         <mat-icon>{{iconForView}}</mat-icon>
       </button>
+      <button (click)="clickDebug($event)" *ngIf="globals.mayDebug" class="debug" mat-icon-button>
+        <mat-icon>{{globals.isDebug ? 'pest_control' : 'bug_report'}}</mat-icon>
+      </button>
       <button (click)="sync.toggleSyncDropbox()" id="sync" mat-icon-button>
         <ng-container *ngIf="!sync.hasSync">
           <mat-icon>sync_disabled</mat-icon>

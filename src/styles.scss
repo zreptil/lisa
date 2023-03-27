@@ -359,6 +359,10 @@ mat-icon[small] {
 .debug {
   background: var(--logDebugBack);
   color: var(--logDebugFore) !important;
+
+  mat-icon {
+    color: var(--logDebugFore) !important;
+  }
 }
 
 $theme-width: 13em;

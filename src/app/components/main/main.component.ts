@@ -78,4 +78,9 @@ export class MainComponent {
     GLOBALS.viewMode = GLOBALS.viewModes[idx].id;
     GLOBALS.saveSharedData();
   }
+
+  clickDebug(evt: MouseEvent) {
+    evt.stopPropagation();
+    GLOBALS.isDebug = !GLOBALS.isDebug;
+  }
 }

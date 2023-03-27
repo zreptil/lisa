@@ -71,18 +71,11 @@ export class DragQueenComponent implements AfterViewInit {
     return ret;
   }
 
-  get styleForCopy(): any {
+  get styleForGhost(): any {
     const ret: { [key: string]: any } = {};
     // ret['transform'] = `scale(${this.scale})`;
     ret['zoom'] = `${this.scale}`;
     return ret;
-  }
-
-  mouseMove(evt: MouseEvent) {
-    if (this._isDragging) {
-      this.x += evt.offsetX;
-      this.y += evt.offsetY;
-    }
   }
 
   dragStart(evt: DragEvent) {
@@ -103,8 +96,8 @@ export class DragQueenComponent implements AfterViewInit {
     this.ghost.nativeElement.style.display = 'none';
     this.source.nativeElement.style.opacity = 1;
     console.log(evt);
-    this.x = evt.pageX / this.scale - this.mx;
-    this.y = evt.pageY / this.scale - this.my - 44 / this.scale;
+    this.x = evt.clientX / this.scale - this.mx;
+    this.y = evt.clientY / this.scale - this.my - 44 / this.scale;
     this.ondrop?.next(new DragQueenData(this.x, this.y, this.data));
   }
 

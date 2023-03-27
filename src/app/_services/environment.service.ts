@@ -26,11 +26,15 @@ export class EnvironmentService {
       const parts = p.split('=');
       this.urlParams[parts[0]] = parts[1];
     }
-    if (this.urlParams['enableDebug'] === 'true') {
-      localStorage.setItem(GLOBALS.debugFlag, GLOBALS.debugActive);
-    } else if (this.urlParams['enableDebug'] === 'false') {
-      localStorage.removeItem(GLOBALS.debugFlag);
-    }
+    setTimeout(() => {
+      if (this.urlParams['enableDebug'] === 'true') {
+        localStorage.setItem(GLOBALS.debugFlag, GLOBALS.debugActive);
+        location.href = location.origin;
+      } else if (this.urlParams['enableDebug'] === 'false') {
+        localStorage.removeItem(GLOBALS.debugFlag);
+        location.href = location.origin;
+      }
+    }, 1000);
     const temp = window.location.hash?.substring(1);
     this.appType = temp;
     const pos = this.appType.indexOf('?');

@@ -147,6 +147,7 @@ export class GlobalsService {
       return LinkData.fromJson(l);
     }) ?? [];
     this.viewMode = storage.s3 ?? this.viewModes[0].id;
+    this.appMode = storage.s4 ?? 'standard';
 
     // validate values
     if (this._links == null) {
@@ -173,7 +174,8 @@ export class GlobalsService {
       s2: this._links.map(l => {
         return l.asJson
       }),
-      s3: this.viewMode
+      s3: this.viewMode,
+      s4: this.appMode
     };
     const data = JSON.stringify(storage);
     localStorage.setItem('sharedData', data);

@@ -1,5 +1,5 @@
 <div #dragGhost ghost>
-  <div #dragScaled [ngStyle]="styleForCopy"></div>
+  <div #dragScaled [ngStyle]="styleForGhost"></div>
 </div>
 <div #source
      (dragend)="dragEnd($event)"
@@ -14,8 +14,3 @@
     <div>Mouse: {{mx}} / {{my}}</div>
   </div>
 </div>
-<!--
-     (mousedown)="mouseDown($event)"
-     (mousemove)="mouseMove($event)"
-     (mouseup)="mouseUp($event)"
--->
