@@ -1,9 +1,10 @@
 <div cdkDrag cdkDragBoundary=".cdk-overlay-container"
      cdkDragRootElement=".dialog-box.config-link">
   <div cdkDragHandle mat-dialog-title>
-    <h1 i18n="title for configlink dialog">
+    <h1>
       <button (click)="clickIcon($event)" mat-flat-button>
-        <img (error)="globals.noImage($event)" alt="favicon" src="{{data.favicon}}">
+        <img (error)="globals.noImage($event)" *ngIf="data.children==null" [src]="data.favicon" alt="favicon">
+        <mat-icon *ngIf="data.children!=null">folder</mat-icon>
       </button>
       {{orgData.l}}
     </h1>
@@ -16,19 +17,21 @@
   </div>
 
   <mat-dialog-content>
-    <mat-form-field>
+    <mat-form-field *ngIf="data.children == null">
       <mat-label i18n>Url</mat-label>
-      <input [(ngModel)]="data.url" autofocus matInput>
+      <input [(ngModel)]="data.url" [autofocus]="data.url == null" matInput>
     </mat-form-field>
     <mat-form-field>
       <mat-label i18n>Label</mat-label>
-      <input (focus)="onLabelFocus($event)" [(ngModel)]="data.label" matInput>
+      <input (focus)="onLabelFocus($event)" [(ngModel)]="data.label" [autofocus]="data.url!=null||data.children!=null" matInput>
     </mat-form-field>
     <mat-form-field>
-
       <mat-label i18n>Info</mat-label>
-      <input [(ngModel)]="data.info" matInput>
+      <textarea [(ngModel)]="data.info" matInput></textarea>
     </mat-form-field>
+    <div *ngIf="data.children != null" children>
+      <app-link-card *ngFor="let child of data.children" [link]="child"></app-link-card>
+    </div>
   </mat-dialog-content>
 
   <mat-dialog-actions>

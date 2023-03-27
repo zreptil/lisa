@@ -4,6 +4,7 @@
 <div #source
      (dragend)="dragEnd($event)"
      (dragstart)="dragStart($event)"
+     (mousedown)="$event.stopPropagation()"
      [ngStyle]="styleForRoot"
      class="root"
      draggable="true">

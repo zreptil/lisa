@@ -13,6 +13,9 @@ export class LinkCardComponent {
   @Input()
   link: LinkData;
 
+  @Input()
+  type = 'card';
+
   constructor(public globals: GlobalsService,
               public ms: MessageService) {
   }

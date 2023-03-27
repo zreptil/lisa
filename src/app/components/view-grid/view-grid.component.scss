@@ -1,0 +1,16 @@
+[content] {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-gap: 3px;
+  margin: 3px;
+
+  .cdk-drag {
+    align-self: stretch;
+  }
+
+  ::ng-deep mat-card {
+    max-width: initial;
+    max-height: initial;
+    align-self: stretch;
+  }
+}

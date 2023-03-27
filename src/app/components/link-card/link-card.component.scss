@@ -39,3 +39,59 @@ mat-card {
     }
   }
 }
+
+[grid] {
+  display: flex;
+  flex-flow: column;
+  justify-content: space-between;
+  border: 1px solid black;
+  border-radius: 0.5em;
+  cursor: pointer;
+
+  [content] {
+    display: flex;
+    flex: 1;
+    padding: 0.5em;
+  }
+
+  [header] {
+    padding: 0.5em;
+    display: flex;
+    flex-flow: row;
+    gap: 1em;
+    font-size: 20px;
+    font-weight: 500;
+
+    img {
+      width: 24px;
+    }
+
+    img, mat-icon {
+      margin-right: 0.5em;
+    }
+  }
+
+  [footer] {
+    padding: 0.5em;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+    font-size: 0.7em;
+    gap: 0.5em;
+  }
+
+  height: 100%;
+}
+
+[children] {
+  display: flex;
+  flex-flow: column;
+  flex: 1;
+  border: 2px solid black;
+  border-radius: 0.5em;
+  min-height: 3em;
+
+  app-link-card {
+    zoom: 0.5;
+  }
+}

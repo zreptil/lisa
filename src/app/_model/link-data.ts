@@ -6,6 +6,7 @@ export class LinkData {
   iconUrl: string;
   x: number;
   y: number;
+  children: LinkData[];
 
   constructor(public label: string,
               public url: string
@@ -37,7 +38,8 @@ export class LinkData {
       i: this.info,
       iu: this.iconUrl,
       x: this.x,
-      y: this.y
+      y: this.y,
+      c: this.children?.map(c => c.asJson)
     }
   }
 
@@ -48,6 +50,12 @@ export class LinkData {
     ret.iconUrl = src.iu;
     ret.x = src.x;
     ret.y = src.y;
+    if (src.c != null) {
+      ret.children = [];
+      for (const child of src.c) {
+        ret.children.push(LinkData.fromJson(child));
+      }
+    }
     return ret;
   }
 }

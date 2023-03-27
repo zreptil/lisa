@@ -1,5 +1,12 @@
 <script src="../main/main.component.ts"></script>
-<div (dragover)="allowDrop($event)" back>
+<div (dragover)="allowDrop($event)"
+     (mousedown)="onMouseDown($event)"
+     (mousemove)="onMouseMove($event)"
+     (mouseup)="onMouseUp($event)"
+     (touchend)="onTouchEnd($event)"
+     (touchmove)="onTouchMove($event)"
+     (touchstart)="onTouchStart($event)"
+     back>
   <div [ngStyle]="styleForContent" content>
     <app-drag-queen (ondrop)="onDrop($event)"
                     *ngFor="let link of globals.links"

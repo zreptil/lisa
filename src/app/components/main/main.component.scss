@@ -33,9 +33,13 @@
       color: var(--trashcan);
     }
   }
+
+  [content] {
+    overflow-y: auto;
+  }
 }
 
-::ng-deep mat-card {
+::ng-deep [linkcard] {
   background: var(--linkBack) !important;
   color: var(--linkFore) !important;
 }

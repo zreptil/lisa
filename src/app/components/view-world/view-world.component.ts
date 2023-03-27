@@ -16,17 +16,18 @@ export class ViewWorldComponent {
   scale = 1.0;
   top = 0;
   left = 0;
+  dragPos: any = null;
 
   constructor(public ms: MessageService,
               public globals: GlobalsService,
               public ds: DragService) {
     setTimeout(() => {
-      let x = 64;
+      let pos = 64;
       for (const link of globals.links) {
         if (link.x == null) {
-          link.x = x;
-          link.y = x;
-          x += 32;
+          link.x = pos;
+          link.y = pos;
+          pos += 32;
         }
       }
     }, 1000);
@@ -34,51 +35,25 @@ export class ViewWorldComponent {
 
   get styleForContent(): any {
     const ret: { [key: string]: any } = {};
-    ret['transform'] = `translate(${this.left}px,${this.top}px) scale(${this.scale})`;
-    if (this.scale != 1.0) {
-      ret['opacity'] = 0.7;
-    }
+    // with this method (scale first, then translate) left and top are scaled coordinates => world coordinates
+    ret['transform'] = `scale(${this.scale}) translate(${this.left}px,${this.top}px)`;
+    // if (this.scale != 1.0) {
+    //   ret['opacity'] = 0.7;
+    // }
     return ret;
   }
 
-  // linkDropped(evt: CdkDragDrop<LinkData[]>) {
-  //   if (this.ds.trashOpen) {
-  //     this.ms.askDeleteLink(this.ds.dragLink).subscribe(_result => {
-  //       this.ds.dragLink = null;
-  //     });
-  //     return;
-  //   }
-  //   // let parent = document.elementFromPoint(evt.dropPoint.x, evt.dropPoint.y);
-  //   // while (parent != null && !parent.id?.startsWith('link-')) {
-  //   //   parent = parent.parentElement;
-  //   // }
-  //   // if (parent == null) {
-  //   //   this.ds.dragLink = null;
-  //   //   return;
-  //   // }
-  //   this.ds.dragLink.x = Math.floor(((evt.event as MouseEvent).x - this.dragOffset.x) / this.scale);
-  //   this.ds.dragLink.y = Math.floor(((evt.event as MouseEvent).y - this.dragOffset.y) / this.scale);
-  //   // const dstIdx = +parent?.id.substring(5);
-  //   // const srcIdx = this.ds.dragLink.index;
-  //   // GLOBALS.moveLink(srcIdx, dstIdx);
-  //   this.ds.dragLink = null;
-  // }
-  //
-  // calcPos(value: number): number {
-  //   return Math.floor(value * this.scale);
-  // }
-  //
-  // dragstart(evt: CdkDragStart) {
-  //   this.ds.dragLink = evt.source.data;
-  //   this.ds.dragElement = evt.source.element?.nativeElement;
-  //   this.dragOffset = {
-  //     x: ((evt.event as MouseEvent).x - this.ds.dragLink.x) / this.scale,
-  //     y: ((evt.event as MouseEvent).y - this.ds.dragLink.y) / this.scale
-  //   };
-  // }
-  //
   @HostListener('wheel', ['$event'])
   public onScroll(evt: WheelEvent) {
+    const screen = {
+      x: evt.clientX,
+      y: evt.clientY
+    };
+    const world = {
+      x: screen.x / this.scale - this.left,
+      y: screen.y / this.scale - this.top,
+    };
+
     let diff = -Math.sign(evt.deltaY) / 10;
     if (this.scale < 0.2) {
       diff /= 10;
@@ -87,6 +62,11 @@ export class ViewWorldComponent {
       this.scale += diff;
     }
     this.scale = +this.scale.toPrecision(3);
+
+    this.setPos(
+      screen.x / this.scale - world.x,
+      screen.y / this.scale - world.y
+    );
     document.getElementsByTagName('body')[0].setAttribute('style', `--zoom:${this.scale}`);
   }
 
@@ -96,8 +76,82 @@ export class ViewWorldComponent {
 
   onDrop(data: DragQueenData) {
     const link = data.data as LinkData;
-    link.x = data.x;
-    link.y = data.y;
+    link.x = data.x - this.left;
+    link.y = data.y - this.top;
     GLOBALS.saveSharedData();
+  }
+
+  setPos(x: number, y: number) {
+    let xMax = -1000;
+    let yMax = -1000;
+    for (const entry of GLOBALS.links) {
+      xMax = Math.max(entry.x, xMax);
+      yMax = Math.max(entry.y, yMax);
+    }
+    xMax = xMax - (window.innerWidth - 250) / this.scale;
+    yMax = yMax - (window.innerHeight - 250) / this.scale;
+    if (-x > xMax && xMax) {
+      x = -xMax;
+    }
+    if (-y > yMax) {
+      y = -yMax;
+    }
+    if (x > 0) {
+      x = 0;
+    }
+    if (y > 0) {
+      y = 0;
+    }
+    this.left = x;
+    this.top = y;
+  }
+
+  dragStart(x: number, y: number): void {
+    if (this.dragPos == null) {
+      this.dragPos = {x: x, y: y, left: this.left, top: this.top};
+    }
+  }
+
+  dragMove(x: number, y: number): void {
+    if (this.dragPos != null) {
+      this.setPos(
+        this.dragPos.left + (x - this.dragPos.x) / this.scale,
+        this.dragPos.top + (y - this.dragPos.y) / this.scale
+      );
+    }
+  }
+
+  onTouchStart(evt: TouchEvent) {
+    evt.stopPropagation();
+    if (evt.touches?.length > 0) {
+      this.dragStart(evt.touches[0].clientX, evt.touches[0].clientY);
+    }
+  }
+
+  onTouchMove(evt: TouchEvent) {
+    evt.stopPropagation();
+    if (evt.touches?.length > 0) {
+      this.dragMove(evt.touches[0].clientX, evt.touches[0].clientY);
+    }
+  }
+
+  onTouchEnd(evt: TouchEvent) {
+    evt.stopPropagation();
+    this.dragPos = null;
+  }
+
+  onMouseDown(evt: MouseEvent) {
+    evt.stopPropagation();
+    this.dragStart(evt.clientX, evt.clientY);
+  }
+
+  onMouseMove(evt: MouseEvent) {
+    evt.stopPropagation();
+    this.dragMove(evt.clientX, evt.clientY);
+  }
+
+  onMouseUp(evt: MouseEvent) {
+    evt.stopPropagation();
+    this.dragPos = null;
   }
 }

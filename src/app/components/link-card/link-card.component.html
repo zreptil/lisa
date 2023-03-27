@@ -1,17 +1,47 @@
-<mat-card (click)="clickLink($event, link)" *ngIf="!link.url.startsWith('@')">
-  <mat-card-header>
-    <mat-card-title>
-      <img (error)="globals.noImage($event)" [src]="link.favicon" alt="favicon">
-      <span>{{link.label}}</span>
-    </mat-card-title>
-  </mat-card-header>
-  <mat-card-content *ngIf="globals.appMode==='edit'">{{link.info}}</mat-card-content>
-  <mat-card-footer *ngIf="globals.appMode==='edit'">
-    <div></div>
-    <div *ngIf="link.lastUsed != null">{{link.lastUsed | date: 'dd.MM.yyyy, HH:mm'}}</div>
-    <div *ngIf="link.lastUsed == null" i18n>never visited</div>
-  </mat-card-footer>
-</mat-card>
-<button *ngIf="link.url.startsWith('@')" mat-fab>
-  <mat-icon>{{link.url.substring(1)}}</mat-icon>
-</button>
+<ng-container [ngSwitch]="type">
+  <ng-container *ngSwitchCase="'card'">
+    <mat-card (click)="clickLink($event, link)" linkcard>
+      <mat-card-header>
+        <mat-card-title>
+          <img (error)="globals.noImage($event)" *ngIf="link.children==null" [src]="link.favicon" alt="favicon">
+          <mat-icon *ngIf="link.children!=null">folder</mat-icon>
+          <span>{{link.label}}</span>
+        </mat-card-title>
+      </mat-card-header>
+      <ng-container *ngIf="globals.appMode==='edit'">
+        <mat-card-content>
+          <div *ngIf="link.children != null" children>
+            <app-link-card *ngFor="let child of link.children" [link]="child"></app-link-card>
+          </div>
+          <div>{{link.info}}</div>
+        </mat-card-content>
+        <mat-card-footer>
+          <div>
+            <div *ngIf="link.lastUsed != null">{{link.lastUsed | date: 'dd.MM.yyyy, HH:mm'}}</div>
+            <div *ngIf="link.lastUsed == null" i18n>never visited</div>
+          </div>
+        </mat-card-footer>
+      </ng-container>
+    </mat-card>
+  </ng-container>
+  <ng-container *ngSwitchCase="'grid'">
+    <div (click)="clickLink($event, link)" grid linkcard>
+      <div header>
+        <img (error)="globals.noImage($event)" [src]="link.favicon" alt="favicon">
+        <span>{{link.label}}</span>
+      </div>
+      <ng-container *ngIf="globals.appMode==='edit'">
+        <div content>
+          <div>{{link.info}}</div>
+          <div *ngIf="link.children != null" children>
+            <app-link-card *ngFor="let child of link.children" [link]="child"></app-link-card>
+          </div>
+        </div>
+        <div footer>
+          <div *ngIf="link.lastUsed != null">{{link.lastUsed | date: 'dd.MM.yyyy, HH:mm'}}</div>
+          <div *ngIf="link.lastUsed == null" i18n>never visited</div>
+        </div>
+      </ng-container>
+    </div>
+  </ng-container>
+</ng-container>

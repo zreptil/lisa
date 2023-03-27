@@ -54,8 +54,6 @@ export class DragQueenComponent implements AfterViewInit {
   @ViewChild('dragScaled') scaled: ElementRef;
   @ViewChild('source') source: ElementRef;
 
-  private _isDragging = false;
-
   constructor() {
   }
 
@@ -95,7 +93,7 @@ export class DragQueenComponent implements AfterViewInit {
   dragEnd(evt: DragEvent) {
     this.ghost.nativeElement.style.display = 'none';
     this.source.nativeElement.style.opacity = 1;
-    console.log(evt);
+    evt.dataTransfer.setDragImage(this.ghost.nativeElement, evt.offsetX * this.scale, evt.offsetY * this.scale);
     this.x = evt.clientX / this.scale - this.mx;
     this.y = evt.clientY / this.scale - this.my - 44 / this.scale;
     this.ondrop?.next(new DragQueenData(this.x, this.y, this.data));

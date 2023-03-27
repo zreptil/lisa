@@ -22,33 +22,16 @@ export class MainComponent {
     return GLOBALS.viewModes.find(v => v.id === GLOBALS.viewMode)?.icon ?? 'question_mark';
   }
 
-  get classForMainpanel(): string[] {
-    const ret: any = [];
-    // if (this.trashOpen) {
-    //   ret.push('trashing')
-    // }
-    return ret;
-  }
-
-  get classForHeader(): string[] {
-    const ret = ['mat-elevation-z4'];
-    if (GLOBALS.isDebug) {
-      ret.push('debug');
-    }
-    return ret;
-  }
-
-  clickLocalTitle() {
-    GLOBALS.isLocal = !GLOBALS.isLocal;
-  }
-
-  noImage(evt: ErrorEvent) {
-    (evt.target as any).src = 'assets/images/empty.png';
-  }
-
   clickAdd(evt: MouseEvent) {
     evt.stopPropagation();
     const link = new LinkData(null, null);
+    this.ms.showPopup(ConfigLinkComponent, link);
+  }
+
+  clickAddGroup(evt: MouseEvent) {
+    evt.stopPropagation();
+    const link = new LinkData(null, null);
+    link.children = [];
     this.ms.showPopup(ConfigLinkComponent, link);
   }
 

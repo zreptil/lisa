@@ -3,11 +3,12 @@ import {GlobalsService} from '@/_services/globals.service';
 import {DragService} from '@/_services/drag.service';
 
 @Component({
-  selector: 'app-view-flex',
-  templateUrl: './view-flex.component.html',
-  styleUrls: ['./view-flex.component.scss']
+  selector: 'app-view-grid',
+  templateUrl: './view-grid.component.html',
+  styleUrls: ['./view-grid.component.scss']
 })
-export class ViewFlexComponent {
+export class ViewGridComponent {
+
   constructor(public globals: GlobalsService,
               public ds: DragService) {
   }

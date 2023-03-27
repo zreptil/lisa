@@ -3,6 +3,10 @@
   max-height: 100%;
 }
 
+mat-card {
+  max-width: 250px;
+}
+
 [back] {
   display: flex;
   flex-flow: row;

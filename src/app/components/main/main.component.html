@@ -1,4 +1,4 @@
-<div [class]="classForMainpanel" mainpanel>
+<div mainpanel>
   <div toolbar>
     <div [ngSwitch]="globals.appMode">
       <ng-container *ngSwitchCase="'edit'">
@@ -7,6 +7,9 @@
         </button>
         <button (click)="clickAdd($event)" mat-flat-button>
           <mat-icon>add</mat-icon>
+        </button>
+        <button (click)="clickAddGroup($event)" mat-flat-button>
+          <mat-icon>library_add</mat-icon>
         </button>
         <button (mouseout)="mouseoutDelete($event)" (mouseover)="mouseoverDelete($event)" mat-flat-button>
           <mat-icon id="link-delete">delete</mat-icon>
@@ -35,10 +38,11 @@
       </button>
     </div>
   </div>
-  <ng-container [ngSwitch]="globals.viewMode">
+  <div [ngSwitch]="globals.viewMode" content>
     <app-view-world *ngSwitchCase="'world'"></app-view-world>
     <app-view-flex *ngSwitchCase="'flex'"></app-view-flex>
-  </ng-container>
+    <app-view-grid *ngSwitchCase="'grid'"></app-view-grid>
+  </div>
 </div>
 <app-progress></app-progress>
 <div hidden id="mark"></div>

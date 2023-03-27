@@ -316,3 +316,11 @@ mat-fab.is-local, div.is-local, mat-button.is-local {
   display: none;
 }
 
+[children] {
+  display: flex;
+  flex-flow: row;
+  flex-wrap: wrap;
+  border: 2px solid black;
+  border-radius: 0.5em;
+  min-height: 3em;
+}

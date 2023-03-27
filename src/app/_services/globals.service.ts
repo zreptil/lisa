@@ -41,7 +41,8 @@ export class GlobalsService {
   theme: string;
   viewModes = [
     {id: 'world', icon: 'public'},
-    {id: 'flex', icon: 'wrap_text'}
+    {id: 'flex', icon: 'wrap_text'},
+    {id: 'grid', icon: 'apps'}
   ];
   private flags = '';
   private sortOrder: string = '';
