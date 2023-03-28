@@ -2,7 +2,8 @@ import {Component, Input} from '@angular/core';
 import {LinkData} from '@/_model/link-data';
 import {GLOBALS, GlobalsService} from '@/_services/globals.service';
 import {MessageService} from '@/_services/message.service';
-import {ConfigLinkComponent} from '@/components/config-link/config-link.component';
+import {EditLinkComponent} from '@/components/edit-link/edit-link.component';
+import {DragService} from '@/_services/drag.service';
 
 @Component({
   selector: 'app-link-card',
@@ -16,20 +17,30 @@ export class LinkCardComponent {
   @Input()
   type = 'card';
 
+  @Input()
+  mode = 'full';
+
   constructor(public globals: GlobalsService,
-              public ms: MessageService) {
+              public ms: MessageService,
+              public ds: DragService) {
+  }
+
+  get dragDisabled(): boolean {
+    return GLOBALS.appMode !== 'edit' && GLOBALS.viewMode !== 'world';
   }
 
   clickLink(evt: MouseEvent, link: LinkData) {
     evt.stopPropagation();
     switch (GLOBALS.appMode) {
       case 'edit':
-        this.ms.showPopup(ConfigLinkComponent, link);
+        this.ms.showPopup(EditLinkComponent, link);
         break;
       default:
-        link.lastUsed = new Date().getTime();
-        GLOBALS.saveSharedData();
-        window.open(link.url);
+        if (link.children == null) {
+          link.lastUsed = new Date().getTime();
+          GLOBALS.saveSharedData();
+          window.open(link.url);
+        }
         break;
     }
   }

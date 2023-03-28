@@ -324,3 +324,13 @@ mat-fab.is-local, div.is-local, mat-button.is-local {
   border-radius: 0.5em;
   min-height: 3em;
 }
+
+[line] {
+  display: flex;
+  flex-flow: row;
+
+  mat-form-field {
+    flex-shrink: 0;
+    flex-grow: 1;
+  }
+}

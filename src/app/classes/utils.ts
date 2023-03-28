@@ -1,6 +1,8 @@
 import {Log} from '@/_services/log.service';
 
 export class Utils {
+  private static _uniqueId = 0;
+
   static replace(text: string, src: string | string[], dst: string | string[]): string {
     if (!Array.isArray(src) && !Array.isArray(dst)) {
       src = [src];
@@ -401,5 +403,19 @@ export class Utils {
    */
   static camelToKebab(value: string): string {
     return value.replace(/(.+?)([A-Z])/g, (s, ...args) => `${args[0]}-${args[1].toLowerCase()}`);
+  }
+
+  /**
+   * Extract root domain from url.
+   * @param value url to extract root domain. If not formatted properly, value will be returned.
+   */
+  static rootDomain(value: string): string {
+    // noinspection RegExpUnnecessaryNonCapturingGroup
+    return value.match(/(?:[^:]+:\/\/)(?:www\.)*([.a-z0-9]+)+/)?.[0] ?? value
+  }
+
+  static nextUniqueId(): number {
+    Utils._uniqueId++;
+    return Utils._uniqueId;
   }
 }

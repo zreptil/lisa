@@ -30,19 +30,37 @@ export class DragService {
       this.dragLink = null;
       return;
     }
-    const dstIdx = +parent?.id.substring(5);
-    const lnk = GLOBALS.links.find(l => l.index === dstIdx);
-    if (lnk === this.dragLink) {
-      this.dragLink = null;
-      return;
+    const dstUniqueId = +parent?.id.substring(5);
+    const dst = GLOBALS.findLink(dstUniqueId);
+    if (dst != null) {
+      const src = GLOBALS.findLink(this.dragLink.uniqueId);
+      if (dst.link.uniqueId === src.link.uniqueId
+        || src.parent?.uniqueId === dst.link.uniqueId) {
+        this.dragLink = null;
+        return;
+      }
+      if (dst.list != null && dst.parent != null) {
+        src.list?.splice(src.link.index, 1);
+        dst.list.splice(dst.link.index, 0, src.link);
+        console.log(src, '=>', dst);
+        GLOBALS.setIndexToLinks();
+        this.dragLink = null;
+        return;
+      }
+      if (dst.link.children != null) {
+        src.list?.splice(src.link.index, 1);
+        dst.link.children.push(src.link);
+        GLOBALS.setIndexToLinks();
+        this.dragLink = null;
+        return;
+      }
+      src.list?.splice(src.link.index, 1);
+      dst.list.splice(dst.link.index, 0, src.link);
+      GLOBALS.setIndexToLinks();
+      console.log(src, ' ?=>', dst);
+      // const srcIdx = this.dragLink.index;
+      // GLOBALS.moveLink(srcIdx, dstIdx);
     }
-    if (lnk.children != null) {
-      lnk.children.push(this.dragLink);
-      this.dragLink = null;
-      return;
-    }
-    const srcIdx = this.dragLink.index;
-    GLOBALS.moveLink(srcIdx, dstIdx);
     this.dragLink = null;
   }
 

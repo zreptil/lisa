@@ -121,9 +121,12 @@ export class GlobalsService {
     return document.querySelector('head>title').innerHTML;
   }
 
-  public setIndexToLinks(): void {
-    for (let i = 0; i < this._links.length; i++) {
-      this._links[i].index = i;
+  public setIndexToLinks(links = this._links): void {
+    for (let i = 0; i < links?.length ?? 0; i++) {
+      links[i].index = i;
+      if (links[i].children != null) {
+        this.setIndexToLinks(links[i].children);
+      }
     }
   }
 
@@ -165,7 +168,7 @@ export class GlobalsService {
       // }
       // this._links = links;
     }
-    this.setIndexToLinks();
+    this.setIndexToLinks(this._links);
   }
 
   saveSharedData(): void {
@@ -173,7 +176,11 @@ export class GlobalsService {
       s0: Date.now(),
       s1: this.version,
       s2: this._links.map(l => {
-        return l.asJson
+        const ret = l.asJson;
+        // the uniqueId must not be saved, it is only unique
+        // during runtime of the app
+        delete ret.ui;
+        return ret
       }),
       s3: this.viewMode,
       s4: this.appMode
@@ -264,17 +271,51 @@ export class GlobalsService {
 
   insertLink(link: LinkData) {
     this._links.splice(0, 0, link);
-    this.setIndexToLinks();
+    this.setIndexToLinks(this._links);
   }
 
   deleteLink(link: LinkData) {
-    this._links.splice(link.index, 1);
-    this.setIndexToLinks();
+    const found = this.findLink(link.uniqueId, null, this._links);
+    console.log(link, this._links, found);
+    if (found?.list != null) {
+      found.list.splice(link.index, 1);
+    }
+    this.setIndexToLinks(this._links);
   }
+
+  findLink(uniqueId: number, parent?: LinkData, list = this._links): { link: LinkData, parent: LinkData, list: LinkData[] } {
+    for (const check of list ?? []) {
+      if (check.uniqueId === uniqueId) {
+        return {link: check, parent: parent, list: list};
+      }
+      if (check.children != null) {
+        const subLink = this.findLink(uniqueId, check, check.children);
+        if (subLink != null) {
+          return subLink;
+        }
+      }
+    }
+    return null;
+  }
+
+  // findListOfLink(link: LinkData, list = this._links): LinkData[] {
+  //   for (const check of list ?? []) {
+  //     if (check.uniqueId === link.uniqueId) {
+  //       return list;
+  //     }
+  //     if (check.children != null) {
+  //       const subList = this.findListOfLink(link, check.children);
+  //       if (subList != null) {
+  //         return subList;
+  //       }
+  //     }
+  //   }
+  //   return null;
+  // }
 
   moveLink(previousIndex: number, currentIndex: number) {
     moveItemInArray(this._links, previousIndex, currentIndex);
-    this.setIndexToLinks();
+    this.setIndexToLinks(this._links);
   }
 
   noImage(evt: ErrorEvent) {

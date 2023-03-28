@@ -3,7 +3,7 @@ import {GLOBALS, GlobalsService} from '@/_services/globals.service';
 import {SyncService} from '@/_services/sync/sync.service';
 import {LinkData} from '@/_model/link-data';
 import {MessageService} from '@/_services/message.service';
-import {ConfigLinkComponent} from '@/components/config-link/config-link.component';
+import {EditLinkComponent} from '@/components/edit-link/edit-link.component';
 import {DragService} from '@/_services/drag.service';
 
 @Component({
@@ -25,14 +25,14 @@ export class MainComponent {
   clickAdd(evt: MouseEvent) {
     evt.stopPropagation();
     const link = new LinkData(null, null);
-    this.ms.showPopup(ConfigLinkComponent, link);
+    this.ms.showPopup(EditLinkComponent, link);
   }
 
   clickAddGroup(evt: MouseEvent) {
     evt.stopPropagation();
     const link = new LinkData(null, null);
     link.children = [];
-    this.ms.showPopup(ConfigLinkComponent, link);
+    this.ms.showPopup(EditLinkComponent, link);
   }
 
   clickSave(evt: MouseEvent) {

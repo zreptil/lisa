@@ -1,47 +1,68 @@
-<ng-container [ngSwitch]="type">
-  <ng-container *ngSwitchCase="'card'">
-    <mat-card (click)="clickLink($event, link)" linkcard>
-      <mat-card-header>
-        <mat-card-title>
-          <img (error)="globals.noImage($event)" *ngIf="link.children==null" [src]="link.favicon" alt="favicon">
-          <mat-icon *ngIf="link.children!=null">folder</mat-icon>
-          <span>{{link.label}}</span>
-        </mat-card-title>
-      </mat-card-header>
-      <ng-container *ngIf="globals.appMode==='edit'">
-        <mat-card-content>
-          <div *ngIf="link.children != null" children>
-            <app-link-card *ngFor="let child of link.children" [link]="child"></app-link-card>
+<div (cdkDragStarted)="ds.dragstart($event)"
+     [cdkDragData]="link"
+     [cdkDragDisabled]="dragDisabled"
+     cdkDrag
+     id="link-{{link.uniqueId}}">
+  <ng-container [ngSwitch]="mode">
+    <button (click)="clickLink($event, link)"
+            *ngSwitchCase="'icon'"
+            mat-flat-button>
+      <img (error)="globals.noImage($event)" *ngIf="link.children==null" [src]="link.favicon" alt="favicon">
+      <mat-icon *ngIf="link.children!=null">folder</mat-icon>
+      <div *ngIf="link.shortLabel != null" shortlabel>{{link.shortLabel}}</div>
+    </button>
+    <ng-container *ngSwitchCase="'full'">
+      <ng-container [ngSwitch]="type">
+        <ng-container *ngSwitchCase="'card'">
+          <mat-card (click)="clickLink($event, link)" linkcard>
+            <mat-card-header>
+              <mat-card-title>
+                <img (error)="globals.noImage($event)" *ngIf="link.children==null" [src]="link.favicon" alt="favicon">
+                <mat-icon *ngIf="link.children!=null">folder</mat-icon>
+                <span>{{link.label}}</span>
+              </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div *ngIf="link.children != null" children>
+                <app-link-card *ngFor="let child of link.children" [link]="child"></app-link-card>
+              </div>
+              <div>{{link.info}}</div>
+            </mat-card-content>
+            <ng-container *ngIf="globals.appMode==='edit'">
+              <mat-card-footer>
+                <div>
+                  <div *ngIf="link.lastUsed != null">{{link.lastUsed | date: 'dd.MM.yyyy, HH:mm'}}</div>
+                  <div *ngIf="link.lastUsed == null" i18n>never visited</div>
+                </div>
+              </mat-card-footer>
+            </ng-container>
+          </mat-card>
+        </ng-container>
+        <ng-container *ngSwitchCase="'grid'">
+          <div (click)="clickLink($event, link)" grid linkcard>
+            <div header>
+              <img (error)="globals.noImage($event)" *ngIf="link.children==null" [src]="link.favicon" alt="favicon">
+              <mat-icon *ngIf="link.children!=null">folder</mat-icon>
+              <span>{{link.label}}</span>
+            </div>
+            <div content>
+              <div>{{link.info}}</div>
+              <div *ngIf="link.children != null" children>
+                <app-link-card *ngFor="let child of link.children"
+                               [link]="child"
+                               mode="icon"></app-link-card>
+              </div>
+            </div>
+            <ng-container *ngIf="globals.appMode==='edit'">
+              <div footer>
+                <div *ngIf="link.lastUsed != null">{{link.lastUsed | date: 'dd.MM.yyyy, HH:mm'}}</div>
+                <div *ngIf="link.lastUsed == null" i18n>never visited</div>
+              </div>
+            </ng-container>
           </div>
-          <div>{{link.info}}</div>
-        </mat-card-content>
-        <mat-card-footer>
-          <div>
-            <div *ngIf="link.lastUsed != null">{{link.lastUsed | date: 'dd.MM.yyyy, HH:mm'}}</div>
-            <div *ngIf="link.lastUsed == null" i18n>never visited</div>
-          </div>
-        </mat-card-footer>
+        </ng-container>
       </ng-container>
-    </mat-card>
+    </ng-container>
   </ng-container>
-  <ng-container *ngSwitchCase="'grid'">
-    <div (click)="clickLink($event, link)" grid linkcard>
-      <div header>
-        <img (error)="globals.noImage($event)" [src]="link.favicon" alt="favicon">
-        <span>{{link.label}}</span>
-      </div>
-      <ng-container *ngIf="globals.appMode==='edit'">
-        <div content>
-          <div>{{link.info}}</div>
-          <div *ngIf="link.children != null" children>
-            <app-link-card *ngFor="let child of link.children" [link]="child"></app-link-card>
-          </div>
-        </div>
-        <div footer>
-          <div *ngIf="link.lastUsed != null">{{link.lastUsed | date: 'dd.MM.yyyy, HH:mm'}}</div>
-          <div *ngIf="link.lastUsed == null" i18n>never visited</div>
-        </div>
-      </ng-container>
-    </div>
-  </ng-container>
-</ng-container>
+  <div *ngIf="globals.isDebug" unique>uid{{link.uniqueId}}</div>
+</div>

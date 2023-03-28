@@ -20,12 +20,12 @@ import {WhatsNewComponent} from '@/components/whats-new/whats-new.component';
 import {ImpressumComponent} from '@/components/impressum/impressum.component';
 import {ProgressComponent} from '@/components/progress/progress.component';
 import {LinkCardComponent} from './components/link-card/link-card.component';
-import {ConfigLinkComponent} from './components/config-link/config-link.component';
+import {EditLinkComponent} from './components/edit-link/edit-link.component';
 import {AutofocusDirective} from '@/_directives/autofocus.directive';
-import { ViewFlexComponent } from './components/view-flex/view-flex.component';
-import { ViewWorldComponent } from './components/view-world/view-world.component';
-import { DragQueenComponent } from './controls/drag-queen/drag-queen.component';
-import { ViewGridComponent } from './components/view-grid/view-grid.component';
+import {ViewFlexComponent} from './components/view-flex/view-flex.component';
+import {ViewWorldComponent} from './components/view-world/view-world.component';
+import {DragQueenComponent} from './controls/drag-queen/drag-queen.component';
+import {ViewGridComponent} from './components/view-grid/view-grid.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +43,7 @@ import { ViewGridComponent } from './components/view-grid/view-grid.component';
     WelcomeComponent,
     ImpressumComponent,
     LinkCardComponent,
-    ConfigLinkComponent,
+    EditLinkComponent,
     ViewFlexComponent,
     ViewWorldComponent,
     DragQueenComponent,

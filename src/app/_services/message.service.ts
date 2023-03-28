@@ -79,7 +79,7 @@ export class MessageService {
   }
 
   askDeleteLink(link: LinkData): Observable<DialogResult> {
-    return this.confirm($localize`Do you really want to delete this link?`).pipe(map((result: DialogResult) => {
+    return this.confirm($localize`Do you really want to delete the link ${link.label}?`).pipe(map((result: DialogResult) => {
       if (result.btn === DialogResultButton.yes) {
         GLOBALS.deleteLink(link);
       }

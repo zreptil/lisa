@@ -1,5 +1,8 @@
+import {Utils} from '@/classes/utils';
+
 export class LinkData {
 
+  uniqueId: number;
   lastUsed: number;
   index: number;
   info: string;
@@ -7,10 +10,12 @@ export class LinkData {
   x: number;
   y: number;
   children: LinkData[];
+  shortLabel: string;
 
   constructor(public label: string,
               public url: string
   ) {
+    this.uniqueId = Utils.nextUniqueId();
   }
 
   get dragPosition(): any {
@@ -27,6 +32,9 @@ export class LinkData {
     if (this.iconUrl?.startsWith('assets/')) {
       return this.iconUrl;
     }
+    if (this.iconUrl?.startsWith('@')) {
+      return this.iconUrl.substring(1);
+    }
     return `https://corg.zreptil.de/?url=${this.iconUrl}`;
   }
 
@@ -39,23 +47,30 @@ export class LinkData {
       iu: this.iconUrl,
       x: this.x,
       y: this.y,
-      c: this.children?.map(c => c.asJson)
+      sl: this.shortLabel,
+      c: this.children?.map(c => c.asJson),
+      ui: this.uniqueId
     }
   }
 
   static fromJson(src: any): LinkData {
     const ret = new LinkData(src.l, src.u);
-    ret.lastUsed = src.lu;
-    ret.info = src.i;
-    ret.iconUrl = src.iu;
-    ret.x = src.x;
-    ret.y = src.y;
+    ret.fillFromJson(src);
+    return ret;
+  }
+
+  fillFromJson(src: any): void {
+    this.lastUsed = src.lu;
+    this.info = src.i;
+    this.iconUrl = src.iu;
+    this.x = src.x;
+    this.y = src.y;
+    this.shortLabel = src.sl;
     if (src.c != null) {
-      ret.children = [];
+      this.children = [];
       for (const child of src.c) {
-        ret.children.push(LinkData.fromJson(child));
+        this.children.push(LinkData.fromJson(child));
       }
     }
-    return ret;
   }
 }

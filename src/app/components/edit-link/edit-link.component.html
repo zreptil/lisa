@@ -1,5 +1,5 @@
 <div cdkDrag cdkDragBoundary=".cdk-overlay-container"
-     cdkDragRootElement=".dialog-box.config-link">
+     cdkDragRootElement=".dialog-box.edit-link">
   <div cdkDragHandle mat-dialog-title>
     <h1>
       <button (click)="clickIcon($event)" mat-flat-button>
@@ -17,6 +17,13 @@
   </div>
 
   <mat-dialog-content>
+    <div *ngIf="showIconUrl" line>
+      <mat-form-field>
+        <mat-label i18n>Icon-Url</mat-label>
+        <input [(ngModel)]="data.iconUrl" [autofocus]="showIconUrl" matInput>
+      </mat-form-field>
+      <button (click)="clickFetchIcon($event)" mat-flat-button>Fetch Icon</button>
+    </div>
     <mat-form-field *ngIf="data.children == null">
       <mat-label i18n>Url</mat-label>
       <input [(ngModel)]="data.url" [autofocus]="data.url == null" matInput>
@@ -24,6 +31,10 @@
     <mat-form-field>
       <mat-label i18n>Label</mat-label>
       <input (focus)="onLabelFocus($event)" [(ngModel)]="data.label" [autofocus]="data.url!=null||data.children!=null" matInput>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label i18n>Short Label</mat-label>
+      <input [(ngModel)]="data.shortLabel" matInput maxlength="15">
     </mat-form-field>
     <mat-form-field>
       <mat-label i18n>Info</mat-label>
