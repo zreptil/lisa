@@ -32,7 +32,6 @@ export class LanguageService {
       lng = (messages as any).default[0];
     }
     loadTranslations(lng.data);
-    console.log('languages', lng);
     registerLocaleData(({
       'en-US': enUS,
       'en-GB': enGB,

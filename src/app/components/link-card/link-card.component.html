@@ -1,9 +1,17 @@
 <ng-template #icon>
-  <img (error)="globals.noImage($event)" *ngIf="link.children==null" [src]="link.favicon" alt="favicon">
-  <mat-icon *ngIf="link.children!=null">
-    <ng-container *ngIf="!link.isOpen">folder</ng-container>
-    <ng-container *ngIf="link.isOpen">folder_open</ng-container>
-  </mat-icon>
+  <div (click)="clickIcon($event, link)">
+    <img (error)="globals.noImage($event)" *ngIf="link.children==null" [src]="link.favicon" alt="favicon">
+    <mat-icon *ngIf="link.children!=null">
+      <ng-container *ngIf="!link.isOpen">folder</ng-container>
+      <ng-container *ngIf="link.isOpen">folder_open</ng-container>
+    </mat-icon>
+  </div>
+</ng-template>
+<ng-template #footer>
+  <ng-container *ngIf="link.children == null">
+    <div *ngIf="link.lastUsed != null">{{link.lastUsed | date: 'dd.MM.yyyy, HH:mm'}}</div>
+    <div *ngIf="link.lastUsed == null" i18n>never visited</div>
+  </ng-container>
 </ng-template>
 
 <div (cdkDragStarted)="ds.dragstart($event)"
@@ -37,8 +45,7 @@
             <ng-container *ngIf="globals.appMode==='edit'">
               <mat-card-footer>
                 <div>
-                  <div *ngIf="link.lastUsed != null">{{link.lastUsed | date: 'dd.MM.yyyy, HH:mm'}}</div>
-                  <div *ngIf="link.lastUsed == null" i18n>never visited</div>
+                  <ng-container *ngTemplateOutlet="footer"></ng-container>
                 </div>
               </mat-card-footer>
             </ng-container>
@@ -60,8 +67,7 @@
             </div>
             <ng-container *ngIf="globals.appMode==='edit'">
               <div footer>
-                <div *ngIf="link.lastUsed != null">{{link.lastUsed | date: 'dd.MM.yyyy, HH:mm'}}</div>
-                <div *ngIf="link.lastUsed == null" i18n>never visited</div>
+                <ng-container *ngTemplateOutlet="footer"></ng-container>
               </div>
             </ng-container>
           </div>

@@ -32,6 +32,13 @@ export class LinkCardComponent {
     return (GLOBALS.appMode !== 'edit' && GLOBALS.viewMode !== 'world') || this.dragDisabled;
   }
 
+  clickIcon(evt: MouseEvent, link: LinkData) {
+    evt.stopPropagation();
+    if (link.children != null) {
+      link.isOpen = !link.isOpen;
+    }
+  }
+
   clickLink(evt: MouseEvent, link: LinkData) {
     evt.stopPropagation();
     switch (GLOBALS.appMode) {

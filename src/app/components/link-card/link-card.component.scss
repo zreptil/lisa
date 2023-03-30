@@ -115,6 +115,14 @@ mat-card {
 .children.open {
   align-items: stretch;
 
+  ::ng-deep .mat-card-header-text {
+    margin: 0;
+  }
+
+  .mat-card-title {
+    font-size: 1em;
+  }
+
   app-link-card {
     width: 100%;
   }
