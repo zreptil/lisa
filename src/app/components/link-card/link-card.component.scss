@@ -235,7 +235,6 @@ mat-card {
   vertical-align: middle;
   color: black;
   top: 50%;
-  left: 50px;
   box-sizing: border-box;
   zoom: 0.2;
 
@@ -250,6 +249,12 @@ mat-card {
   border-radius: 0.5em;
 }
 
-.cdk-drag.dragover > [class*="icono"] {
+.cdk-drag.dragover.left > [class="icono-arrow2-left"] {
   display: block !important;
+  left: 50px;
+}
+
+.cdk-drag.dragover.right > [class="icono-arrow2-right"] {
+  display: block !important;
+  right: 50px;
 }

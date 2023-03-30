@@ -76,13 +76,19 @@ export class DragService {
       }
       document.querySelector('.cdk-drag-preview')?.classList?.add('cdk-drag-preview-hover');
       evt.stopPropagation();
-      (evt.currentTarget as HTMLDivElement)?.classList?.add('dragover');
+      const cls = ['dragover'];
+      if (this.dragLink.index > link.link.index) {
+        cls.push('left');
+      } else {
+        cls.push('right');
+      }
+      (evt.currentTarget as HTMLDivElement)?.classList?.add(...cls);
     }
   }
 
   mouseout(evt: MouseEvent) {
     evt.stopPropagation();
-    (evt.currentTarget as HTMLDivElement)?.classList?.remove('dragover');
+    (evt.currentTarget as HTMLDivElement)?.classList?.remove('dragover', 'left', 'right');
     document.querySelector('.cdk-drag-preview')?.classList?.remove('cdk-drag-preview-hover');
   }
 
