@@ -93,3 +93,64 @@ mat-input {
     flex-grow: 1;
   }
 }
+
+[column] {
+  display: flex;
+  flex-flow: column;
+  flex: 1;
+}
+
+[class*="icono-arrow2"] {
+  --size: 50px;
+  opacity: 0.5;
+  width: 0;
+  height: 0;
+  border-width: var(--size);
+  border-style: solid;
+  border-bottom-color: transparent;
+  border-left-color: transparent;
+  margin: 10px;
+
+  &:before {
+    right: 0;
+    top: calc(var(--size) / -2);
+    position: absolute;
+    height: calc(var(--size) * 2 / 3);
+    box-shadow: inset 0 0 0 32px;
+    transform: rotate(-45deg);
+    width: calc(var(--size) * 1.5);
+    transform-origin: right top;
+  }
+
+  &[class*="-left"] {
+    transform: rotate(45deg);
+
+    &[class*="-up"] {
+      transform: none;
+    }
+
+    &[class*="-down"] {
+      transform: rotate(90deg);
+    }
+  }
+
+  &[class*="-right"] {
+    transform: rotate(-135deg);
+
+    &[class*="-up"] {
+      transform: rotate(-90deg);
+    }
+
+    &[class*="-down"] {
+      transform: rotate(180deg);
+    }
+  }
+
+  &[class*="-up"] {
+    transform: rotate(-45deg);
+  }
+
+  &[class*="-down"] {
+    transform: rotate(135deg);
+  }
+}

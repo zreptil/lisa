@@ -16,12 +16,20 @@
         </button>
       </ng-container>
       <ng-container *ngSwitchDefault>
-        <button (click)="globals.appMode='edit'" mat-flat-button>
-          <mat-icon>edit</mat-icon>
+        <button (click)="clickEdit($event)" mat-flat-button>
+          <mat-icon>tune</mat-icon>
         </button>
       </ng-container>
     </div>
     <div>
+      <img alt="appicon" src="assets/themes/standard/favicon.png" width="32px">
+    </div>
+    <div>
+      <button (click)="clickViewTool($event, tool)"
+              *ngFor="let tool of toolsForView"
+              mat-flat-button>
+        <mat-icon>{{tool.icon}}</mat-icon>
+      </button>
       <button (click)="clickView($event)" mat-flat-button>
         <mat-icon>{{iconForView}}</mat-icon>
       </button>
@@ -38,7 +46,7 @@
       </button>
     </div>
   </div>
-  <div [ngSwitch]="globals.viewMode" content>
+  <div [class]="globals.viewMode" [ngSwitch]="globals.viewMode" content>
     <app-view-world *ngSwitchCase="'world'"></app-view-world>
     <app-view-flex *ngSwitchCase="'flex'"></app-view-flex>
     <app-view-grid *ngSwitchCase="'grid'"></app-view-grid>

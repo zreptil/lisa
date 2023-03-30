@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-  <file source-language="de" datatype="plaintext" original="ng2.template">
+  <file source-language="en" datatype="plaintext" original="ng2.template">
     <body>
       <trans-unit id="5037437391296624618" datatype="html">
         <source>Information</source>
@@ -77,10 +77,6 @@
           <context context-type="sourcefile">src/app/_model/lang-data.ts</context>
           <context context-type="linenumber">28</context>
         </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/classes/utils.ts</context>
-          <context context-type="linenumber">137</context>
-        </context-group>
         <note priority="1" from="description">this is the dateformat, please use dd for days, MM for months and yyyy for year. It has to be the english formatstring.</note>
       </trans-unit>
       <trans-unit id="9092306029835436845" datatype="html">
@@ -95,42 +91,49 @@
         <source>There was no answer within <x id="PH" equiv-text="params.timeout / 1000"/> seconds at <x id="PH_1" equiv-text="url"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">224</context>
+          <context context-type="linenumber">258</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7840422477227217171" datatype="html">
+        <source>Do you really want to delete the link <x id="PH" equiv-text="link.label"/>?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/_services/message.service.ts</context>
+          <context context-type="linenumber">82</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7351700212933699939" datatype="html">
         <source>The file <x id="PH" equiv-text="filename"/> was downloaded from Dropbox.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/sync/dropbox.service.ts</context>
-          <context context-type="linenumber">142</context>
+          <context context-type="linenumber">137</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1799878284198173341" datatype="html">
         <source>The file <x id="PH" equiv-text="filename"/> was not uploaded, since the content didn&apos;t change.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/sync/dropbox.service.ts</context>
-          <context context-type="linenumber">179</context>
+          <context context-type="linenumber">174</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2566917109822382269" datatype="html">
         <source>The file <x id="PH" equiv-text="filename"/> was uploaded to Dropbox.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/sync/dropbox.service.ts</context>
-          <context context-type="linenumber">184</context>
+          <context context-type="linenumber">179</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1232839296875773478" datatype="html">
         <source>Access to Dropbox could not be established again.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/sync/dropbox.service.ts</context>
-          <context context-type="linenumber">297</context>
+          <context context-type="linenumber">320</context>
         </context-group>
       </trans-unit>
       <trans-unit id="730703184011067892" datatype="html">
         <source>Dropbox</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/sync/sync.service.ts</context>
-          <context context-type="linenumber">50</context>
+          <context context-type="linenumber">69</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5125540569203253391" datatype="html">
@@ -142,78 +145,91 @@
                          Should the confirmation process be started?</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/sync/sync.service.ts</context>
-          <context context-type="linenumber">69,74</context>
+          <context context-type="linenumber">88,93</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8550844560794870731" datatype="html">
         <source>Do you want to unsync with Dropbox?</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/sync/sync.service.ts</context>
-          <context context-type="linenumber">88</context>
+          <context context-type="linenumber">100</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5592728170528035191" datatype="html">
         <source><x id="PH" equiv-text="hours"/>:<x id="PH_1" equiv-text="Utils.pad(-minutes % 60)"/> hours ago</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/classes/utils.ts</context>
-          <context context-type="linenumber">94</context>
+          <context context-type="linenumber">96</context>
         </context-group>
       </trans-unit>
       <trans-unit id="3625099266824380912" datatype="html">
         <source>in <x id="PH" equiv-text="hours"/>:<x id="PH_1" equiv-text="Utils.pad(minutes % 60)"/> hours</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/classes/utils.ts</context>
-          <context context-type="linenumber">96</context>
+          <context context-type="linenumber">98</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8256466313580256940" datatype="html">
         <source><x id="PH" equiv-text="-minutes"/> min ago</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/classes/utils.ts</context>
-          <context context-type="linenumber">99</context>
+          <context context-type="linenumber">101</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2644027207588859009" datatype="html">
         <source>in <x id="PH" equiv-text="minutes"/> min</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/classes/utils.ts</context>
-          <context context-type="linenumber">99</context>
+          <context context-type="linenumber">101</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="3415838826182695013" datatype="html">
-        <source><x id="TAG_IMG" ctype="image" equiv-text="&lt;img alt=&quot;favicon&quot; src=&quot;{{data.favicon}}&quot;&gt;"/> Link </source>
+      <trans-unit id="671740983484503056" datatype="html">
+        <source>dd/MM/yyyy</source>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/config-link/config-link.component.html</context>
-          <context context-type="linenumber">5,7</context>
+          <context context-type="sourcefile">src/app/classes/utils.ts</context>
+          <context context-type="linenumber">139</context>
         </context-group>
-        <note priority="1" from="description">title for configlink dialog</note>
+      </trans-unit>
+      <trans-unit id="1858306235345180986" datatype="html">
+        <source>Icon-Url</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/edit-link/edit-link.component.html</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="8308045076391224954" datatype="html">
         <source>Url</source>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/config-link/config-link.component.html</context>
-          <context context-type="linenumber">18</context>
+          <context context-type="sourcefile">src/app/components/edit-link/edit-link.component.html</context>
+          <context context-type="linenumber">28</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4077520913910941990" datatype="html">
         <source>Label</source>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/config-link/config-link.component.html</context>
-          <context context-type="linenumber">22</context>
+          <context context-type="sourcefile">src/app/components/edit-link/edit-link.component.html</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6128216908404296283" datatype="html">
+        <source>Short Label</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/edit-link/edit-link.component.html</context>
+          <context context-type="linenumber">36</context>
         </context-group>
       </trans-unit>
       <trans-unit id="314315645942131479" datatype="html">
         <source>Info</source>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/config-link/config-link.component.html</context>
-          <context context-type="linenumber">27</context>
+          <context context-type="sourcefile">src/app/components/edit-link/edit-link.component.html</context>
+          <context context-type="linenumber">40</context>
         </context-group>
       </trans-unit>
       <trans-unit id="3768927257183755959" datatype="html">
         <source>Save</source>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/config-link/config-link.component.html</context>
-          <context context-type="linenumber">37</context>
+          <context context-type="sourcefile">src/app/components/edit-link/edit-link.component.html</context>
+          <context context-type="linenumber">62</context>
         </context-group>
         <note priority="1" from="description">buttonlabel for saving data</note>
       </trans-unit>
@@ -221,18 +237,7 @@
         <source>never visited</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/link-card/link-card.component.html</context>
-          <context context-type="linenumber">12</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="3493323219410337551" datatype="html">
-        <source>Do you really want to delete this link?</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/link-card/link-card.component.ts</context>
-          <context context-type="linenumber">37</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/main/main.component.ts</context>
-          <context context-type="linenumber">66</context>
+          <context context-type="linenumber">13</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8245636934809197771" datatype="html">

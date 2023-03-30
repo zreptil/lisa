@@ -2,10 +2,8 @@
      cdkDragRootElement=".dialog-box.edit-link">
   <div cdkDragHandle mat-dialog-title>
     <h1>
-      <button (click)="clickIcon($event)" mat-flat-button>
-        <img (error)="globals.noImage($event)" *ngIf="data.children==null" [src]="data.favicon" alt="favicon">
-        <mat-icon *ngIf="data.children!=null">folder</mat-icon>
-      </button>
+      <img (error)="globals.noImage($event)" *ngIf="data.children==null" [src]="data.iconUrl" alt="favicon">
+      <mat-icon *ngIf="data.children!=null">folder</mat-icon>
       {{orgData.l}}
     </h1>
     <div>
@@ -17,17 +15,19 @@
   </div>
 
   <mat-dialog-content>
-    <div *ngIf="showIconUrl" line>
-      <mat-form-field>
-        <mat-label i18n>Icon-Url</mat-label>
-        <input [(ngModel)]="data.iconUrl" [autofocus]="showIconUrl" matInput>
-      </mat-form-field>
+    <div *ngIf="data.children == null" line>
+      <div column>
+        <mat-form-field>
+          <mat-label i18n>Url</mat-label>
+          <input [(ngModel)]="data.url" [autofocus]="data.url == null" matInput>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label i18n>Icon-Url</mat-label>
+          <input [(ngModel)]="data.iconUrl" matInput>
+        </mat-form-field>
+      </div>
       <button (click)="clickFetchIcon($event)" mat-flat-button>Fetch Icon</button>
     </div>
-    <mat-form-field *ngIf="data.children == null">
-      <mat-label i18n>Url</mat-label>
-      <input [(ngModel)]="data.url" [autofocus]="data.url == null" matInput>
-    </mat-form-field>
     <mat-form-field>
       <mat-label i18n>Label</mat-label>
       <input (focus)="onLabelFocus($event)" [(ngModel)]="data.label" [autofocus]="data.url!=null||data.children!=null" matInput>

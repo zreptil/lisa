@@ -24,6 +24,23 @@
     background-color: var(--toolbarBack);
     color: var(--toolbarFore);
     z-index: 2;
+    position: relative;
+
+    div {
+      display: flex;
+      flex-flow: row;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      max-width: 50%;
+    }
+
+    div:nth-child(2) {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      height: 100%;
+    }
 
     mat-icon {
       color: var(--toolbarFore);
@@ -34,7 +51,7 @@
     }
   }
 
-  [content] {
+  [content].grid {
     overflow-y: auto;
   }
 }

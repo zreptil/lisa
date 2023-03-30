@@ -18,7 +18,7 @@
                     [y]="link.y"
                     class="drag"
                     id="link-{{link.index}}">
-      <app-link-card [link]="link" mode="full" type="grid"></app-link-card>
+      <app-link-card [link]="link" dragDisabled="true" mode="full" type="card"></app-link-card>
     </app-drag-queen>
   </div>
   <div *ngIf="ds.trashOpen" trash>

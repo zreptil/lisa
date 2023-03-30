@@ -18,8 +18,30 @@ export class MainComponent {
               public ds: DragService) {
   }
 
+  get toolsForView(): any[] {
+    return {
+      grid: [{
+        icon: 'add',
+        click: () => {
+          this.adjustGridColumns(1);
+        }
+      }, {
+        icon: 'remove',
+        click: () => {
+          this.adjustGridColumns(-1);
+        }
+      }]
+    }[GLOBALS.viewMode] ?? [];
+  }
+
   get iconForView(): string {
     return GLOBALS.viewModes.find(v => v.id === GLOBALS.viewMode)?.icon ?? 'question_mark';
+  }
+
+  adjustGridColumns(diff: number): void {
+    let value = GLOBALS.viewConfig.gridColumns += diff;
+    GLOBALS.viewConfig.gridColumns = Math.min(8, Math.max(1, value));
+    GLOBALS.saveSharedData();
   }
 
   clickAdd(evt: MouseEvent) {
@@ -35,10 +57,16 @@ export class MainComponent {
     this.ms.showPopup(EditLinkComponent, link);
   }
 
+  clickEdit(evt: MouseEvent) {
+    evt.stopPropagation();
+    GLOBALS.appMode = 'edit'
+    GLOBALS.saveSharedData();
+  }
+
   clickSave(evt: MouseEvent) {
     evt.stopPropagation();
-    GLOBALS.saveSharedData();
     GLOBALS.appMode = 'standard';
+    GLOBALS.saveSharedData();
   }
 
   mouseoverDelete(_evt: MouseEvent) {
@@ -65,5 +93,10 @@ export class MainComponent {
   clickDebug(evt: MouseEvent) {
     evt.stopPropagation();
     GLOBALS.isDebug = !GLOBALS.isDebug;
+  }
+
+  clickViewTool(evt: MouseEvent, tool: any) {
+    evt.stopPropagation();
+    tool.click();
   }
 }

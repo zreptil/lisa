@@ -4,6 +4,7 @@ import {GLOBALS, GlobalsService} from '@/_services/globals.service';
 import {MessageService} from '@/_services/message.service';
 import {EditLinkComponent} from '@/components/edit-link/edit-link.component';
 import {DragService} from '@/_services/drag.service';
+import {Utils} from '@/classes/utils';
 
 @Component({
   selector: 'app-link-card',
@@ -22,6 +23,7 @@ export class LinkCardComponent {
 
   @Input()
   dragDisabled = false;
+  protected readonly Utils = Utils;
 
   constructor(public globals: GlobalsService,
               public ms: MessageService,
@@ -32,10 +34,12 @@ export class LinkCardComponent {
     return (GLOBALS.appMode !== 'edit' && GLOBALS.viewMode !== 'world') || this.dragDisabled;
   }
 
-  clickIcon(evt: MouseEvent, link: LinkData) {
+  clickIcon(evt: MouseEvent, link: LinkData, callLink = false) {
     evt.stopPropagation();
     if (link.children != null) {
       link.isOpen = !link.isOpen;
+    } else if (callLink) {
+      this.clickLink(evt, link);
     }
   }
 

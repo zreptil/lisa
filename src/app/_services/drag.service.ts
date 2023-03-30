@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {LinkData} from '@/_model/link-data';
+import {LinkData, LinkDataRef} from '@/_model/link-data';
 import {CdkDragDrop, CdkDragStart} from '@angular/cdk/drag-drop';
 import {GLOBALS} from '@/_services/globals.service';
 import {MessageService} from '@/_services/message.service';
@@ -15,6 +15,17 @@ export class DragService {
   constructor(public ms: MessageService) {
   }
 
+  findLinkByElement(elem: Element): LinkDataRef {
+    while (elem != null && !elem.id?.startsWith('link-')) {
+      elem = elem.parentElement;
+    }
+    if (elem == null) {
+      return null;
+    }
+    const uniqueId = +elem?.id.substring(5);
+    return GLOBALS.findLink(uniqueId);
+  }
+
   linkDropped(evt: CdkDragDrop<LinkData[]>) {
     if (this.trashOpen) {
       this.ms.askDeleteLink(this.dragLink).subscribe(_result => {
@@ -22,16 +33,8 @@ export class DragService {
       });
       return;
     }
-    let parent = document.elementFromPoint(evt.dropPoint.x, evt.dropPoint.y);
-    while (parent != null && !parent.id?.startsWith('link-')) {
-      parent = parent.parentElement;
-    }
-    if (parent == null) {
-      this.dragLink = null;
-      return;
-    }
-    const dstUniqueId = +parent?.id.substring(5);
-    const dst = GLOBALS.findLink(dstUniqueId);
+
+    const dst = this.findLinkByElement(document.elementFromPoint(evt.dropPoint.x, evt.dropPoint.y));
     if (dst != null) {
       const src = GLOBALS.findLink(this.dragLink.uniqueId);
       if (dst.link.uniqueId === src.link.uniqueId
@@ -57,11 +60,30 @@ export class DragService {
         dst.list.splice(dst.link.index, 0, src.link);
       }
       GLOBALS.setIndexToLinks();
+      GLOBALS.saveSharedData();
       console.log(src, ' ?=>', dst);
       // const srcIdx = this.dragLink.index;
       // GLOBALS.moveLink(srcIdx, dstIdx);
     }
     this.dragLink = null;
+  }
+
+  mouseover(evt: MouseEvent) {
+    if (this.dragLink != null) {
+      const link = this.findLinkByElement(evt.currentTarget as HTMLDivElement);
+      if (link?.parent != null && this.dragLink.children != null) {
+        return;
+      }
+      document.querySelector('.cdk-drag-preview')?.classList?.add('cdk-drag-preview-hover');
+      evt.stopPropagation();
+      (evt.currentTarget as HTMLDivElement)?.classList?.add('dragover');
+    }
+  }
+
+  mouseout(evt: MouseEvent) {
+    evt.stopPropagation();
+    (evt.currentTarget as HTMLDivElement)?.classList?.remove('dragover');
+    document.querySelector('.cdk-drag-preview')?.classList?.remove('cdk-drag-preview-hover');
   }
 
   dragstart(evt: CdkDragStart) {

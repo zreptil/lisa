@@ -134,9 +134,12 @@ export class Utils {
     return ret;
   }
 
-  static fmtDate(date: Date, fmt: string = null): string {
+  static fmtDate(date: Date | number, fmt: string = null): string {
     if (fmt == null) {
-      fmt = $localize`dd.MM.yyyy`;
+      fmt = $localize`dd/MM/yyyy`;
+    }
+    if (typeof date === 'number') {
+      date = new Date(date);
     }
     let ret = fmt;
     ret = ret.replace(/dd/g, Utils.pad(date?.getDate() ?? '--'));
@@ -407,11 +410,17 @@ export class Utils {
 
   /**
    * Extract root domain from url.
-   * @param value url to extract root domain. If not formatted properly, value will be returned.
+   * @param url url that contains the root domain
+   * @param path path that should be appended to root domain
    */
-  static rootDomain(value: string): string {
+  static rootDomain(url: string, path: string): string {
     // noinspection RegExpUnnecessaryNonCapturingGroup
-    return value.match(/(?:[^:]+:\/\/)(?:www\.)*([.a-z0-9]+)+/)?.[0] ?? value
+    let ret = url.match(/(?:[^:]+:\/\/)(?:www\.)*([.a-z0-9\-]+)+/)?.[0] ?? url;
+    console.log(ret);
+    console.log(ret.replace(/\/*$/, ''));
+    console.log(path.replace(/^\/*/, '/'));
+    ret = ret.replace(/\/*$/, '') + path.replace(/^\/*/, '/');
+    return ret;
   }
 
   static nextUniqueId(): number {

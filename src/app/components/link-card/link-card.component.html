@@ -1,6 +1,6 @@
-<ng-template #icon>
-  <div (click)="clickIcon($event, link)">
-    <img (error)="globals.noImage($event)" *ngIf="link.children==null" [src]="link.favicon" alt="favicon">
+<ng-template #icon let-callLink="callLink">
+  <div (click)="clickIcon($event, link, callLink)">
+    <img (error)="globals.noImage($event)" *ngIf="link.children==null" [src]="link.iconUrl" alt="favicon">
     <mat-icon *ngIf="link.children!=null">
       <ng-container *ngIf="!link.isOpen">folder</ng-container>
       <ng-container *ngIf="link.isOpen">folder_open</ng-container>
@@ -9,38 +9,45 @@
 </ng-template>
 <ng-template #footer>
   <ng-container *ngIf="link.children == null">
-    <div *ngIf="link.lastUsed != null">{{link.lastUsed | date: 'dd.MM.yyyy, HH:mm'}}</div>
+    <div *ngIf="link.lastUsed != null">{{Utils.fmtDate(link.lastUsed)}}</div>
     <div *ngIf="link.lastUsed == null" i18n>never visited</div>
   </ng-container>
 </ng-template>
+<ng-template #children>
+  <div *ngIf="link.children != null" [class]="classForChildren(link)">
+    <app-link-card *ngFor="let child of link.children"
+                   [link]="child"
+                   [mode]="link.isOpen?'full':'icon'"></app-link-card>
+  </div>
+</ng-template>
 
 <div (cdkDragStarted)="ds.dragstart($event)"
+     (mouseout)="ds.mouseout($event)"
+     (mouseover)="ds.mouseover($event)"
      [cdkDragData]="link"
      [cdkDragDisabled]="_dragDisabled"
      cdkDrag
      id="link-{{link.uniqueId}}">
   <ng-container [ngSwitch]="mode">
-    <button (click)="clickLink($event, link)"
-            *ngSwitchCase="'icon'"
-            mat-flat-button>
-      <ng-container *ngTemplateOutlet="icon"></ng-container>
-      <div *ngIf="link.shortLabel != null" shortlabel>{{link.shortLabel}}</div>
-    </button>
+    <div *ngSwitchCase="'icon'" class="dragbase">
+      <button (click)="clickLink($event, link)" mat-flat-button>
+        <ng-container [ngTemplateOutletContext]="{callLink:true}" [ngTemplateOutlet]="icon"></ng-container>
+        <div *ngIf="!Utils.isEmpty(link.shortLabel)" shortlabel>{{link.shortLabel}}</div>
+      </button>
+    </div>
     <ng-container *ngSwitchCase="'full'">
       <ng-container [ngSwitch]="type">
         <ng-container *ngSwitchCase="'card'">
-          <mat-card (click)="clickLink($event, link)" linkcard>
+          <mat-card (click)="clickLink($event, link)" class="dragbase" linkcard>
             <mat-card-header>
               <mat-card-title>
-                <ng-container *ngTemplateOutlet="icon"></ng-container>
-                <span>{{link.label}}</span>
+                <ng-container [ngTemplateOutletContext]="{callLink:false}" [ngTemplateOutlet]="icon"></ng-container>
+                <span [innerHTML]="link.label" label></span>
               </mat-card-title>
             </mat-card-header>
             <mat-card-content>
-              <div *ngIf="link.children != null" class="children">
-                <app-link-card *ngFor="let child of link.children" [link]="child"></app-link-card>
-              </div>
               <div>{{link.info}}</div>
+              <ng-container [ngTemplateOutlet]="children"></ng-container>
             </mat-card-content>
             <ng-container *ngIf="globals.appMode==='edit'">
               <mat-card-footer>
@@ -52,18 +59,14 @@
           </mat-card>
         </ng-container>
         <ng-container *ngSwitchCase="'grid'">
-          <div (click)="clickLink($event, link)" grid linkcard>
+          <div (click)="clickLink($event, link)" class="dragbase" grid linkcard>
             <div header>
               <ng-container *ngTemplateOutlet="icon"></ng-container>
-              <span>{{link.label}}</span>
+              <span [innerHTML]="link.label" label></span>
             </div>
             <div content>
               <div>{{link.info}}</div>
-              <div *ngIf="link.children != null" [class]="classForChildren(link)">
-                <app-link-card *ngFor="let child of link.children"
-                               [link]="child"
-                               [mode]="link.isOpen?'full':'icon'"></app-link-card>
-              </div>
+              <ng-container [ngTemplateOutlet]="children"></ng-container>
             </div>
             <ng-container *ngIf="globals.appMode==='edit'">
               <div footer>
@@ -76,4 +79,5 @@
     </ng-container>
   </ng-container>
   <div *ngIf="globals.isDebug" unique>uid{{link.uniqueId}}</div>
+  <div class="icono-arrow2-left"></div>
 </div>

@@ -1,5 +1,11 @@
 import {Utils} from '@/classes/utils';
 
+export class LinkDataRef {
+  link: LinkData;
+  parent: LinkData;
+  list: LinkData[];
+}
+
 export class LinkData {
 
   uniqueId: number;

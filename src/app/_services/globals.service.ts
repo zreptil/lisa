@@ -3,7 +3,7 @@ import {Utils} from '@/classes/utils';
 import {Log} from '@/_services/log.service';
 import {HttpClient, HttpRequest} from '@angular/common/http';
 import {lastValueFrom, throwError, timeout} from 'rxjs';
-import {LinkData} from '@/_model/link-data';
+import {LinkData, LinkDataRef} from '@/_model/link-data';
 import {ComponentType} from '@angular/cdk/overlay';
 import {oauth2SyncType} from '@/_services/sync/oauth2pkce';
 import {moveItemInArray} from '@angular/cdk/drag-drop';
@@ -29,7 +29,7 @@ export class GlobalsService {
   skipStorageClear = false;
   debugFlag = 'debug';
   debugActive = 'yes';
-  appMode = 'standard';
+  appMode = 'edit';
   editPart: string;
   maxLogEntries = 20;
   storageVersion: string;
@@ -37,13 +37,16 @@ export class GlobalsService {
   language: LangData;
   _syncType: oauth2SyncType;
   oauth2AccessToken: string = null;
-  viewMode = 'flex';
+  viewMode = 'grid';
   theme: string;
   viewModes = [
+    {id: 'grid', icon: 'apps'},
     {id: 'world', icon: 'public'},
-    {id: 'flex', icon: 'wrap_text'},
-    {id: 'grid', icon: 'apps'}
+    {id: 'flex', icon: 'wrap_text'}
   ];
+  viewConfig = {
+    gridColumns: 4
+  }
   private flags = '';
   private sortOrder: string = '';
 
@@ -151,7 +154,10 @@ export class GlobalsService {
       return LinkData.fromJson(l);
     }) ?? [];
     this.viewMode = storage.s3 ?? this.viewModes[0].id;
-    this.appMode = storage.s4 ?? 'standard';
+    this.appMode = storage.s4 ?? 'edit';
+    if (storage.s5 != null) {
+      this.viewConfig = storage.s5;
+    }
 
     // validate values
     if (this._links == null) {
@@ -183,7 +189,8 @@ export class GlobalsService {
         return ret
       }),
       s3: this.viewMode,
-      s4: this.appMode
+      s4: this.appMode,
+      s5: this.viewConfig
     };
     const data = JSON.stringify(storage);
     localStorage.setItem('sharedData', data);
@@ -202,7 +209,6 @@ export class GlobalsService {
     const code = storage.w0 ?? 'en-GB';
     this.language = this.ls.languageList.find((lang) => lang.code === code);
     this._syncType = storage.w1 ?? oauth2SyncType.none;
-//    this.oauth2AccessToken = localStorage.getItem('dropboxsync');
     this.oauth2AccessToken = storage.w2;
     this.theme = storage.w3 ?? 'standard';
 
@@ -283,7 +289,7 @@ export class GlobalsService {
     this.setIndexToLinks(this._links);
   }
 
-  findLink(uniqueId: number, parent?: LinkData, list = this._links): { link: LinkData, parent: LinkData, list: LinkData[] } {
+  findLink(uniqueId: number, parent?: LinkData, list = this._links): LinkDataRef {
     for (const check of list ?? []) {
       if (check.uniqueId === uniqueId) {
         return {link: check, parent: parent, list: list};
@@ -301,6 +307,7 @@ export class GlobalsService {
   moveLink(previousIndex: number, currentIndex: number) {
     moveItemInArray(this._links, previousIndex, currentIndex);
     this.setIndexToLinks(this._links);
+    this.saveSharedData();
   }
 
   noImage(evt: ErrorEvent) {

@@ -30,7 +30,7 @@ mat-card {
     display: flex;
     flex-flow: row;
     align-items: flex-end;
-    justify-content: space-between;
+    justify-content: flex-end;
     font-size: 0.7em;
 
     div {
@@ -43,7 +43,7 @@ mat-card {
 [grid] {
   display: flex;
   flex-flow: column;
-  border: 1px solid black;
+  // border: 1px solid black;
   border-radius: 0.5em;
   cursor: pointer;
 
@@ -69,8 +69,10 @@ mat-card {
   [footer] {
     padding: 0.5em;
     display: flex;
+    flex: 1;
+    align-self: flex-end;
     flex-flow: column;
-    justify-content: space-between;
+    justify-content: flex-end;
     font-size: 0.7em;
     gap: 0.5em;
   }
@@ -83,7 +85,7 @@ mat-card {
   flex-flow: row;
   flex-wrap: wrap;
   flex: 1;
-  border: 1px solid rgba(0, 0, 0, 0.3);
+  // border: 1px solid rgba(0, 0, 0, 0.3);
   padding: 0.2em;
   border-radius: 0.5em;
   min-height: 3em;
@@ -132,13 +134,23 @@ mat-card {
   opacity: 0;
 }
 
-.cdk-drag-preview {
+::ng-deep .cdk-drag-preview {
   box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
   0 8px 10px 1px rgba(0, 0, 0, 0.14),
   0 3px 14px 2px rgba(0, 0, 0, 0.12);
   opacity: 0.6;
 
   pointer-events: none;
+}
+
+.cdk-drag-preview-hover {
+  > * {
+    opacity: 0;
+  }
+
+  border: 2px solid black;
+  border-radius: 0.5em;
+  opacity: 1;
 }
 
 .cdk-drag {
@@ -154,4 +166,90 @@ mat-card {
   font-size: 2em;
   color: rgba(0, 0, 0, 0.3);
   transform: translate(-50%, -50%);
+}
+
+[label] {
+  hyphens: auto;
+  word-break: break-all;
+}
+
+[class*="icono-arrow2"] {
+  --size: 50px;
+  opacity: 0.2;
+  width: 0;
+  height: 0;
+  border-width: var(--size);
+  border-style: solid;
+  border-bottom-color: transparent;
+  border-left-color: transparent;
+  margin: 10px;
+
+  &:before {
+    right: 0;
+    top: calc(var(--size) / -2);
+    position: absolute;
+    height: calc(var(--size) * 2 / 3);
+    box-shadow: inset 0 0 0 32px;
+    transform: rotate(-45deg);
+    width: calc(var(--size) * 1.5);
+    transform-origin: right top;
+  }
+
+  &[class*="-right"] {
+    transform: translateY(-50%) rotate(45deg);
+
+    &[class*="-up"] {
+      transform: none;
+    }
+
+    &[class*="-down"] {
+      transform: rotate(90deg);
+    }
+  }
+
+  &[class*="-left"] {
+    transform: translateY(-50%) rotate(-135deg);
+
+    &[class*="-up"] {
+      transform: rotate(-90deg);
+    }
+
+    &[class*="-down"] {
+      transform: rotate(180deg);
+    }
+  }
+
+  &[class*="-up"] {
+    transform: translateY(-50%) rotate(-45deg);
+  }
+
+  &[class*="-down"] {
+    transform: translateY(-50%) rotate(135deg);
+  }
+}
+
+[class*="icono"] {
+  position: absolute;
+  display: none;
+  justify-self: flex-start;
+  vertical-align: middle;
+  color: black;
+  top: 50%;
+  left: 50px;
+  box-sizing: border-box;
+  zoom: 0.2;
+
+  &:after, &:before {
+    content: "";
+    box-sizing: border-box;
+  }
+}
+
+.cdk-drag.dragover > .dragbase {
+  background-color: rgba(255, 255, 255, 0.5) !important;
+  border-radius: 0.5em;
+}
+
+.cdk-drag.dragover > [class*="icono"] {
+  display: block !important;
 }

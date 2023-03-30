@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {GlobalsService} from '@/_services/globals.service';
+import {GLOBALS, GlobalsService} from '@/_services/globals.service';
 import {DragService} from '@/_services/drag.service';
 
 @Component({
@@ -8,8 +8,11 @@ import {DragService} from '@/_services/drag.service';
   styleUrls: ['./view-grid.component.scss']
 })
 export class ViewGridComponent {
-
   constructor(public globals: GlobalsService,
               public ds: DragService) {
+  }
+
+  get styleForGrid(): any {
+    return {'--grid-columns': GLOBALS.viewConfig.gridColumns};
   }
 }

@@ -1,5 +1,9 @@
 <script src="../main/main.component.ts"></script>
-<div (cdkDropListDropped)="ds.linkDropped($event)" cdkDropList cdkDropListSortingDisabled content>
+<div (cdkDropListDropped)="ds.linkDropped($event)"
+     [ngStyle]="styleForGrid"
+     cdkDropList
+     cdkDropListSortingDisabled
+     content>
   <!--div (cdkDragStarted)="ds.dragstart($event)"
        *ngFor="let link of globals.links"
        [cdkDragData]="link"

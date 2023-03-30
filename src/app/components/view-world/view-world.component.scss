@@ -1,35 +1,36 @@
 :host {
   max-width: 100%;
   max-height: 100%;
-}
 
-mat-card {
-  max-width: 250px;
-}
-
-[back] {
-  display: flex;
-  flex-flow: row;
-  flex-wrap: wrap;
-  width: 100vw;
-  height: 100vw;
-
-  [content] {
-    transform-origin: top left;
-  }
-}
-
-[trash] {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-
-  mat-icon {
-    font-size: 10em;
-    width: 1em;
-    height: 1em;
+  ::ng-deep mat-card {
+    max-width: 250px;
+    width: 250px;
   }
 
-  color: var(--trashcan);
+  [back] {
+    display: flex;
+    flex-flow: row;
+    flex-wrap: wrap;
+    width: 100vw;
+    height: 100vw;
+
+    [content] {
+      transform-origin: top left;
+    }
+  }
+
+  [trash] {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    mat-icon {
+      font-size: 10em;
+      width: 1em;
+      height: 1em;
+    }
+
+    color: var(--trashcan);
+  }
 }
