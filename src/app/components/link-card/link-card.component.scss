@@ -43,14 +43,12 @@ mat-card {
 [grid] {
   display: flex;
   flex-flow: column;
-  justify-content: space-between;
   border: 1px solid black;
   border-radius: 0.5em;
   cursor: pointer;
 
   [content] {
     display: flex;
-    flex: 1;
     padding: 0.5em;
   }
 
@@ -80,9 +78,10 @@ mat-card {
   height: 100%;
 }
 
-[children] {
+.children {
   display: flex;
   flex-flow: row;
+  flex-wrap: wrap;
   flex: 1;
   border: 1px solid rgba(0, 0, 0, 0.3);
   padding: 0.2em;
@@ -95,6 +94,7 @@ mat-card {
   }
 
   button {
+    min-width: 1em;
     align-self: center;
 
     [shortlabel] {
@@ -109,6 +109,14 @@ mat-card {
 
   app-link-card {
     align-self: stretch;
+  }
+}
+
+.children.open {
+  align-items: stretch;
+
+  app-link-card {
+    width: 100%;
   }
 }
 
@@ -127,6 +135,8 @@ mat-card {
 
 .cdk-drag {
   position: relative;
+  overflow: hidden;
+  width: 100%;
 }
 
 [unique] {

@@ -39,23 +39,23 @@ export class DragService {
         this.dragLink = null;
         return;
       }
-      if (dst.list != null && dst.parent != null) {
+      // if the dragged link is a group
+      // it is always moved to the new position and
+      // not inserted into another group
+      if (src.link.children != null) {
+        GLOBALS.moveLink(src.link.index, dst.parent?.index ?? dst.link.index);
+        this.dragLink = null;
+        return;
+      } else if (dst.list != null && dst.parent != null) {
         src.list?.splice(src.link.index, 1);
         dst.list.splice(dst.link.index, 0, src.link);
-        console.log(src, '=>', dst);
-        GLOBALS.setIndexToLinks();
-        this.dragLink = null;
-        return;
-      }
-      if (dst.link.children != null) {
+      } else if (dst.link.children != null && dst.link.children.length === 0) {
         src.list?.splice(src.link.index, 1);
         dst.link.children.push(src.link);
-        GLOBALS.setIndexToLinks();
-        this.dragLink = null;
-        return;
+      } else {
+        src.list?.splice(src.link.index, 1);
+        dst.list.splice(dst.link.index, 0, src.link);
       }
-      src.list?.splice(src.link.index, 1);
-      dst.list.splice(dst.link.index, 0, src.link);
       GLOBALS.setIndexToLinks();
       console.log(src, ' ?=>', dst);
       // const srcIdx = this.dragLink.index;

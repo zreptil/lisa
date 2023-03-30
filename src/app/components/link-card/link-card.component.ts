@@ -20,13 +20,16 @@ export class LinkCardComponent {
   @Input()
   mode = 'full';
 
+  @Input()
+  dragDisabled = false;
+
   constructor(public globals: GlobalsService,
               public ms: MessageService,
               public ds: DragService) {
   }
 
-  get dragDisabled(): boolean {
-    return GLOBALS.appMode !== 'edit' && GLOBALS.viewMode !== 'world';
+  get _dragDisabled(): boolean {
+    return (GLOBALS.appMode !== 'edit' && GLOBALS.viewMode !== 'world') || this.dragDisabled;
   }
 
   clickLink(evt: MouseEvent, link: LinkData) {
@@ -40,6 +43,8 @@ export class LinkCardComponent {
           link.lastUsed = new Date().getTime();
           GLOBALS.saveSharedData();
           window.open(link.url);
+        } else {
+          link.isOpen = !link.isOpen;
         }
         break;
     }
@@ -48,5 +53,13 @@ export class LinkCardComponent {
   clickDelete(evt: MouseEvent, link: LinkData) {
     evt.stopPropagation();
     this.ms.askDeleteLink(link);
+  }
+
+  classForChildren(parent: LinkData): string[] {
+    const ret = ['children'];
+    if (parent.isOpen) {
+      ret.push('open');
+    }
+    return ret;
   }
 }

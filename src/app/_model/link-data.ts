@@ -11,6 +11,7 @@ export class LinkData {
   y: number;
   children: LinkData[];
   shortLabel: string;
+  isOpen = false;
 
   constructor(public label: string,
               public url: string
@@ -49,7 +50,8 @@ export class LinkData {
       y: this.y,
       sl: this.shortLabel,
       c: this.children?.map(c => c.asJson),
-      ui: this.uniqueId
+      ui: this.uniqueId,
+      o: this.isOpen
     }
   }
 
@@ -66,6 +68,7 @@ export class LinkData {
     this.x = src.x;
     this.y = src.y;
     this.shortLabel = src.sl;
+    this.isOpen = src.o;
     if (src.c != null) {
       this.children = [];
       for (const child of src.c) {

@@ -298,21 +298,6 @@ export class GlobalsService {
     return null;
   }
 
-  // findListOfLink(link: LinkData, list = this._links): LinkData[] {
-  //   for (const check of list ?? []) {
-  //     if (check.uniqueId === link.uniqueId) {
-  //       return list;
-  //     }
-  //     if (check.children != null) {
-  //       const subList = this.findListOfLink(link, check.children);
-  //       if (subList != null) {
-  //         return subList;
-  //       }
-  //     }
-  //   }
-  //   return null;
-  // }
-
   moveLink(previousIndex: number, currentIndex: number) {
     moveItemInArray(this._links, previousIndex, currentIndex);
     this.setIndexToLinks(this._links);

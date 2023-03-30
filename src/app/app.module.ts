@@ -26,6 +26,7 @@ import {ViewFlexComponent} from './components/view-flex/view-flex.component';
 import {ViewWorldComponent} from './components/view-world/view-world.component';
 import {DragQueenComponent} from './controls/drag-queen/drag-queen.component';
 import {ViewGridComponent} from './components/view-grid/view-grid.component';
+import {NgOptimizedImage} from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import {ViewGridComponent} from './components/view-grid/view-grid.component';
     HttpClientModule,
     DragDropModule,
     LogComponent,
-    ProgressComponent
+    ProgressComponent,
+    NgOptimizedImage
   ],
   providers: [],
   bootstrap: [AppComponent]

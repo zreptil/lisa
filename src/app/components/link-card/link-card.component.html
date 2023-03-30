@@ -1,14 +1,21 @@
+<ng-template #icon>
+  <img (error)="globals.noImage($event)" *ngIf="link.children==null" [src]="link.favicon" alt="favicon">
+  <mat-icon *ngIf="link.children!=null">
+    <ng-container *ngIf="!link.isOpen">folder</ng-container>
+    <ng-container *ngIf="link.isOpen">folder_open</ng-container>
+  </mat-icon>
+</ng-template>
+
 <div (cdkDragStarted)="ds.dragstart($event)"
      [cdkDragData]="link"
-     [cdkDragDisabled]="dragDisabled"
+     [cdkDragDisabled]="_dragDisabled"
      cdkDrag
      id="link-{{link.uniqueId}}">
   <ng-container [ngSwitch]="mode">
     <button (click)="clickLink($event, link)"
             *ngSwitchCase="'icon'"
             mat-flat-button>
-      <img (error)="globals.noImage($event)" *ngIf="link.children==null" [src]="link.favicon" alt="favicon">
-      <mat-icon *ngIf="link.children!=null">folder</mat-icon>
+      <ng-container *ngTemplateOutlet="icon"></ng-container>
       <div *ngIf="link.shortLabel != null" shortlabel>{{link.shortLabel}}</div>
     </button>
     <ng-container *ngSwitchCase="'full'">
@@ -17,13 +24,12 @@
           <mat-card (click)="clickLink($event, link)" linkcard>
             <mat-card-header>
               <mat-card-title>
-                <img (error)="globals.noImage($event)" *ngIf="link.children==null" [src]="link.favicon" alt="favicon">
-                <mat-icon *ngIf="link.children!=null">folder</mat-icon>
+                <ng-container *ngTemplateOutlet="icon"></ng-container>
                 <span>{{link.label}}</span>
               </mat-card-title>
             </mat-card-header>
             <mat-card-content>
-              <div *ngIf="link.children != null" children>
+              <div *ngIf="link.children != null" class="children">
                 <app-link-card *ngFor="let child of link.children" [link]="child"></app-link-card>
               </div>
               <div>{{link.info}}</div>
@@ -41,16 +47,15 @@
         <ng-container *ngSwitchCase="'grid'">
           <div (click)="clickLink($event, link)" grid linkcard>
             <div header>
-              <img (error)="globals.noImage($event)" *ngIf="link.children==null" [src]="link.favicon" alt="favicon">
-              <mat-icon *ngIf="link.children!=null">folder</mat-icon>
+              <ng-container *ngTemplateOutlet="icon"></ng-container>
               <span>{{link.label}}</span>
             </div>
             <div content>
               <div>{{link.info}}</div>
-              <div *ngIf="link.children != null" children>
+              <div *ngIf="link.children != null" [class]="classForChildren(link)">
                 <app-link-card *ngFor="let child of link.children"
                                [link]="child"
-                               mode="icon"></app-link-card>
+                               [mode]="link.isOpen?'full':'icon'"></app-link-card>
               </div>
             </div>
             <ng-container *ngIf="globals.appMode==='edit'">

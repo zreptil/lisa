@@ -41,7 +41,10 @@
       <textarea [(ngModel)]="data.info" matInput></textarea>
     </mat-form-field>
     <div *ngIf="data.children != null" children>
-      <app-link-card *ngFor="let child of data.children" [link]="child"></app-link-card>
+      <app-link-card *ngFor="let child of data.children"
+                     [link]="child"
+                     dragDisabled="true"
+                     mode="icon"></app-link-card>
     </div>
   </mat-dialog-content>
 
