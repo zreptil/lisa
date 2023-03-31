@@ -22,6 +22,16 @@ export class EditLinkComponent {
     this.orgData.index = data.index;
   }
 
+  get dialogTitle(): string {
+    if (this.data.index == null) {
+      if (this.data.children != null) {
+        return $localize`New Folder`;
+      }
+      return $localize`New Link`;
+    }
+    return this.orgData.l;
+  }
+
   clickCancel(evt: MouseEvent) {
     evt.stopPropagation();
     this.data.fillFromJson(this.orgData);

@@ -34,6 +34,7 @@ export class GlobalsService {
   maxLogEntries = 20;
   storageVersion: string;
   currentPage: string;
+  currentFolder: LinkData;
   language: LangData;
   _syncType: oauth2SyncType;
   oauth2AccessToken: string = null;
@@ -276,7 +277,11 @@ export class GlobalsService {
   }
 
   insertLink(link: LinkData) {
-    this._links.splice(0, 0, link);
+    if (this.currentFolder?.children != null) {
+      this.currentFolder?.children.push(link);
+    } else {
+      this._links.splice(0, 0, link);
+    }
     this.setIndexToLinks(this._links);
   }
 

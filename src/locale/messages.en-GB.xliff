@@ -91,7 +91,7 @@
         <source>There was no answer within <x id="PH" equiv-text="params.timeout / 1000"/> seconds at <x id="PH_1" equiv-text="url"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">258</context>
+          <context context-type="linenumber">265</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7840422477227217171" datatype="html">
@@ -190,18 +190,18 @@
           <context context-type="linenumber">139</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="1858306235345180986" datatype="html">
-        <source>Icon-Url</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/edit-link/edit-link.component.html</context>
-          <context context-type="linenumber">22</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="8308045076391224954" datatype="html">
         <source>Url</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/edit-link/edit-link.component.html</context>
-          <context context-type="linenumber">28</context>
+          <context context-type="linenumber">21</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1858306235345180986" datatype="html">
+        <source>Icon-Url</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/edit-link/edit-link.component.html</context>
+          <context context-type="linenumber">25</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4077520913910941990" datatype="html">
@@ -233,11 +233,25 @@
         </context-group>
         <note priority="1" from="description">buttonlabel for saving data</note>
       </trans-unit>
+      <trans-unit id="6272889378364553386" datatype="html">
+        <source>New Folder</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/edit-link/edit-link.component.ts</context>
+          <context context-type="linenumber">28</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2552662293439682454" datatype="html">
+        <source>New Link</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/edit-link/edit-link.component.ts</context>
+          <context context-type="linenumber">30</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="5571821262318156307" datatype="html">
         <source>never visited</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/link-card/link-card.component.html</context>
-          <context context-type="linenumber">13</context>
+          <context context-type="linenumber">12</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8245636934809197771" datatype="html">

@@ -4,7 +4,7 @@
     <h1>
       <img (error)="globals.noImage($event)" *ngIf="data.children==null" [src]="data.iconUrl" alt="favicon">
       <mat-icon *ngIf="data.children!=null">folder</mat-icon>
-      {{orgData.l}}
+      {{dialogTitle}}
     </h1>
     <div>
       <button (click)="clickCancel($event)"

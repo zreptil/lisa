@@ -2,8 +2,7 @@
   <div (click)="clickIcon($event, link, callLink)">
     <img (error)="globals.noImage($event)" *ngIf="link.children==null" [src]="link.iconUrl" alt="favicon">
     <mat-icon *ngIf="link.children!=null">
-      <ng-container *ngIf="!link.isOpen">folder</ng-container>
-      <ng-container *ngIf="link.isOpen">folder_open</ng-container>
+      {{folderIcon}}
     </mat-icon>
   </div>
 </ng-template>
@@ -18,6 +17,11 @@
     <app-link-card *ngFor="let child of link.children"
                    [link]="child"
                    [mode]="link.isOpen?'full':'icon'"></app-link-card>
+    <ng-container *ngIf="globals.appMode==='edit'">
+      <button (click)="clickAdd($event, link)" mat-flat-button>
+        <mat-icon>note_add</mat-icon>
+      </button>
+    </ng-container>
   </div>
 </ng-template>
 
@@ -26,6 +30,7 @@
      (mouseover)="ds.mouseover($event)"
      [cdkDragData]="link"
      [cdkDragDisabled]="_dragDisabled"
+     [class]="classForDrag"
      cdkDrag
      id="link-{{link.uniqueId}}">
   <ng-container [ngSwitch]="mode">

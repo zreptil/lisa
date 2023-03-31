@@ -159,6 +159,12 @@ mat-card {
   width: 100%;
 }
 
+.cdk-drag.current {
+  mat-icon {
+    // color: rgba(255, 255, 0, 0.6);
+  }
+}
+
 [unique] {
   position: absolute;
   top: 50%;

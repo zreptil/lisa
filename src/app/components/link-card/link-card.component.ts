@@ -30,14 +30,40 @@ export class LinkCardComponent {
               public ds: DragService) {
   }
 
+  get folderIcon(): string {
+    if (this.link.isOpen) {
+      return 'folder_open';
+    }
+    return 'folder';
+  }
+
+  get classForDrag(): string[] {
+    const ret = [];
+    if (GLOBALS.appMode === 'edit') {
+      if (this.isCurrentFolder) {
+        ret.push('current');
+      }
+    }
+    return ret;
+  }
+
   get _dragDisabled(): boolean {
     return (GLOBALS.appMode !== 'edit' && GLOBALS.viewMode !== 'world') || this.dragDisabled;
+  }
+
+  get isCurrentFolder(): boolean {
+    return GLOBALS.currentFolder?.uniqueId === this.link.uniqueId;
   }
 
   clickIcon(evt: MouseEvent, link: LinkData, callLink = false) {
     evt.stopPropagation();
     if (link.children != null) {
       link.isOpen = !link.isOpen;
+      if (this.isCurrentFolder && !link.isOpen) {
+        GLOBALS.currentFolder = null;
+      } else {
+        GLOBALS.currentFolder = link;
+      }
     } else if (callLink) {
       this.clickLink(evt, link);
     }
@@ -72,5 +98,12 @@ export class LinkCardComponent {
       ret.push('open');
     }
     return ret;
+  }
+
+  clickAdd(evt: MouseEvent, parent: LinkData) {
+    evt.stopPropagation();
+    const link = new LinkData(null, null);
+    GLOBALS.currentFolder = parent;
+    this.ms.showPopup(EditLinkComponent, link);
   }
 }

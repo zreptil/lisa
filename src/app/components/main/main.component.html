@@ -3,13 +3,13 @@
     <div [ngSwitch]="globals.appMode">
       <ng-container *ngSwitchCase="'edit'">
         <button (click)="clickSave($event)" mat-flat-button>
-          <mat-icon>save</mat-icon>
+          <mat-icon>chevron_left</mat-icon>
         </button>
         <button (click)="clickAdd($event)" mat-flat-button>
-          <mat-icon>add</mat-icon>
+          <mat-icon>note_add</mat-icon>
         </button>
         <button (click)="clickAddGroup($event)" mat-flat-button>
-          <mat-icon>library_add</mat-icon>
+          <mat-icon>create_new_folder</mat-icon>
         </button>
         <button (mouseout)="mouseoutDelete($event)" (mouseover)="mouseoverDelete($event)" mat-flat-button>
           <mat-icon id="link-delete">delete</mat-icon>
@@ -22,7 +22,7 @@
       </ng-container>
     </div>
     <div>
-      <img alt="appicon" src="assets/themes/standard/favicon.png" width="32px">
+      <img alt="appicon" class="appicon" src="../../../assets/themes/standard/favicon.png">
     </div>
     <div>
       <button (click)="clickViewTool($event, tool)"
