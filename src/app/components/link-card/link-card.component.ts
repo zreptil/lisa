@@ -5,6 +5,7 @@ import {MessageService} from '@/_services/message.service';
 import {EditLinkComponent} from '@/components/edit-link/edit-link.component';
 import {DragService} from '@/_services/drag.service';
 import {Utils} from '@/classes/utils';
+import {DialogResultButton} from '@/_model/dialog-data';
 
 @Component({
   selector: 'app-link-card',
@@ -28,6 +29,10 @@ export class LinkCardComponent {
   constructor(public globals: GlobalsService,
               public ms: MessageService,
               public ds: DragService) {
+  }
+
+  get mayOpenAll(): boolean {
+    return this.link.isOpen && GLOBALS.appMode !== 'edit' && this.link.children?.length > 1;
   }
 
   get folderIcon(): string {
@@ -73,7 +78,7 @@ export class LinkCardComponent {
     evt.stopPropagation();
     switch (GLOBALS.appMode) {
       case 'edit':
-        this.ms.showPopup(EditLinkComponent, link);
+        this.ms.showPopup(EditLinkComponent, 'edit-link', link);
         break;
       default:
         if (link.children == null) {
@@ -104,6 +109,18 @@ export class LinkCardComponent {
     evt.stopPropagation();
     const link = new LinkData(null, null);
     GLOBALS.currentFolder = parent;
-    this.ms.showPopup(EditLinkComponent, link);
+    this.ms.showPopup(EditLinkComponent, 'edit-link', link);
+  }
+
+  clickOpenAll(evt: MouseEvent) {
+    evt.stopPropagation();
+    this.ms.confirm($localize`This will open every link in this group. Are you sure?`).subscribe(result => {
+      if (result?.btn === DialogResultButton.yes) {
+        for (const child of this.link.children) {
+          console.log(child);
+          setTimeout(() => window.open(child.url), 1);
+        }
+      }
+    });
   }
 }

@@ -1,6 +1,7 @@
 import {Log} from '@/_services/log.service';
 
 export class Utils {
+  static fullDate = $localize`dd/MM/yyyy, hh:mm:ss`;
   private static _uniqueId = 0;
 
   static replace(text: string, src: string | string[], dst: string | string[]): string {

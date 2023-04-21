@@ -86,11 +86,11 @@ export class SyncService {
 
   msgOauth2Workflow(serviceName: string): string {
     return $localize`The connection to ${serviceName} requires a confirmation
-                      that ${GLOBALS.appTitle} can read and write the data from
-                       ${serviceName}. This confirmation is requested with special
-                        dialogs from ${serviceName}. Everything that has to be
-                        confirmed there is beyond ${GLOBALS.appTitle}'s control.
-                         Should the confirmation process be started?`;
+                     that ${GLOBALS.appTitle} may read and write the data from
+                     ${serviceName}. This confirmation is requested with special
+                     dialogs from ${serviceName}. Everything that has to be
+                     confirmed there is beyond ${GLOBALS.appTitle}'s control.
+                     Should the confirmation process be started?`;
   }
 
   toggleSyncDropbox() {

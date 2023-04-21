@@ -5,6 +5,11 @@ import {LinkData} from '@/_model/link-data';
 import {MessageService} from '@/_services/message.service';
 import {EditLinkComponent} from '@/components/edit-link/edit-link.component';
 import {DragService} from '@/_services/drag.service';
+import {WhatsNewComponent} from '@/components/whats-new/whats-new.component';
+import {ImpressumComponent} from '@/components/impressum/impressum.component';
+import {WelcomeComponent} from '@/components/welcome/welcome.component';
+import {LanguageService} from '@/_services/language.service';
+import {LangData} from '@/_model/lang-data';
 
 @Component({
   selector: 'app-main',
@@ -15,7 +20,8 @@ export class MainComponent {
   constructor(public globals: GlobalsService,
               public sync: SyncService,
               public ms: MessageService,
-              public ds: DragService) {
+              public ds: DragService,
+              public ls: LanguageService) {
   }
 
   get toolsForView(): any[] {
@@ -47,14 +53,15 @@ export class MainComponent {
   clickAdd(evt: MouseEvent) {
     evt.stopPropagation();
     const link = new LinkData(null, null);
-    this.ms.showPopup(EditLinkComponent, link);
+    GLOBALS.currentFolder = null;
+    this.ms.showPopup(EditLinkComponent, 'edit-link', link);
   }
 
   clickAddGroup(evt: MouseEvent) {
     evt.stopPropagation();
     const link = new LinkData(null, null);
     link.children = [];
-    this.ms.showPopup(EditLinkComponent, link);
+    this.ms.showPopup(EditLinkComponent, 'edit-link', link);
   }
 
   clickEdit(evt: MouseEvent) {
@@ -98,5 +105,31 @@ export class MainComponent {
   clickViewTool(evt: MouseEvent, tool: any) {
     evt.stopPropagation();
     tool.click();
+  }
+
+  clickWhatsNew() {
+    this.ms.showPopup(WhatsNewComponent, 'whatsnew', null);
+  }
+
+  clickImpressum() {
+    this.ms.showPopup(ImpressumComponent, 'impressum', null);
+  }
+
+  clickWelcome() {
+    this.ms.showPopup(WelcomeComponent, 'welcome', null);
+  }
+
+  languageClass(item: LangData): string[] {
+    const ret = ['themelogo'];
+    if (GLOBALS.language != null && item.code === GLOBALS.language.code) {
+      ret.push('currLang');
+    }
+    return ret;
+  }
+
+  clickLanguage(item: LangData) {
+    GLOBALS.language = item;
+    GLOBALS.saveWebData();
+    location.reload();
   }
 }

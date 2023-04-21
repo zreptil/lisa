@@ -22,7 +22,28 @@
       </ng-container>
     </div>
     <div>
-      <img alt="appicon" class="appicon" src="../../../assets/themes/standard/favicon.png">
+      <button [matMenuTriggerFor]="menu" mat-flat-button>
+        <img alt="appicon" class="appicon" src="../../../assets/themes/standard/favicon.png">
+      </button>
+      <mat-menu #menu="matMenu" xPosition="before">
+        <button (click)="clickWhatsNew()" mat-menu-item>
+          <mat-icon>info_outline</mat-icon>
+        </button>
+        <button (click)="clickImpressum()" mat-menu-item>
+          <mat-icon>account_balance</mat-icon>
+        </button>
+        <button (click)="clickWelcome()" mat-menu-item>
+          <mat-icon>school</mat-icon>
+        </button>
+        <div *ngFor="let item of ls.languageList; let idx = index" class="btnLanguage">
+          <button (click)="clickLanguage(item)" [class]="languageClass(item)" mat-icon-button>
+            <img alt="language image" class="language" src="{{item.imgPath}}">
+          </button>
+          <a *ngIf="item.crowdin != null" [href]="item.crowdin.languageUrl" class="crowdin" target="_blank" title="Crowdin">
+            <img [src]="item.crowdin.languageBadgeUrl" alt="{{item.crowdin.langName}} proofreading">
+          </a>
+        </div>
+      </mat-menu>
     </div>
     <div>
       <button (click)="clickViewTool($event, tool)"

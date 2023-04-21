@@ -71,27 +71,58 @@
           <context context-type="linenumber">94</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="8321702175940480370" datatype="html">
-        <source>dd.MM.yyyy</source>
+      <trans-unit id="3046182951092364902" datatype="html">
+        <source>The local data has another date than the date saved in Dropbox.</source>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/app/_model/lang-data.ts</context>
-          <context context-type="linenumber">28</context>
+          <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
+          <context context-type="linenumber">180</context>
         </context-group>
-        <note priority="1" from="description">this is the dateformat, please use dd for days, MM for months and yyyy for year. It has to be the english formatstring.</note>
       </trans-unit>
-      <trans-unit id="9092306029835436845" datatype="html">
-        <source>dd.MM.</source>
+      <trans-unit id="2906587845957718064" datatype="html">
+        <source>Local</source>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/app/_model/lang-data.ts</context>
-          <context context-type="linenumber">32</context>
+          <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
+          <context context-type="linenumber">181</context>
         </context-group>
-        <note priority="1" from="description">this is the dateformat, please use dd for days, MM for months and no year. It has to be the english formatstring.</note>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
+          <context context-type="linenumber">189</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="730703184011067892" datatype="html">
+        <source>Dropbox</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
+          <context context-type="linenumber">182</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
+          <context context-type="linenumber">190</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/_services/sync/sync.service.ts</context>
+          <context context-type="linenumber">69</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8046724290530937432" datatype="html">
+        <source>Use local data or data from Dropbox?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
+          <context context-type="linenumber">183</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5320870651003627043" datatype="html">
+        <source>Question</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
+          <context context-type="linenumber">187</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="6899006172769799970" datatype="html">
         <source>There was no answer within <x id="PH" equiv-text="params.timeout / 1000"/> seconds at <x id="PH_1" equiv-text="url"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">265</context>
+          <context context-type="linenumber">298</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7840422477227217171" datatype="html">
@@ -129,20 +160,13 @@
           <context context-type="linenumber">320</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="730703184011067892" datatype="html">
-        <source>Dropbox</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/_services/sync/sync.service.ts</context>
-          <context context-type="linenumber">69</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="5125540569203253391" datatype="html">
+      <trans-unit id="6968630760189801097" datatype="html">
         <source>The connection to <x id="PH" equiv-text="serviceName"/> requires a confirmation
-                      that <x id="PH_1" equiv-text="GLOBALS.appTitle"/> can read and write the data from
-                       <x id="PH_2" equiv-text="serviceName"/>. This confirmation is requested with special
-                        dialogs from <x id="PH_3" equiv-text="serviceName"/>. Everything that has to be
-                        confirmed there is beyond <x id="PH_4" equiv-text="GLOBALS.appTitle"/>&apos;s control.
-                         Should the confirmation process be started?</source>
+                     that <x id="PH_1" equiv-text="GLOBALS.appTitle"/> may read and write the data from
+                     <x id="PH_2" equiv-text="serviceName"/>. This confirmation is requested with special
+                     dialogs from <x id="PH_3" equiv-text="serviceName"/>. Everything that has to be
+                     confirmed there is beyond <x id="PH_4" equiv-text="GLOBALS.appTitle"/>&apos;s control.
+                     Should the confirmation process be started?</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/sync/sync.service.ts</context>
           <context context-type="linenumber">88,93</context>
@@ -155,39 +179,46 @@
           <context context-type="linenumber">100</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="2345232055430072753" datatype="html">
+        <source>dd/MM/yyyy, hh:mm:ss</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/classes/utils.ts</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="5592728170528035191" datatype="html">
         <source><x id="PH" equiv-text="hours"/>:<x id="PH_1" equiv-text="Utils.pad(-minutes % 60)"/> hours ago</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/classes/utils.ts</context>
-          <context context-type="linenumber">96</context>
+          <context context-type="linenumber">97</context>
         </context-group>
       </trans-unit>
       <trans-unit id="3625099266824380912" datatype="html">
         <source>in <x id="PH" equiv-text="hours"/>:<x id="PH_1" equiv-text="Utils.pad(minutes % 60)"/> hours</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/classes/utils.ts</context>
-          <context context-type="linenumber">98</context>
+          <context context-type="linenumber">99</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8256466313580256940" datatype="html">
         <source><x id="PH" equiv-text="-minutes"/> min ago</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/classes/utils.ts</context>
-          <context context-type="linenumber">101</context>
+          <context context-type="linenumber">102</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2644027207588859009" datatype="html">
         <source>in <x id="PH" equiv-text="minutes"/> min</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/classes/utils.ts</context>
-          <context context-type="linenumber">101</context>
+          <context context-type="linenumber">102</context>
         </context-group>
       </trans-unit>
       <trans-unit id="671740983484503056" datatype="html">
         <source>dd/MM/yyyy</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/classes/utils.ts</context>
-          <context context-type="linenumber">139</context>
+          <context context-type="linenumber">140</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8308045076391224954" datatype="html">
@@ -208,28 +239,28 @@
         <source>Label</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/edit-link/edit-link.component.html</context>
-          <context context-type="linenumber">32</context>
+          <context context-type="linenumber">33</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6128216908404296283" datatype="html">
         <source>Short Label</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/edit-link/edit-link.component.html</context>
-          <context context-type="linenumber">36</context>
+          <context context-type="linenumber">37</context>
         </context-group>
       </trans-unit>
       <trans-unit id="314315645942131479" datatype="html">
         <source>Info</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/edit-link/edit-link.component.html</context>
-          <context context-type="linenumber">40</context>
+          <context context-type="linenumber">41</context>
         </context-group>
       </trans-unit>
       <trans-unit id="3768927257183755959" datatype="html">
         <source>Save</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/edit-link/edit-link.component.html</context>
-          <context context-type="linenumber">62</context>
+          <context context-type="linenumber">66</context>
         </context-group>
         <note priority="1" from="description">buttonlabel for saving data</note>
       </trans-unit>
@@ -247,12 +278,35 @@
           <context context-type="linenumber">30</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="1547876271716599756" datatype="html">
+        <source>Impressum</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/impressum/impressum.component.html</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+        <note priority="1" from="description">title of impressum</note>
+      </trans-unit>
       <trans-unit id="5571821262318156307" datatype="html">
         <source>never visited</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/link-card/link-card.component.html</context>
           <context context-type="linenumber">12</context>
         </context-group>
+      </trans-unit>
+      <trans-unit id="7541937299459558329" datatype="html">
+        <source>This will open every link in this group. Are you sure?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/link-card/link-card.component.ts</context>
+          <context context-type="linenumber">117</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3492007542396725315" datatype="html">
+        <source>Welcome</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/welcome/welcome.component.html</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+        <note priority="1" from="description">title of impressum</note>
       </trans-unit>
       <trans-unit id="8245636934809197771" datatype="html">
         <source>Once upon a time...</source>
@@ -270,8 +324,8 @@
         </context-group>
         <note priority="1" from="description">version</note>
       </trans-unit>
-      <trans-unit id="8946691832586567504" datatype="html">
-        <source>1.0.0 - 23.03.2023</source>
+      <trans-unit id="8223682525752337069" datatype="html">
+        <source>1.0.0 - 23/03/2023</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/whats-new/whats-new.component.html</context>
           <context context-type="linenumber">13</context>

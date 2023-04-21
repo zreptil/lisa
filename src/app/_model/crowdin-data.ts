@@ -1,12 +1,12 @@
 export class CrowdinData {
   public langCode: string;
   public langName: string;
-  public langIdx: number;
 
   constructor(public project: string,
               public fileId: number,
               public langSrc: string,
-              public statsCode: string) {
+              public statsCode: string,
+              public langIdx: number) {
   }
 
   get projectUrl(): string {
@@ -27,7 +27,15 @@ export class CrowdinData {
       + `&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-${this.statsCode}.json`;
   }
 
+  /*
+  values for factory-methods can be found when visiting
+  https://crowdin.com/project/link-sammlung/tools/app/bds%C2%A6bds
+  */
   static factoryEnglish(): CrowdinData {
-    return new CrowdinData('lisa', 39, 'en', '13600041-555863');
+    return new CrowdinData('Link-Sammlung', 41, 'en-US', '13600041-578513', 1);
+  }
+
+  static factoryGerman(): CrowdinData {
+    return new CrowdinData('Link-Sammlung', 41, 'de', '13600041-578513', 0);
   }
 }

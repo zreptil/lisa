@@ -14,9 +14,9 @@ import * as messages from '../../assets/messages.json';
 export class LanguageService {
 
   languageList: LangData[] = [
-    new LangData('en-GB', `English (GB)`, 'gb', null, 0),
-    new LangData('en-US', `English (USA)`, 'us', null, 1),
-    new LangData('de-DE', `Deutsch`, 'de', CrowdinData.factoryEnglish(), 2),
+    new LangData('en-GB', `English (GB)`, 'gb', null),
+    new LangData('en-US', `English (USA)`, 'us', CrowdinData.factoryEnglish()),
+    new LangData('de-DE', `Deutsch`, 'de', CrowdinData.factoryGerman()),
   ];
 
   constructor() {
@@ -28,6 +28,7 @@ export class LanguageService {
       langCode = JSON.parse(localStorage.getItem('webData'))?.w0 ?? 'en-GB';
     }
     let lng = (messages as any).default.find((lang: any) => lang.id === langCode);
+    console.log(lng);
     if (lng == null) {
       lng = (messages as any).default[0];
     }

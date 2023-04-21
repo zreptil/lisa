@@ -29,10 +29,10 @@ export class MessageService {
     return this.showDialog(type, content, false, params);
   }
 
-  showPopup(dlg: ComponentType<any>, data: any): Observable<DialogResult> {
+  showPopup(dlg: ComponentType<any>, id: string, data: any): Observable<DialogResult> {
     const dlgRef = this.dialog.open(dlg, {
       data: data,
-      panelClass: ['dialog-box', GLOBALS.dragName(dlg)],
+      panelClass: ['dialog-box', id],
       disableClose: true
     });
     return dlgRef.afterClosed();

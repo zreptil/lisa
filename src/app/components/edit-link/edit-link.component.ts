@@ -101,10 +101,8 @@ export class EditLinkComponent {
             if (!url.startsWith('http:') && !url.startsWith('https:')) {
               url = Utils.rootDomain(srcUrl, url);
             }
-            if (!url.endsWith('.ico')) {
-              data.iconUrl = url;
-              forceUpdate = false;
-            }
+            data.iconUrl = url;
+            forceUpdate = false;
           }
         } else {
           console.log('icon', response?.body, icon);
@@ -127,10 +125,8 @@ export class EditLinkComponent {
                 data.iconUrl = 'assets/images/favicon-unknown.png';
               }
             }
-            console.log(response);
           });
         }
-        console.log('Das Ergebnis:', data.iconUrl);
       }
     });
   }

@@ -4,13 +4,16 @@ import {Log} from '@/_services/log.service';
 import {HttpClient, HttpRequest} from '@angular/common/http';
 import {lastValueFrom, throwError, timeout} from 'rxjs';
 import {LinkData, LinkDataRef} from '@/_model/link-data';
-import {ComponentType} from '@angular/cdk/overlay';
 import {oauth2SyncType} from '@/_services/sync/oauth2pkce';
 import {moveItemInArray} from '@angular/cdk/drag-drop';
 import {SyncService} from '@/_services/sync/sync.service';
 import {LanguageService} from '@/_services/language.service';
 import {LangData} from '@/_model/lang-data';
 import {EnvironmentService} from '@/_services/environment.service';
+import {MessageService} from '@/_services/message.service';
+import {DialogType} from '@/_model/dialog-data';
+import {WelcomeComponent} from '@/components/welcome/welcome.component';
+import {WhatsNewComponent} from '@/components/whats-new/whats-new.component';
 
 class CustomTimeoutError extends Error {
   constructor() {
@@ -26,6 +29,7 @@ export let GLOBALS: GlobalsService;
 })
 export class GlobalsService {
   version = '1.0';
+  crowdinTitle = 'link-sammlung';
   skipStorageClear = false;
   debugFlag = 'debug';
   debugActive = 'yes';
@@ -54,16 +58,15 @@ export class GlobalsService {
   constructor(public http: HttpClient,
               public sync: SyncService,
               public ls: LanguageService,
-              public env: EnvironmentService) {
+              public env: EnvironmentService,
+              public ms: MessageService) {
     GLOBALS = this;
     this.loadWebData();
     this.loadSharedData().then(_ => {
       if (Utils.isEmpty(this.storageVersion)) {
-        this.currentPage = 'welcome';
+        this.ms.showPopup(WelcomeComponent, 'welcome', null);
       } else if (this.storageVersion !== this.version) {
-        this.currentPage = 'news';
-      } else {
-        this.currentPage = 'main';
+        this.ms.showPopup(WhatsNewComponent, 'news', null);
       }
     });
   }
@@ -125,7 +128,30 @@ export class GlobalsService {
     return document.querySelector('head>title').innerHTML;
   }
 
-  public setIndexToLinks(links = this._links): void {
+  public pullGroupsUp(links?: LinkData[]): void {
+    const hasParent = links != null;
+    if (!hasParent) {
+      links = this._links;
+    }
+    for (let i = 0; i < links?.length ?? 0; i++) {
+      if (links[i].children != null) {
+        if (hasParent) {
+          this._links.splice(0, 0, links[i]);
+          links.splice(i, 1);
+          i--;
+        } else {
+          this.pullGroupsUp(links[i].children);
+        }
+      }
+    }
+  }
+
+  public setIndexToLinks(links?: LinkData[]): void {
+    const hasParent = links != null;
+    if (!hasParent) {
+      this.pullGroupsUp();
+      links = this._links;
+    }
     for (let i = 0; i < links?.length ?? 0; i++) {
       links[i].index = i;
       if (links[i].children != null) {
@@ -143,39 +169,46 @@ export class GlobalsService {
     let syncData: any = await this.sync.downloadFile(this.env.settingsFilename);
     if (syncData != null) {
       try {
-        if (+syncData.s0 > +(storage.s0 ?? 0)) {
-          storage = syncData;
+        if (+syncData.s0 != +(storage.s0 ?? 0)) {
+          if (storage?.s0 == null) {
+            this._loadSharedData(syncData);
+            this.saveSharedData();
+            return;
+          }
+          if (this.isLocal) {
+            const msg = [
+              $localize`The local data has another date than the date saved in Dropbox.`,
+              $localize`Local` + `: ${Utils.fmtDate(new Date(storage.s0), Utils.fullDate)}`,
+              $localize`Dropbox` + `: ${Utils.fmtDate(new Date(syncData.s0), Utils.fullDate)}`,
+              $localize`Use local data or data from Dropbox?`
+            ];
+            this.ms.ask(msg, {
+              type: DialogType.confirm,
+              title: $localize`Question`,
+              buttons: [
+                {title: $localize`Local`, result: {btn: 'local'}},
+                {title: $localize`Dropbox`, result: {btn: 'dropbox'}}]
+            }).subscribe(result => {
+              switch (result?.btn) {
+                case 'dropbox':
+                  this._loadSharedData(syncData);
+                  this.saveSharedData();
+                  break;
+                default:
+                  this._loadSharedData(storage);
+                  break;
+              }
+            });
+            return;
+          } else if (+syncData.s0 > +(storage.s0 ?? 0)) {
+            this._loadSharedData(syncData);
+            return;
+          }
         }
       } catch {
       }
     }
-
-    this.storageVersion = storage.s1;
-    this._links = storage.s2?.map((l: any) => {
-      return LinkData.fromJson(l);
-    }) ?? [];
-    this.viewMode = storage.s3 ?? this.viewModes[0].id;
-    this.appMode = storage.s4 ?? 'edit';
-    if (storage.s5 != null) {
-      this.viewConfig = storage.s5;
-    }
-
-    // validate values
-    if (this._links == null) {
-      this._links = [];
-      //   new LinkData('Google Drive', 'https://drive.google.com'),
-      //   new LinkData('Dropbox', 'https://dropbox.com'),
-      //   new LinkData('Nighscout Reporter', 'https://nightrep-dev.zreptil.de')
-      // ];
-      // const links: LinkData[] = [];
-      // for (let i = 0; i < 10; i++) {
-      //   for (const link of this._links) {
-      //     links.push(new LinkData(link.label, link.url));
-      //   }
-      // }
-      // this._links = links;
-    }
-    this.setIndexToLinks(this._links);
+    this._loadSharedData(storage);
   }
 
   saveSharedData(): void {
@@ -272,17 +305,13 @@ export class GlobalsService {
     return params.asJson ? response.body : response;
   }
 
-  dragName(type: ComponentType<any>): string {
-    return Utils.camelToKebab(type.name).toLowerCase().replace(/-component$/, '');
-  }
-
   insertLink(link: LinkData) {
-    if (this.currentFolder?.children != null) {
+    if (this.currentFolder?.children != null && link.children == null) {
       this.currentFolder?.children.push(link);
     } else {
       this._links.splice(0, 0, link);
     }
-    this.setIndexToLinks(this._links);
+    this.setIndexToLinks();
   }
 
   deleteLink(link: LinkData) {
@@ -291,7 +320,7 @@ export class GlobalsService {
     if (found?.list != null) {
       found.list.splice(link.index, 1);
     }
-    this.setIndexToLinks(this._links);
+    this.setIndexToLinks();
   }
 
   findLink(uniqueId: number, parent?: LinkData, list = this._links): LinkDataRef {
@@ -311,12 +340,30 @@ export class GlobalsService {
 
   moveLink(previousIndex: number, currentIndex: number) {
     moveItemInArray(this._links, previousIndex, currentIndex);
-    this.setIndexToLinks(this._links);
+    this.setIndexToLinks();
     this.saveSharedData();
   }
 
   noImage(evt: ErrorEvent) {
     (evt.target as any).src = 'assets/images/empty.png';
+  }
+
+  private _loadSharedData(storage: any): void {
+    this.storageVersion = storage.s1;
+    this._links = storage.s2?.map((l: any) => {
+      return LinkData.fromJson(l);
+    }) ?? [];
+    this.viewMode = storage.s3 ?? this.viewModes[0].id;
+    this.appMode = storage.s4 ?? 'edit';
+    if (storage.s5 != null) {
+      this.viewConfig = storage.s5;
+    }
+
+    // validate values
+    if (this._links == null) {
+      this._links = [];
+    }
+    this.setIndexToLinks();
   }
 
   private may(key: string): boolean {

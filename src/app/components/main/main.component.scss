@@ -64,3 +64,19 @@
 .appicon {
   width: 32px;
 }
+
+::ng-deep .mat-menu-panel {
+  background-color: var(--menuBack);
+  color: var(--menuFore);
+}
+
+.btnLanguage:not(:hover) {
+  .crowdin {
+    display: none;
+  }
+}
+
+.crowdin {
+  margin-top: 12px;
+  position: fixed;
+}

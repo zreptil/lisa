@@ -28,18 +28,16 @@
       </div>
       <button (click)="clickFetchIcon($event)" mat-flat-button>Fetch Icon</button>
     </div>
-    <mat-form-field>
-      <mat-label i18n>Label</mat-label>
-      <input (focus)="onLabelFocus($event)" [(ngModel)]="data.label" [autofocus]="data.url!=null||data.children!=null" matInput>
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label i18n>Short Label</mat-label>
-      <input [(ngModel)]="data.shortLabel" matInput maxlength="15">
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label i18n>Info</mat-label>
-      <textarea [(ngModel)]="data.info" matInput></textarea>
-    </mat-form-field>
+    <div column>
+      <mat-form-field>
+        <mat-label i18n>Label</mat-label>
+        <input (focus)="onLabelFocus($event)" [(ngModel)]="data.label" [autofocus]="data.url!=null||data.children!=null" matInput>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label i18n>Info</mat-label>
+        <textarea [(ngModel)]="data.info" matInput></textarea>
+      </mat-form-field>
+    </div>
     <div *ngIf="data.children != null" children>
       <app-link-card *ngFor="let child of data.children"
                      [link]="child"
@@ -50,12 +48,14 @@
 
   <mat-dialog-actions>
     <div>
-      <button (click)="clickDelete($event)" mat-flat-button>
-        <mat-icon>delete</mat-icon>
-      </button>
-      <button (click)="clickClone($event)" mat-flat-button>
-        <mat-icon>content_copy</mat-icon>
-      </button>
+      <ng-container *ngIf="data?.index!=null">
+        <button (click)="clickDelete($event)" mat-flat-button>
+          <mat-icon>delete</mat-icon>
+        </button>
+        <button (click)="clickClone($event)" mat-flat-button>
+          <mat-icon>content_copy</mat-icon>
+        </button>
+      </ng-container>
     </div>
     <button (click)="clickSave($event)" mat-flat-button>
       <mat-icon>save</mat-icon>

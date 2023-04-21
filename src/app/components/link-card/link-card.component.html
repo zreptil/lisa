@@ -18,7 +18,7 @@
                    [link]="child"
                    [mode]="link.isOpen?'full':'icon'"></app-link-card>
     <ng-container *ngIf="globals.appMode==='edit'">
-      <button (click)="clickAdd($event, link)" mat-flat-button>
+      <button (click)="clickAdd($event, link)" class="add" mat-flat-button>
         <mat-icon>note_add</mat-icon>
       </button>
     </ng-container>
@@ -34,11 +34,13 @@
      cdkDrag
      id="link-{{link.uniqueId}}">
   <ng-container [ngSwitch]="mode">
-    <div *ngSwitchCase="'icon'" class="dragbase">
+    <div *ngSwitchCase="'icon'" class="dragbase icon">
       <button (click)="clickLink($event, link)" mat-flat-button>
         <ng-container [ngTemplateOutletContext]="{callLink:true}" [ngTemplateOutlet]="icon"></ng-container>
-        <div *ngIf="!Utils.isEmpty(link.shortLabel)" shortlabel>{{link.shortLabel}}</div>
       </button>
+      <div iconlabel>{{link.label}}
+        <div info>{{link.info}}</div>
+      </div>
     </div>
     <ng-container *ngSwitchCase="'full'">
       <ng-container [ngSwitch]="type">
@@ -68,6 +70,11 @@
             <div header>
               <ng-container *ngTemplateOutlet="icon"></ng-container>
               <span [innerHTML]="link.label" label></span>
+              <div tools>
+                <button (click)="clickOpenAll($event)" *ngIf="mayOpenAll" mat-flat-button>
+                  <mat-icon>directions_run</mat-icon>
+                </button>
+              </div>
             </div>
             <div content>
               <div>{{link.info}}</div>

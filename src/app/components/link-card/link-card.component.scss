@@ -98,11 +98,10 @@ mat-card {
   button {
     min-width: 1em;
     align-self: center;
+  }
 
-    [shortlabel] {
-      line-height: 1em;
-      font-size: 0.5em;
-    }
+  button.add {
+    color: rgba(0, 0, 0, 0.5);
   }
 
   img {
@@ -263,4 +262,43 @@ mat-card {
 .cdk-drag.dragover.right > [class="icono-arrow2-right"] {
   display: block !important;
   right: 50px;
+}
+
+[tools] {
+  display: flex;
+  flex: 1;
+  align-items: flex-start;
+  justify-content: flex-end;
+}
+
+.dragbase.icon {
+  position: relative;
+
+  [iconlabel] {
+    display: none;
+    flex-flow: column;
+    position: fixed;
+    line-height: 1em;
+    font-size: 1.5em;
+    border-radius: 0.5em;
+    bottom: 0.5em;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 0.5em;
+    pointer-events: none;
+    height: fit-content;
+
+    [info] {
+      font-size: 60%;
+    }
+  }
+}
+
+.dragbase.icon:hover {
+  [iconlabel] {
+    display: flex;
+    z-index: 100;
+  }
 }
