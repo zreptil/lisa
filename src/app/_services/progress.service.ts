@@ -12,21 +12,26 @@ export class ProgressService {
   mayCancel = true;
   public initializer: Observable<any>;
   private initializerSubject: BehaviorSubject<any>;
+
   constructor() {
     this.initializerSubject = new BehaviorSubject<any>(null);
     this.initializer = this.initializerSubject.asObservable();
   }
+
   _value: number;
   get value(): number {
     return this._value;
   }
+
   set value(value: number) {
     this._value = value;
   }
+
   _text: string;
   get text(): string {
     return this._text;
   }
+
   set text(value: string) {
     this._text = value;
     this.isStopped = value == null;
@@ -51,6 +56,7 @@ export class ProgressService {
     this.info = null;
     this.mayCancel = mayCancel;
     this.isStopped = false;
+    this.value = 0;
     this.initializerSubject.next(data);
   }
 

@@ -1,9 +1,9 @@
 import {ChangeDetectorRef, Component} from '@angular/core';
-import {LogService} from '@/_services/log.service';
 import {SyncService} from '@/_services/sync/sync.service';
 import {StorageService} from '@/_services/storage.service';
 import {EnvironmentService} from '@/_services/environment.service';
 import {GLOBALS} from '@/_services/globals.service';
+import {LogService} from '@/_services/log.service';
 
 @Component({
   selector: 'app-root',

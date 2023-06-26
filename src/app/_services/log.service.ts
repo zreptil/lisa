@@ -13,19 +13,19 @@ export class LinkDef {
 
 export class Log {
   static get mayDebug(): boolean {
-    return LogService.instance.mayDebug;
+    return LogService.instance?.mayDebug;
   }
 
   static get showTodo(): boolean {
-    return LogService.instance.showTodo;
+    return LogService.instance?.showTodo;
   }
 
   static get msg(): { [key: string]: any[] } {
-    return LogService.instance.msg;
+    return LogService.instance?.msg;
   }
 
   static get links(): LinkDef[] {
-    return LogService.instance.links;
+    return LogService.instance?.links;
   }
 
   static clear(type?: string): void {
@@ -157,7 +157,8 @@ export class LogService {
 
   links: LinkDef[] = [];
 
-  private constructor(public mayDebug: boolean, public showTodo: boolean) {
+  private constructor(public mayDebug: boolean,
+                      public showTodo: boolean) {
   }
 
   public static refreshUI(): void {

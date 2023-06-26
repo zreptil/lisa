@@ -16,7 +16,7 @@
         </button>
       </ng-container>
       <ng-container *ngSwitchDefault>
-        <button (click)="clickEdit($event)" mat-flat-button>
+        <button (click)="globals.clickEdit($event)" mat-flat-button>
           <mat-icon>tune</mat-icon>
         </button>
       </ng-container>
@@ -71,6 +71,7 @@
     <app-view-world *ngSwitchCase="'world'"></app-view-world>
     <app-view-flex *ngSwitchCase="'flex'"></app-view-flex>
     <app-view-grid *ngSwitchCase="'grid'"></app-view-grid>
+    <app-view-thumbling *ngSwitchCase="'thumb'"></app-view-thumbling>
   </div>
 </div>
 <app-progress></app-progress>

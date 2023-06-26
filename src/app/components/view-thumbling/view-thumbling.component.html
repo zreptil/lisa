@@ -1,0 +1,54 @@
+<div class="cubePanel">
+  <div (mousedown)="onMouseDown($event, data)"
+       (mousemove)="onMove($event, data)"
+       (mouseout)="onLeave($event, data)"
+       (mouseup)="onLeave($event, data)"
+       *ngFor="let data of cubeData"
+       [class]="classForArea(data)">
+    <div class="container">
+      <div [style]="cubeStyle(data)" class="cube">
+        <div *ngFor="let type of ['center','fl','fr','bl','br','dl','dr','ur','ul','fu','fd','bd','bu','flu','fru','bru','blu','fld','frd','brd','bld','f','b','l','r','u','d']"
+             [class]="classFor(type, data)">
+          <div class="face front"></div>
+          <div class="face back"></div>
+          <div class="face right"></div>
+          <div class="face left"></div>
+          <div class="face top"></div>
+          <div class="face bottom"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div>
+  <button (click)="getVariations()" mat-button>
+    <ng-container *ngIf="!hasVariations">Variationen ermitteln</ng-container>
+    <ng-container *ngIf="hasVariations">
+      {{listThumbs?.length}} Variationen
+    </ng-container>
+  </button>
+</div>
+<div class="list">
+  <div class="thumbPanel">
+    <ng-container *ngFor="let thumb of listThumbs">
+      <button (click)="activate(thumb.value, currentData)"
+              [cdkCopyToClipboard]="openScadCmd(thumb.value)"
+              [class]="classForThumbling(thumb.value, cubeData[0])"
+              mat-button>
+        {{ts.cvtBin2Dec(ts.cvtDec2Bin(thumb.value))}}
+        <ng-container *ngIf="thumb.name != null">- {{thumb.name}}</ng-container>
+      </button>
+    </ng-container>
+  </div>
+  <div class="sameAsPanel">
+    <ng-container *ngFor="let value of currentThumb?.sameAs">
+      <button (click)="activate(value, cubeData[1])"
+              [cdkCopyToClipboard]="openScadCmd(value)"
+              [class]="classForThumbling(value, cubeData[1])"
+              mat-button>
+        {{ts.cvtBin2Dec(ts.cvtDec2Bin(value))}}
+        <ng-container *ngIf="ts.nameFor(value) != null">- {{ts.nameFor(value)}}</ng-container>
+      </button>
+    </ng-container>
+  </div>
+</div>

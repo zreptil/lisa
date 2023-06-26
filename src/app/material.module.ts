@@ -36,6 +36,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {DragDropModule} from '@angular/cdk/drag-drop';
+import {ClipboardModule} from '@angular/cdk/clipboard';
 
 @NgModule({
   exports: [
@@ -83,7 +84,8 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
     PortalModule,
     ScrollingModule,
     MatDialogModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    ClipboardModule
   ],
   providers: [MatStepper, {
     provide: STEPPER_GLOBAL_OPTIONS,

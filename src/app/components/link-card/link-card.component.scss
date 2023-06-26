@@ -302,3 +302,15 @@ mat-card {
     z-index: 100;
   }
 }
+
+.editCard {
+  display: none;
+  height: 30px;
+  width: 30px;
+  font-size: 0.75em;
+  line-height: initial;
+}
+
+.dragbase:hover .editCard {
+  display: flex;
+}

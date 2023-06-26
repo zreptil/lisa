@@ -27,6 +27,7 @@ import {ViewWorldComponent} from './components/view-world/view-world.component';
 import {DragQueenComponent} from './controls/drag-queen/drag-queen.component';
 import {ViewGridComponent} from './components/view-grid/view-grid.component';
 import {NgOptimizedImage} from '@angular/common';
+import { ViewThumblingComponent } from './components/view-thumbling/view-thumbling.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import {NgOptimizedImage} from '@angular/common';
     ViewWorldComponent,
     DragQueenComponent,
     ViewGridComponent,
+    ViewThumblingComponent,
   ],
   imports: [
     BrowserModule,

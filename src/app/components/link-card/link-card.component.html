@@ -74,6 +74,9 @@
                 <button (click)="clickOpenAll($event)" *ngIf="mayOpenAll" mat-flat-button>
                   <mat-icon>directions_run</mat-icon>
                 </button>
+                <button (click)="globals.toggleEdit($event)" class="editCard" mat-icon-button>
+                  <mat-icon>{{globals.iconForToggleEdit}}</mat-icon>
+                </button>
               </div>
             </div>
             <div content>

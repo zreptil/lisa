@@ -47,7 +47,8 @@ export class GlobalsService {
   viewModes = [
     {id: 'grid', icon: 'apps'},
     {id: 'world', icon: 'public'},
-    {id: 'flex', icon: 'wrap_text'}
+    {id: 'flex', icon: 'wrap_text'},
+    {id: 'thumb', icon: 'fingerprint'}
   ];
   viewConfig = {
     gridColumns: 4
@@ -69,6 +70,16 @@ export class GlobalsService {
         this.ms.showPopup(WhatsNewComponent, 'news', null);
       }
     });
+  }
+
+  get iconForToggleEdit(): string {
+    switch (GLOBALS.appMode) {
+      case 'standard':
+        return 'tune';
+      case 'edit':
+        return 'chevron_left';
+    }
+    return '';
   }
 
   private _links: LinkData[];
@@ -346,6 +357,25 @@ export class GlobalsService {
 
   noImage(evt: ErrorEvent) {
     (evt.target as any).src = 'assets/images/empty.png';
+  }
+
+  public clickEdit(evt: MouseEvent) {
+    evt.stopPropagation();
+    GLOBALS.appMode = 'edit'
+    GLOBALS.saveSharedData();
+  }
+
+  public toggleEdit(evt: MouseEvent) {
+    evt.stopPropagation();
+    switch (GLOBALS.appMode) {
+      case 'standard':
+        GLOBALS.appMode = 'edit';
+        break;
+      case 'edit':
+        GLOBALS.appMode = 'standard';
+        break;
+    }
+    GLOBALS.saveSharedData();
   }
 
   private _loadSharedData(storage: any): void {

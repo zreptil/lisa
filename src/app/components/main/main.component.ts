@@ -64,12 +64,6 @@ export class MainComponent {
     this.ms.showPopup(EditLinkComponent, 'edit-link', link);
   }
 
-  clickEdit(evt: MouseEvent) {
-    evt.stopPropagation();
-    GLOBALS.appMode = 'edit'
-    GLOBALS.saveSharedData();
-  }
-
   clickSave(evt: MouseEvent) {
     evt.stopPropagation();
     GLOBALS.appMode = 'standard';

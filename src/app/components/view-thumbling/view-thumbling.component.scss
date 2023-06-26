@@ -1,0 +1,235 @@
+:host {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+}
+
+.list {
+  display: flex;
+  flex-flow: row;
+  flex-wrap: wrap;
+  flex: 1;
+  overflow-y: auto;
+  max-height: calc(100vh - 94px);
+  padding: 1em;
+}
+
+
+.cubePanel {
+  display: flex;
+  flex-flow: row;
+}
+
+.cubeArea {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  width: 40vw;
+}
+
+.container {
+  pointer-events: none;
+  --size: 100px;
+  --s: calc(var(--size) / 3);
+  --sub: var(--s);
+  --s-: calc(var(--s) * -1);
+  --z: calc(var(--sub) / 2);
+  --xo: calc(var(--s) / 2);
+  --yo: calc(var(--s) / 2);
+  --zo: calc(var(--s) / 2);
+  width: var(--size);
+  height: var(--size);
+  perspective: 1000px;
+  margin: 100px;
+
+  .cube {
+    transform-style: preserve-3d;
+    width: var(--sub);
+    height: var(--sub);
+    // animation: spin 5s infinite linear;
+    // transform-origin: var(--xo) var(--yo) var(--zo);
+  }
+
+  .edge {
+    transform-style: preserve-3d;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+  }
+
+  .center .face {
+    background: rgba(255, 255, 255, 0.3);
+    border: none;
+  }
+
+  .fl {
+    transform: translate3d(var(--s-), 0, var(--s));
+  }
+
+  .fr {
+    transform: translate3d(var(--s), 0, var(--s));
+  }
+
+  .bl {
+    transform: translate3d(var(--s-), 0, var(--s-));
+  }
+
+  .br {
+    transform: translate3d(var(--s), 0, var(--s-));
+  }
+
+  .dl {
+    transform: translate3d(var(--s-), var(--s), 0);
+  }
+
+  .dr {
+    transform: translate3d(var(--s), var(--s), 0);
+  }
+
+  .ul {
+    transform: translate3d(var(--s-), var(--s-), 0);
+  }
+
+  .ur {
+    transform: translate3d(var(--s), var(--s-), 0);
+  }
+
+  .fu {
+    transform: translate3d(0, var(--s-), var(--s));
+  }
+
+  .fd {
+    transform: translate3d(0, var(--s), var(--s));
+  }
+
+  .bu {
+    transform: translate3d(0, var(--s-), var(--s-));
+  }
+
+  .bd {
+    transform: translate3d(0, var(--s), var(--s-));
+  }
+
+  .flu {
+    transform: translate3d(var(--s-), var(--s-), var(--s));
+  }
+
+  .fru {
+    transform: translate3d(var(--s), var(--s-), var(--s));
+  }
+
+  .bru {
+    transform: translate3d(var(--s), var(--s-), var(--s-));
+  }
+
+  .blu {
+    transform: translate3d(var(--s-), var(--s-), var(--s-));
+  }
+
+  .fld {
+    transform: translate3d(var(--s-), var(--s), var(--s));
+  }
+
+  .frd {
+    transform: translate3d(var(--s), var(--s), var(--s));
+  }
+
+  .brd {
+    transform: translate3d(var(--s), var(--s), var(--s-));
+  }
+
+  .bld {
+    transform: translate3d(var(--s-), var(--s), var(--s-));
+  }
+
+  .f {
+    transform: translate3d(0, 0, var(--s));
+  }
+
+  .b {
+    transform: translate3d(0, 0, var(--s-));
+  }
+
+  .l {
+    transform: translate3d(var(--s-), 0, 0);
+  }
+
+  .r {
+    transform: translate3d(var(--s), 0, 0);
+  }
+
+  .u {
+    transform: translate3d(0, var(--s-), 0);
+  }
+
+  .d {
+    transform: translate3d(0, var(--s), 0);
+  }
+
+  .face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #aaa;
+    border: 1px solid black;
+  }
+
+  .top {
+    transform: rotateX(90deg) translateZ(var(--z));
+  }
+
+  .bottom {
+    transform: rotateX(-90deg) translateZ(var(--z));
+  }
+
+  .right {
+    transform: rotateY(90deg) translateZ(var(--z));
+  }
+
+  .left {
+    transform: rotateY(-90deg) translateZ(var(--z));
+  }
+
+  .front {
+    transform: rotateX(0deg) translateZ(var(--z));
+  }
+
+  .back {
+    transform: rotateX(-180deg) translateZ(var(--z));
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotateX(0deg) rotateY(0deg);
+    }
+    50% {
+      transform: rotateX(360deg) rotateY(0deg);
+    }
+    100% {
+      transform: rotateX(360deg) rotateY(360deg);
+    }
+  }
+}
+
+.current {
+  background: rgba(0, 0, 0, 0.2);
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.thumbPanel {
+  display: flex;
+  width: 95vw;
+  flex-flow: row;
+  flex-wrap: wrap;
+  border: 1px solid rgba(0, 0, 0, 0.8);
+}
+
+.sameAsPanel {
+  display: flex;
+  width: 95vw;
+  flex-flow: row;
+  flex-wrap: wrap;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  margin-top: 0.5em;
+}
