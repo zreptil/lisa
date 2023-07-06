@@ -29,6 +29,8 @@ body {
   justify-content: center;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 
+  --mdc-theme-primary: blue;
+
   --logInfoBack: #606099;
   --logInfoFore: #fff;
   --logWarnBack: #ff8020;
@@ -182,7 +184,7 @@ mat-icon[small] {
     overflow-x: hidden;
   }
 
-  mat-dialog-container {
+  .mat-mdc-dialog-container {
     display: flex;
 
     > :nth-child(1) {
@@ -193,7 +195,7 @@ mat-icon[small] {
 
     padding: 0;
 
-    [mat-dialog-title] {
+    .mat-mdc-dialog-title {
       cursor: move;
       padding: 0.6em;
       display: flex;
@@ -212,14 +214,15 @@ mat-icon[small] {
       }
     }
 
-    mat-dialog-content {
+    .mat-mdc-dialog-content {
+      display: flex;
       padding: 1em;
       margin: 0;
       font-size: 1.2em;
       min-width: 50%;
     }
 
-    mat-dialog-actions {
+    .mat-mdc-dialog-actions {
       margin: 0;
       padding: 0;
       min-height: 3em;
@@ -266,7 +269,7 @@ mat-icon[small] {
   color: var(--toolbarFore);
 }
 
-.mat-flat-button, .mat-fab, .mat-mini-fab {
+.mat-button, .mat-fab, .mat-mini-fab {
   background-color: transparent;
 }
 
@@ -312,43 +315,48 @@ form.oauth2 {
 }
 
 .dialog-box {
-  .mat-dialog-title {
+  .mat-mdc-dialog-title {
     background-color: rgba(0, 0, 0, 0.2);
   }
 }
 
 .dialog-box.confirm {
-  .mat-dialog-container {
-    background-color: var(--confirmBack);
-    color: var(--confirmFore);
+  .mat-mdc-dialog-container {
+    --mdc-dialog-container-color: var(--confirmBack);
+    --mdc-dialog-subhead-color: var(--confirmFore);
+    --mdc-dialog-supporting-text-color: var(--confirmFore);
   }
 }
 
 .dialog-box.edit-link {
-  .mat-dialog-container {
-    background-color: var(--editLinkBack);
-    color: var(--editLinkFore);
+  .mat-mdc-dialog-container {
+    --mdc-dialog-container-color: var(--editLinkBack);
+    --mdc-dialog-subhead-color: var(--editLinkFore);
+    --mdc-dialog-supporting-text-color: var(--editLinkFore);
   }
 }
 
 .dialog-box.welcome {
-  .mat-dialog-container {
-    background-color: var(--editLinkBack);
-    color: var(--editLinkFore);
+  .mat-mdc-dialog-container {
+    --mdc-dialog-container-color: var(--editLinkBack);
+    --mdc-dialog-subhead-color: var(--editLinkFore);
+    --mdc-dialog-supporting-text-color: var(--editLinkFore);
   }
 }
 
 .dialog-box.impressum {
-  .mat-dialog-container {
-    background-color: var(--impressumBack);
-    color: var(--impressumFore);
+  .mat-mdc-dialog-container {
+    --mdc-dialog-container-color: var(--impressumBack);
+    --mdc-dialog-subhead-color: var(--impressumFore);
+    --mdc-dialog-supporting-text-color: var(--impressumFore);
   }
 }
 
 .dialog-box.whatsnew {
-  .mat-dialog-container {
-    background-color: var(--editLinkBack);
-    color: var(--editLinkFore);
+  .mat-mdc-dialog-container {
+    --mdc-dialog-container-color: var(--editLinkBack);
+    --mdc-dialog-subhead-color: var(--editLinkFore);
+    --mdc-dialog-supporting-text-color: var(--editLinkFore);
   }
 }
 

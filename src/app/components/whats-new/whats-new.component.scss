@@ -2,7 +2,7 @@
   min-width: 80vw;
 }
 
-[mat-dialog-title] {
+.mat-mdc-dialog-title {
   background-color: var(--whatsnewHeaderBack);
   color: var(--whatsnewHeaderFore);
 }
@@ -15,7 +15,7 @@ div[header] {
   align-items: center;
 }
 
-mat-dialog-content {
+.mat-mdc-dialog-content {
   padding: 1em;
   font-size: 1.2em;
   background-color: var(--whatsnewBodyBack);

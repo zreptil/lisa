@@ -2,27 +2,27 @@
   <div toolbar>
     <div [ngSwitch]="globals.appMode">
       <ng-container *ngSwitchCase="'edit'">
-        <button (click)="clickSave($event)" mat-flat-button>
+        <button (click)="clickSave($event)" mat-button>
           <mat-icon>chevron_left</mat-icon>
         </button>
-        <button (click)="clickAdd($event)" mat-flat-button>
+        <button (click)="clickAdd($event)" mat-button>
           <mat-icon>note_add</mat-icon>
         </button>
-        <button (click)="clickAddGroup($event)" mat-flat-button>
+        <button (click)="clickAddGroup($event)" mat-button>
           <mat-icon>create_new_folder</mat-icon>
         </button>
-        <button (mouseout)="mouseoutDelete($event)" (mouseover)="mouseoverDelete($event)" mat-flat-button>
+        <button (mouseout)="mouseoutDelete($event)" (mouseover)="mouseoverDelete($event)" mat-button>
           <mat-icon id="link-delete">delete</mat-icon>
         </button>
       </ng-container>
       <ng-container *ngSwitchDefault>
-        <button (click)="globals.clickEdit($event)" mat-flat-button>
+        <button (click)="globals.clickEdit($event)" mat-button>
           <mat-icon>tune</mat-icon>
         </button>
       </ng-container>
     </div>
     <div>
-      <button [matMenuTriggerFor]="menu" mat-flat-button>
+      <button [matMenuTriggerFor]="menu" mat-button>
         <img alt="appicon" class="appicon" src="../../../assets/themes/standard/favicon.png">
       </button>
       <mat-menu #menu="matMenu" xPosition="before">
@@ -48,10 +48,10 @@
     <div>
       <button (click)="clickViewTool($event, tool)"
               *ngFor="let tool of toolsForView"
-              mat-flat-button>
+              mat-button>
         <mat-icon>{{tool.icon}}</mat-icon>
       </button>
-      <button (click)="clickView($event)" mat-flat-button>
+      <button (click)="clickView($event)" mat-button>
         <mat-icon>{{iconForView}}</mat-icon>
       </button>
       <button (click)="clickDebug($event)" *ngIf="globals.mayDebug" class="debug" mat-icon-button>

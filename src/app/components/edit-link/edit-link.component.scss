@@ -1,5 +1,6 @@
 :host {
   min-width: 50%;
+  --mdc-theme-primary: var(--editLinkFore);
 
   ::ng-deep .mat-form-field.mat-focused .mat-form-field-label {
     color: var(--editLinkFore);
@@ -16,7 +17,7 @@
     }
   }
 
-  ::ng-deep mat-dialog-actions {
+  ::ng-deep .mat-mdc-dialog-actions {
     .mat-button-wrapper {
       color: var(--editLinkFore);
     }
@@ -24,6 +25,10 @@
 
   ::ng-deep .mat-form-field.mat-focused .mat-form-field-ripple {
     background-color: var(--editLinkFore);
+  }
+
+  ::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+    background-color: transparent;
   }
 }
 

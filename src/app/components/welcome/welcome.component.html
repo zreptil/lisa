@@ -1,14 +1,14 @@
 <div cdkDrag cdkDragBoundary=".cdk-overlay-container"
      cdkDragRootElement=".dialog-box.welcome">
   <div cdkDragHandle mat-dialog-title>
-    <h1 i18n="title of impressum">Welcome</h1>
+    <h1 i18n="title of welcome">Welcome</h1>
     <div>
       <button mat-dialog-close="ok" mat-icon-button>
         <mat-icon>close</mat-icon>
       </button>
     </div>
   </div>
-  <mat-dialog-content>
+  <div mat-dialog-content>
     <section id="main">
       <div class="text">
         <section class="headline">Welcome to {{globals.appTitle}}</section>
@@ -28,5 +28,5 @@
       <section class="text">
       </section>
     </section>
-  </mat-dialog-content>
+  </div>
 </div>

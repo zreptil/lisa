@@ -26,7 +26,7 @@
           <input [(ngModel)]="data.iconUrl" matInput>
         </mat-form-field>
       </div>
-      <button (click)="clickFetchIcon($event)" mat-flat-button>Fetch Icon</button>
+      <button (click)="clickFetchIcon($event)" mat-button>Fetch Icon</button>
     </div>
     <div column>
       <mat-form-field>
@@ -49,15 +49,15 @@
   <mat-dialog-actions>
     <div>
       <ng-container *ngIf="data?.index!=null">
-        <button (click)="clickDelete($event)" mat-flat-button>
+        <button (click)="clickDelete($event)" mat-button>
           <mat-icon>delete</mat-icon>
         </button>
-        <button (click)="clickClone($event)" mat-flat-button>
+        <button (click)="clickClone($event)" mat-button>
           <mat-icon>content_copy</mat-icon>
         </button>
       </ng-container>
     </div>
-    <button (click)="clickSave($event)" mat-flat-button>
+    <button (click)="clickSave($event)" mat-button>
       <mat-icon>save</mat-icon>
       <div i18n="buttonlabel for saving data">Save</div>
     </button>

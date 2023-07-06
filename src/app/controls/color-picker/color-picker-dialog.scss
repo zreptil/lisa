@@ -3,7 +3,7 @@
   max-height: initial !important;
 }
 
-[mat-dialog-title] {
+.mat-mdc-dialog-title {
   background-color: var(--settingsHeaderBack);
   color: var(--settingsHeaderFore);
   display: flex;
@@ -12,7 +12,7 @@
   justify-content: space-between;
 }
 
-mat-dialog-content {
+.mat-mdc-dialog-content {
   color: var(--settingsBodyFore);
   background-color: var(--settingsBodyBack);
   display: flex;
@@ -48,7 +48,7 @@ mat-dialog-content {
 }
 
 :host {
-  ::ng-deep mat-dialog-actions {
+  ::ng-deep .mat-mdc-dialog-actions {
     background-color: var(--settingsHeaderBack);
 
     [spacer] {

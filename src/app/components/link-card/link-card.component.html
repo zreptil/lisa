@@ -18,7 +18,7 @@
                    [link]="child"
                    [mode]="link.isOpen?'full':'icon'"></app-link-card>
     <ng-container *ngIf="globals.appMode==='edit'">
-      <button (click)="clickAdd($event, link)" class="add" mat-flat-button>
+      <button (click)="clickAdd($event, link)" class="add" mat-button>
         <mat-icon>note_add</mat-icon>
       </button>
     </ng-container>
@@ -35,7 +35,7 @@
      id="link-{{link.uniqueId}}">
   <ng-container [ngSwitch]="mode">
     <div *ngSwitchCase="'icon'" class="dragbase icon">
-      <button (click)="clickLink($event, link)" mat-flat-button>
+      <button (click)="clickLink($event, link)" mat-button>
         <ng-container [ngTemplateOutletContext]="{callLink:true}" [ngTemplateOutlet]="icon"></ng-container>
       </button>
       <div iconlabel>{{link.label}}
@@ -71,10 +71,10 @@
               <ng-container *ngTemplateOutlet="icon"></ng-container>
               <span [innerHTML]="link.label" label></span>
               <div tools>
-                <button (click)="clickOpenAll($event)" *ngIf="mayOpenAll" mat-flat-button>
+                <button (click)="clickOpenAll($event)" *ngIf="mayOpenAll" mat-button>
                   <mat-icon>directions_run</mat-icon>
                 </button>
-                <button (click)="globals.toggleEdit($event)" class="editCard" mat-icon-button>
+                <button (click)="globals.toggleEdit($event)" class="editCard" mat-button>
                   <mat-icon>{{globals.iconForToggleEdit}}</mat-icon>
                 </button>
               </div>
