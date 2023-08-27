@@ -36,6 +36,12 @@ export class MainComponent {
         click: () => {
           this.adjustGridColumns(-1);
         }
+      }],
+      prime: [{
+        icon: GLOBALS.viewConfig.showPrimeNumbers ? 'toggle_on' : 'toggle_off',
+        click: () => {
+          this.togglePrimeNumbers();
+        }
       }]
     }[GLOBALS.viewMode] ?? [];
   }
@@ -47,6 +53,11 @@ export class MainComponent {
   adjustGridColumns(diff: number): void {
     let value = GLOBALS.viewConfig.gridColumns += diff;
     GLOBALS.viewConfig.gridColumns = Math.min(8, Math.max(1, value));
+    GLOBALS.saveSharedData();
+  }
+
+  togglePrimeNumbers(): void {
+    GLOBALS.viewConfig.showPrimeNumbers = !GLOBALS.viewConfig.showPrimeNumbers;
     GLOBALS.saveSharedData();
   }
 

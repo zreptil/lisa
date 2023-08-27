@@ -1,0 +1,9 @@
+<table>
+  <tr *ngFor="let row of primeList">
+    <td *ngFor="let num of row" [class]="classForCell(num)">
+      <div [class]="classForNum(num)">
+        {{num.num}}
+      </div>
+    </td>
+  </tr>
+</table>

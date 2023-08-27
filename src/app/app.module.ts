@@ -28,6 +28,7 @@ import {DragQueenComponent} from './controls/drag-queen/drag-queen.component';
 import {ViewGridComponent} from './components/view-grid/view-grid.component';
 import {NgOptimizedImage} from '@angular/common';
 import { ViewThumblingComponent } from './components/view-thumbling/view-thumbling.component';
+import { ViewPrimeNumbersComponent } from './components/view-prime-numbers/view-prime-numbers.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { ViewThumblingComponent } from './components/view-thumbling/view-thumbli
     DragQueenComponent,
     ViewGridComponent,
     ViewThumblingComponent,
+    ViewPrimeNumbersComponent,
   ],
   imports: [
     BrowserModule,

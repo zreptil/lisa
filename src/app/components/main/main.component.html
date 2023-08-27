@@ -3,7 +3,7 @@
     <div [ngSwitch]="globals.appMode">
       <ng-container *ngSwitchCase="'edit'">
         <button (click)="clickSave($event)" mat-button>
-          <mat-icon>chevron_left</mat-icon>
+          <mat-icon>{{globals.iconForToggleEdit}}</mat-icon>
         </button>
         <button (click)="clickAdd($event)" mat-button>
           <mat-icon>note_add</mat-icon>
@@ -72,6 +72,7 @@
     <app-view-flex *ngSwitchCase="'flex'"></app-view-flex>
     <app-view-grid *ngSwitchCase="'grid'"></app-view-grid>
     <app-view-thumbling *ngSwitchCase="'thumb'"></app-view-thumbling>
+    <app-view-prime-numbers *ngSwitchCase="'prime'"></app-view-prime-numbers>
   </div>
 </div>
 <app-progress></app-progress>
