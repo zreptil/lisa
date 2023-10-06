@@ -1,0 +1,83 @@
+[moves] {
+  --size: 25px;
+  --frame: 2px;
+  --gap: 4px;
+  --extents: calc(var(--size) * 3 + var(--frame) * 2);
+
+  border: 1px solid black;
+  padding: 10px;
+  border-radius: 5px;
+  display: flex;
+  flex-flow: row;
+  flex-wrap: wrap;
+  gap: var(--gap);
+  max-width: calc(var(--extents) * 3 + 5 * var(--gap));
+
+  [root] {
+    display: grid;
+    gap: var(--frame);
+    grid-template-columns: var(--size) var(--size) var(--size);
+    grid-template-rows: var(--size) var(--size) var(--size);
+    background-color: black;
+    width: var(--extents);
+    height: var(--extents);
+    padding: var(--frame);
+    position: relative;
+
+    [cell] {
+      border-radius: 2px;
+      width: var(--size);
+      height: var(--size);
+      background-color: white;
+    }
+
+    [move] {
+      --s: calc(var(--size) * 3 + var(--frame) * 2);
+      position: absolute;
+      transform-origin: calc(var(--s) / 2) calc(var(--s) / 2);
+      top: var(--frame);
+      left: var(--frame);
+      width: var(--s);
+      height: var(--s);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      mat-icon {
+        font-size: var(--size);
+        font-weight: bold;
+        width: var(--size);
+        height: var(--size);
+        //        background-color: white;
+      }
+    }
+
+    mat-icon.up {
+      transform: rotate(-90deg);
+    }
+
+    mat-icon.down {
+      transform: rotate(90deg);
+    }
+
+    mat-icon.left {
+      transform: scaleX(-1);
+    }
+
+    .top {
+      align-items: flex-start;
+    }
+
+    .bottom {
+      align-items: flex-end;
+    }
+
+    [move].left {
+      justify-content: flex-start;
+    }
+
+    [move].right {
+      justify-content: flex-end;
+    }
+  }
+}

@@ -1,0 +1,27 @@
+[root] {
+  --size: 25px;
+  --frame: 2px;
+  --gap: 4px;
+  --extents: calc(var(--size) * 3 + var(--frame) * 2);
+  display: grid;
+  gap: var(--frame);
+  grid-template-columns: var(--size) var(--size) var(--size);
+  grid-template-rows: var(--size) var(--size) var(--size);
+  background-color: black;
+  width: var(--extents);
+  height: var(--extents);
+  padding: var(--frame);
+  position: relative;
+
+  [cell] {
+    border-radius: 2px;
+    width: var(--size);
+    height: var(--size);
+    background-color: white;
+    font-size: 60%;
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    justify-content: center;
+  }
+}

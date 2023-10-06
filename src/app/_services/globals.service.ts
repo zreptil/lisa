@@ -45,11 +45,12 @@ export class GlobalsService {
   viewMode = 'grid';
   theme: string;
   viewModes = [
-    {id: 'grid', icon: 'apps'},
+    {id: 'grid', icon: 'grid_view'},
+    {id: 'rubik', icon: 'apps'},
     {id: 'world', icon: 'public'},
     {id: 'flex', icon: 'wrap_text'},
     {id: 'thumb', icon: 'fingerprint'},
-    {id: 'prime', icon: 'pin'}
+    {id: 'prime', icon: 'pin'},
   ];
   viewConfig = {
     gridColumns: 4,

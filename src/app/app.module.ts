@@ -27,8 +27,11 @@ import {ViewWorldComponent} from './components/view-world/view-world.component';
 import {DragQueenComponent} from './controls/drag-queen/drag-queen.component';
 import {ViewGridComponent} from './components/view-grid/view-grid.component';
 import {NgOptimizedImage} from '@angular/common';
-import { ViewThumblingComponent } from './components/view-thumbling/view-thumbling.component';
-import { ViewPrimeNumbersComponent } from './components/view-prime-numbers/view-prime-numbers.component';
+import {ViewThumblingComponent} from './components/view-thumbling/view-thumbling.component';
+import {ViewPrimeNumbersComponent} from './components/view-prime-numbers/view-prime-numbers.component';
+import {ViewRubikComponent} from './components/view-rubik/view-rubik.component';
+import {RubikMoveComponent} from './controls/rubik-move/rubik-move.component';
+import {RubikFaceComponent} from './controls/rubik-face/rubik-face.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +56,9 @@ import { ViewPrimeNumbersComponent } from './components/view-prime-numbers/view-
     ViewGridComponent,
     ViewThumblingComponent,
     ViewPrimeNumbersComponent,
+    ViewRubikComponent,
+    RubikMoveComponent,
+    RubikFaceComponent,
   ],
   imports: [
     BrowserModule,

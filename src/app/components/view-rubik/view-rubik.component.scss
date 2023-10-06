@@ -1,0 +1,20 @@
+:host {
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  justify-content: center;
+  height: var(--doc-height);
+  width: 100%;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+[cross] {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+[moves] {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}

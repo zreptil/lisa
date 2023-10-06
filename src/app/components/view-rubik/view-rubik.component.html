@@ -1,0 +1,22 @@
+<div cross>
+  <div></div>
+  <app-rubik-face face="u"></app-rubik-face>
+  <div></div>
+  <app-rubik-face face="l"></app-rubik-face>
+  <app-rubik-face face="f"></app-rubik-face>
+  <app-rubik-face face="r"></app-rubik-face>
+  <div></div>
+  <app-rubik-face face="d"></app-rubik-face>
+  <div></div>
+  <div></div>
+  <app-rubik-face face="b"></app-rubik-face>
+  <div></div>
+</div>
+<div moves>
+  <button (click)="clickMove(c)" *ngFor="let c of moveButtons" mat-icon-button>{{c}}</button>
+</div>
+<app-rubik-move move="drDRDFdf" side="1"></app-rubik-move>
+<app-rubik-move move="UFRUruf" side="1"></app-rubik-move>
+<app-rubik-move move="RERERERE" side="1"></app-rubik-move>
+<app-rubik-move move="ulURuLUr" side="1"></app-rubik-move>
+<app-rubik-move move="RfrFRfrF" side="1"></app-rubik-move>
