@@ -1,17 +1,19 @@
-<div cross>
-  <div></div>
-  <app-rubik-face face="u"></app-rubik-face>
-  <div></div>
-  <app-rubik-face face="l"></app-rubik-face>
-  <app-rubik-face face="f"></app-rubik-face>
-  <app-rubik-face face="r"></app-rubik-face>
-  <div></div>
-  <app-rubik-face face="d"></app-rubik-face>
-  <div></div>
-  <div></div>
-  <app-rubik-face face="b"></app-rubik-face>
-  <div></div>
+<div class="cube">
+  <div [class]="view" cube>
+    <div *ngFor="let face of 'ulfrbd'.split('')" class="face {{face}}">
+      <div class="plates">
+        <ng-container *ngFor="let y of [0,1,2]">
+          <div *ngFor="let x of [0,1,2]" [style]="styleForPlate(face, x,y)" cell>
+            <!-- {{faceFor(face, x, y).l}}/{{faceFor(face, x, y).c}} -->
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
 </div>
+<button (click)="btnView()" mat-icon-button>
+  <mat-icon>{{iconForView[view]}}</mat-icon>
+</button>
 <div moves>
   <button (click)="clickMove(c)" *ngFor="let c of moveButtons" mat-icon-button>{{c}}</button>
 </div>

@@ -1,5 +1,5 @@
 [root] {
-  --size: 25px;
+  --size: var(--face-size);
   --frame: 2px;
   --gap: 4px;
   --extents: calc(var(--size) * 3 + var(--frame) * 2);

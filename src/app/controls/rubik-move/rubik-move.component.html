@@ -1,4 +1,4 @@
-<div moves>
+<div (click)="clickMove()" moves>
   <ng-container
     *ngFor="let moveId of moves"
     [ngTemplateOutletContext]="{moveId:moveId}"

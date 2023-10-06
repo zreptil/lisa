@@ -11,10 +11,132 @@
 
 [cross] {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
 }
 
 [moves] {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
 }
+
+.cube {
+  --plate-size: 50px;
+  --cf-size: calc((var(--plate-size) + 3px) * 3);
+  --tz: calc(var(--plate-size) * 46.5 / 30);
+
+  width: calc(var(--cf-size) * 4);
+  height: calc(var(--cf-size) * 3);
+  position: relative;
+
+  [cube] {
+    width: calc(var(--cf-size) * 2);
+    height: calc(var(--cf-size) * 3);
+    margin: auto;
+
+    .face {
+      position: absolute;
+      overflow: visible;
+      top: var(--cf-size);
+      left: calc(var(--cf-size) / 2);
+
+      .plates {
+        --size: var(--plate-size);
+        --frame: 2px;
+        --gap: 4px;
+        --extents: calc(var(--size) * 3 + var(--frame) * 2);
+        display: grid;
+        gap: var(--frame);
+        grid-template-columns: var(--size) var(--size) var(--size);
+        grid-template-rows: var(--size) var(--size) var(--size);
+        background-color: black;
+        width: var(--extents);
+        height: var(--extents);
+        padding: var(--frame);
+        position: relative;
+
+        [cell] {
+          --v1: 0.15em;
+          --v2: 0.3rem;
+          --v3: -0.15em;
+          box-shadow: inset var(--v1) var(--v1) var(--v2) 0 rgba(255, 255, 255, 0.25), inset var(--v3) var(--v3) var(--v2) 0 rgba(0, 0, 0, 0.25);
+          border-radius: 4px;
+          width: var(--size);
+          height: var(--size);
+          background-color: white;
+          font-size: 60%;
+          display: flex;
+          align-items: center;
+          font-weight: bold;
+          justify-content: center;
+        }
+      }
+    }
+  }
+
+
+  [cube].flat {
+    width: calc(var(--cf-size) * 4);
+    height: calc(var(--cf-size) * 3);
+
+    .face.u {
+      top: 0;
+      left: var(--cf-size);
+    }
+
+    .face.l {
+      top: var(--cf-size);
+      left: 0;
+    }
+
+    .face.f {
+      top: var(--cf-size);
+      left: var(--cf-size);
+    }
+
+    .face.r {
+      top: var(--cf-size);
+      left: calc(var(--cf-size) * 2);
+    }
+
+    .face.b {
+      top: var(--cf-size);
+      left: calc(var(--cf-size) * 3);
+    }
+
+    .face.d {
+      top: calc(var(--cf-size) * 2);
+      left: var(--cf-size);
+    }
+  }
+
+  [cube].three-d {
+    transform: rotateX(-30deg) rotateY(30deg) rotateZ(0deg) translateX(0) translateY(0) translateZ(0);
+    transform-style: preserve-3d;
+
+    .face.u {
+      transform: rotateX(90deg) translateX(0) translateY(0) translateZ(var(--tz));
+    }
+
+    .face.l {
+      transform: rotateY(-90deg) translateX(0) translateY(0) translateZ(var(--tz));
+    }
+
+    .face.f {
+      transform: translateX(0) translateY(0) translateZ(var(--tz));
+    }
+
+    .face.r {
+      transform: rotateY(90deg) translateX(0) translateY(0) translateZ(var(--tz));
+    }
+
+    .face.b {
+      transform: rotateY(180deg) translateX(0) translateY(0) translateZ(var(--tz));
+    }
+
+    .face.d {
+      transform: rotateX(-90deg) translateX(0) translateY(0) translateZ(var(--tz));
+    }
+  }
+}
+
+

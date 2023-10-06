@@ -1,4 +1,5 @@
 import {Component, Input} from '@angular/core';
+import {RubikService} from '@/_services/rubik.service';
 
 @Component({
   selector: 'app-rubik-move',
@@ -30,29 +31,23 @@ export class RubikMoveComponent {
     m: {icon: 'east', ic: 'up', rev: 'M'},
   };
 
+  constructor(public rs: RubikService) {
+  }
+
   get moves(): string[] {
     const ret = [];
+    var i: number;
     if (this.reversed) {
-      for (var i = this.move?.length - 1; i >= 0; i--) {
+      for (i = this.move?.length - 1; i >= 0; i--) {
         ret.push(this.cfg[this.move[i]].rev);
       }
     } else {
-      for (var i = 0; i < this.move?.length; i++) {
+      for (i = 0; i < this.move?.length; i++) {
         ret.push(this.move[i]);
       }
     }
     return ret;
   }
-
-// Down
-// Up
-// Left
-// Right
-// Front
-// Back
-// Equator
-// Middle
-// Standing
 
   iconForMove(moveId: string): string {
     return this.cfg[moveId]?.icon;
@@ -68,5 +63,11 @@ export class RubikMoveComponent {
     const ret: string[] = [];
     ret.push(this.cfg[moveId]?.ic);
     return ret;
+  }
+
+  clickMove() {
+    for (let move of this.moves) {
+      this.rs.cube.move(move);
+    }
   }
 }

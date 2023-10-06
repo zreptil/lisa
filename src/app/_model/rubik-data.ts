@@ -118,8 +118,8 @@ export class RubikCube {
         }
         break;
       case 'b':
-        for (const l of [2, 1, 0]) {
-          for (const c of [0, 1, 2]) {
+        for (const l of [0, 1, 2]) {
+          for (const c of [2, 1, 0]) {
             ret.push({l: l, c: c, n: this.c(l, c).b});
           }
         }
@@ -221,7 +221,6 @@ export class RubikCube {
         {src: {l: 2, c: 3}, dst: {l: 0, c: 3}, axis: 'y'},
         {src: {l: 1, c: 3}, dst: {l: 0, c: 4}, axis: 'y'}
       ]
-
     };
     const src: RubikLayer[] = [];
     this.layers.forEach(val => {
