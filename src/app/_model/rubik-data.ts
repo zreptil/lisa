@@ -18,6 +18,19 @@ export class RubikCubicle {
       f: src.f
     };
   }
+
+  static equals(a: RubikCubicle, b: RubikCubicle): boolean {
+    return RubikCubicle.encode(a) === RubikCubicle.encode(b);
+  }
+
+  static encode(src: RubikCubicle): number {
+    return (src.u ?? 0) * 100000 +
+      (src.d ?? 0) * 10000 +
+      (src.l ?? 0) * 1000 +
+      (src.r ?? 0) * 100 +
+      (src.b ?? 0) * 10 +
+      (src.f ?? 0);
+  }
 }
 
 export class RubikLayer {
@@ -52,9 +65,9 @@ export class RubikCube {
         {l: 2},
         {},
         {r: 4},
-        {l: 2, f: 3, d: 5},
-        {f: 3, d: 5},
-        {r: 4, f: 3, d: 5},
+        {l: 2, f: 3},
+        {f: 3},
+        {r: 4, f: 3},
       ]
     }, {
       cubicles: [
@@ -71,16 +84,23 @@ export class RubikCube {
     }];
 
   colors = {
-    0: {b: 'black', f: 'white'},
+    0: {b: 'rgba(255,255,255,0.1)', f: 'rgba(255,255,255,0.8)'},
     1: {b: 'white', f: 'black'},
     2: {b: 'green', f: 'black'},
     3: {b: 'red', f: 'black'},
-    4: {b: 'cornflowerblue', f: 'black'},
+    4: {b: 'rgb(64,64,255)', f: 'black'},
     5: {b: 'yellow', f: 'black'},
-    6: {b: 'orange', f: 'black'},
+    6: {b: 'rgb(255,128,0)', f: 'black'},
   }
 
   constructor() {
+  }
+
+  static clone(src: RubikCube): RubikCube {
+    const ret = new RubikCube();
+    ret.layers = [];
+    src.layers.forEach(val => ret.layers.push(RubikLayer.clone(val)));
+    return ret;
   }
 
   face(dir: string): any[] {
@@ -237,6 +257,10 @@ export class RubikCube {
     }
   }
 
+  public c(l: number, c: number): RubikCubicle {
+    return this.layers[l].cubicles[c];
+  }
+
   private _move(move: any, src: RubikLayer[], dst: RubikLayer[], isReverse: boolean): void {
     const s = isReverse ? move.dst : move.src;
     const d = isReverse ? move.src : move.dst;
@@ -263,9 +287,5 @@ export class RubikCube {
     }
     cube[order[3]] = t;
     // dst[move.src.l].cubicles[move.src.c] = {l: 0, u: 0, r: 0, d: 0, b: 0, f: 0};
-  }
-
-  private c(l: number, c: number): RubikCubicle {
-    return this.layers[l].cubicles[c];
   }
 }

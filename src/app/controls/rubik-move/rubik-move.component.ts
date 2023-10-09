@@ -1,5 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {RubikService} from '@/_services/rubik.service';
+import {Utils} from '@/classes/utils';
+import {RubikCube, RubikCubicle} from '@/_model/rubik-data';
 
 @Component({
   selector: 'app-rubik-move',
@@ -66,8 +68,23 @@ export class RubikMoveComponent {
   }
 
   clickMove() {
+    const cubeOrg = RubikCube.clone(this.rs.cube);
     for (let move of this.moves) {
       this.rs.cube.move(move);
     }
+
+    const hidden: string[] = [];
+    const faces = 'udlrfb';
+    for (let i = 0; i < faces.length; i++) {
+      const plates = this.rs.cube.face(faces[i]);
+      for (let n = 0; n < plates.length; n++) {
+        const p = plates[n];
+        if (RubikCubicle.equals(cubeOrg.c(p.l, p.c), this.rs.cube.c(p.l, p.c))) {
+          hidden.push(`${faces[i]}${n}`);
+        }
+      }
+    }
+    this.rs.hidden = hidden;
+    console.log(Utils.join(this.rs.hidden, ''));
   }
 }

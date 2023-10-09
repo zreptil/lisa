@@ -31,7 +31,6 @@ import {ViewThumblingComponent} from './components/view-thumbling/view-thumbling
 import {ViewPrimeNumbersComponent} from './components/view-prime-numbers/view-prime-numbers.component';
 import {ViewRubikComponent} from './components/view-rubik/view-rubik.component';
 import {RubikMoveComponent} from './controls/rubik-move/rubik-move.component';
-import {RubikFaceComponent} from './controls/rubik-face/rubik-face.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +57,6 @@ import {RubikFaceComponent} from './controls/rubik-face/rubik-face.component';
     ViewPrimeNumbersComponent,
     ViewRubikComponent,
     RubikMoveComponent,
-    RubikFaceComponent,
   ],
   imports: [
     BrowserModule,

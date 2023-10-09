@@ -20,13 +20,17 @@
 }
 
 .cube {
+  --border: 2;
+  --borderPX: 2px;
   --plate-size: 50px;
   --cf-size: calc((var(--plate-size) + 3px) * 3);
-  --tz: calc(var(--plate-size) * 46.5 / 30);
+  --tz: calc(var(--plate-size) * (47 + var(--border) / 2) / 30);
 
+  user-select: none;
   width: calc(var(--cf-size) * 4);
   height: calc(var(--cf-size) * 3);
   position: relative;
+  perspective: calc(var(--plate-size) * 10);
 
   [cube] {
     width: calc(var(--cf-size) * 2);
@@ -38,6 +42,8 @@
       overflow: visible;
       top: var(--cf-size);
       left: calc(var(--cf-size) / 2);
+      border: var(--borderPX) solid black;
+      border-radius: 4px;
 
       .plates {
         --size: var(--plate-size);
@@ -58,16 +64,27 @@
           --v1: 0.15em;
           --v2: 0.3rem;
           --v3: -0.15em;
+          --m: 2px;
+          --s: calc(var(--size) - 2 * var(--m));
           box-shadow: inset var(--v1) var(--v1) var(--v2) 0 rgba(255, 255, 255, 0.25), inset var(--v3) var(--v3) var(--v2) 0 rgba(0, 0, 0, 0.25);
           border-radius: 4px;
-          width: var(--size);
-          height: var(--size);
+          width: var(--s);
+          height: var(--s);
+          margin: var(--m);
           background-color: white;
           font-size: 60%;
           display: flex;
           align-items: center;
           font-weight: bold;
           justify-content: center;
+        }
+
+        [cell].debug {
+        }
+
+        [cell].colorize {
+          font-size: 2em;
+          font-weight: bold;
         }
       }
     }
@@ -110,8 +127,8 @@
   }
 
   [cube].three-d {
-    transform: rotateX(-30deg) rotateY(30deg) rotateZ(0deg) translateX(0) translateY(0) translateZ(0);
     transform-style: preserve-3d;
+    cursor: pointer;
 
     .face.u {
       transform: rotateX(90deg) translateX(0) translateY(0) translateZ(var(--tz));

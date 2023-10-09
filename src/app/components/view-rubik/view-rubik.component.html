@@ -1,10 +1,16 @@
-<div class="cube">
-  <div [class]="view" cube>
+<div (mousedown)="mouseDown($event)"
+     (mousemove)="mouseMove($event)"
+     (mouseup)="mouseUp($event)"
+     class="cube">
+  <div [class]="view" [style]="styleForCube" cube>
     <div *ngFor="let face of 'ulfrbd'.split('')" class="face {{face}}">
       <div class="plates">
         <ng-container *ngFor="let y of [0,1,2]">
-          <div *ngFor="let x of [0,1,2]" [style]="styleForPlate(face, x,y)" cell>
-            <!-- {{faceFor(face, x, y).l}}/{{faceFor(face, x, y).c}} -->
+          <div *ngFor="let x of [0,1,2]"
+               [class]="mode"
+               [innerHTML]="textForPlate(face, x, y)"
+               [style]="styleForPlate(face, x,y)"
+               cell>
           </div>
         </ng-container>
       </div>
@@ -14,10 +20,13 @@
 <button (click)="btnView()" mat-icon-button>
   <mat-icon>{{iconForView[view]}}</mat-icon>
 </button>
+<button (click)="rs.reset()" mat-icon-button>
+  <mat-icon>undo</mat-icon>
+</button>
 <div moves>
   <button (click)="clickMove(c)" *ngFor="let c of moveButtons" mat-icon-button>{{c}}</button>
 </div>
-<app-rubik-move move="drDRDFdf" side="1"></app-rubik-move>
+<app-rubik-move move="ulULUFuf" side="1"></app-rubik-move>
 <app-rubik-move move="UFRUruf" side="1"></app-rubik-move>
 <app-rubik-move move="RERERERE" side="1"></app-rubik-move>
 <app-rubik-move move="ulURuLUr" side="1"></app-rubik-move>

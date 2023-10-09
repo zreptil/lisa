@@ -17,7 +17,22 @@ export class Cubicle {
 })
 export class RubikService {
   cube: RubikCube = new RubikCube();
+  hidden: string[] = [];
 
   constructor() {
+  }
+
+  toggleHidden(face: string, n: number): void {
+    const key = `${face}${n}`;
+    const idx = this.hidden.findIndex(h => h === key);
+    if (idx >= 0) {
+      this.hidden.splice(idx, 1);
+    } else {
+      this.hidden.push(key);
+    }
+  }
+
+  reset(): void {
+    this.cube = new RubikCube();
   }
 }
