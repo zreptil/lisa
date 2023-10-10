@@ -17,14 +17,17 @@
     </div>
   </div>
 </div>
-<button (click)="btnView()" mat-icon-button>
-  <mat-icon>{{iconForView[view]}}</mat-icon>
-</button>
-<button (click)="rs.reset()" mat-icon-button>
-  <mat-icon>undo</mat-icon>
-</button>
 <div moves>
   <button (click)="clickMove(c)" *ngFor="let c of moveButtons" mat-icon-button>{{c}}</button>
+  <button (click)="btnView()" mat-icon-button>
+    <mat-icon>{{iconForView[view]}}</mat-icon>
+  </button>
+  <button (click)="rs.reset()" mat-icon-button>
+    <mat-icon>undo</mat-icon>
+  </button>
+  <button (click)="btnMode()" mat-icon-button>
+    <mat-icon>{{iconForMode[mode]}}</mat-icon>
+  </button>
 </div>
 <app-rubik-move move="ulULUFuf" side="1"></app-rubik-move>
 <app-rubik-move move="UFRUruf" side="1"></app-rubik-move>

@@ -34,5 +34,6 @@ export class RubikService {
 
   reset(): void {
     this.cube = new RubikCube();
+    this.hidden = [];
   }
 }

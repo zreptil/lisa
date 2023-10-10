@@ -12,6 +12,11 @@ export class ViewRubikComponent {
     'three-d': 'view_in_ar',
     'flat': 'check_box_outline_blank'
   };
+  iconForMode: any = {
+    '': 'apps',
+    'colorize': 'edit',
+    'debug': 'bug_report'
+  };
   // https://rubiks-cube-solver.com
   // http://test.reptilefarm.ddns.net/rubik/
   view = 'three-d';
@@ -19,7 +24,7 @@ export class ViewRubikComponent {
   roty = 30;
   rotz = 0;
   _mouseDown: any = null;
-  mode = 'colorize';
+  mode = '';
   currFace = 'u';
 
   constructor(public rs: RubikService) {
@@ -69,6 +74,8 @@ export class ViewRubikComponent {
       case 'colorize':
         if (this.currFace === faceId) {
           ret.push(`${y * 3 + x + 1}`);
+        } else if (x === 1 && y === 1) {
+          ret.push(faceId.toUpperCase());
         }
         break;
     }
@@ -84,6 +91,17 @@ export class ViewRubikComponent {
       }
     }
     this.view = keys[idx != null && idx < keys.length - 1 ? idx + 1 : 0];
+  }
+
+  btnMode() {
+    let idx: number = null;
+    const keys = Object.keys(this.iconForMode);
+    for (let i = 0; idx == null && i < keys.length; i++) {
+      if (keys[i] === this.mode) {
+        idx = i;
+      }
+    }
+    this.mode = keys[idx != null && idx < keys.length - 1 ? idx + 1 : 0];
   }
 
   mouseDown(evt: MouseEvent) {

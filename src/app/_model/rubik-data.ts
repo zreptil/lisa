@@ -85,12 +85,12 @@ export class RubikCube {
 
   colors = {
     0: {b: 'rgba(255,255,255,0.1)', f: 'rgba(255,255,255,0.8)'},
-    1: {b: 'white', f: 'black'},
-    2: {b: 'green', f: 'black'},
-    3: {b: 'red', f: 'black'},
-    4: {b: 'rgb(64,64,255)', f: 'black'},
-    5: {b: 'yellow', f: 'black'},
-    6: {b: 'rgb(255,128,0)', f: 'black'},
+    1: {b: 'white', f: 'rgba(0,0,0,0.8)'},
+    2: {b: 'green', f: 'rgba(0,0,0,0.8)'},
+    3: {b: 'red', f: 'rgba(0,0,0,0.8)'},
+    4: {b: 'rgb(64,64,255)', f: 'rgba(0,0,0,0.8)'},
+    5: {b: 'yellow', f: 'rgba(0,0,0,0.8)'},
+    6: {b: 'rgb(255,128,0)', f: 'rgba(0,0,0,0.8)'},
   }
 
   constructor() {
