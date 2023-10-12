@@ -54,7 +54,12 @@ export class GlobalsService {
   ];
   viewConfig = {
     gridColumns: 4,
-    showPrimeNumbers: false
+    showPrimeNumbers: false,
+    rubikView: 'three-d1',
+    rubikMode: '',
+    rubikRotx: -30,
+    rubikRoty: 30,
+    rubikRotz: 0
   }
   private flags = '';
   private sortOrder: string = '';
@@ -389,7 +394,11 @@ export class GlobalsService {
     this.viewMode = storage.s3 ?? this.viewModes[0].id;
     this.appMode = storage.s4 ?? 'edit';
     if (storage.s5 != null) {
-      this.viewConfig = storage.s5;
+      const temp: any = {};
+      for (const key of Object.keys(this.viewConfig)) {
+        temp[key] = storage.s5[key] ?? (this.viewConfig as any)[key];
+      }
+      this.viewConfig = temp;
     }
 
     // validate values

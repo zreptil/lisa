@@ -31,6 +31,7 @@ import {ViewThumblingComponent} from './components/view-thumbling/view-thumbling
 import {ViewPrimeNumbersComponent} from './components/view-prime-numbers/view-prime-numbers.component';
 import {ViewRubikComponent} from './components/view-rubik/view-rubik.component';
 import {RubikMoveComponent} from './controls/rubik-move/rubik-move.component';
+import {BrowserAnimationsModule, provideAnimations} from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import {RubikMoveComponent} from './controls/rubik-move/rubik-move.component';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     FormsModule,
     MaterialModule,
     HttpClientModule,
@@ -68,7 +70,7 @@ import {RubikMoveComponent} from './controls/rubik-move/rubik-move.component';
     ProgressComponent,
     NgOptimizedImage
   ],
-  providers: [],
+  providers: [provideAnimations()],
   bootstrap: [AppComponent]
 })
 export class AppModule {

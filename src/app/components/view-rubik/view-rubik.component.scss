@@ -30,7 +30,14 @@
   width: calc(var(--cf-size) * 4);
   height: calc(var(--cf-size) * 3);
   position: relative;
-  perspective: calc(var(--plate-size) * 10);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  #cube {
+    position: relative;
+    perspective: calc(var(--plate-size) * 10);
+  }
 
   [cube] {
     width: calc(var(--cf-size) * 2);
@@ -154,6 +161,109 @@
       transform: rotateX(-90deg) translateX(0) translateY(0) translateZ(var(--tz));
     }
   }
+
+  [cube].three-d1 {
+    transform-style: preserve-3d;
+    cursor: pointer;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: calc(var(--cs) * 3);
+    height: calc(var(--cs) * 3);
+
+    [_cubicle]:hover {
+      --b1: cornflowerblue;
+      --b2: var(--b1);
+      --b3: var(--b1);
+      --b4: var(--b1);
+      --b5: var(--b1);
+      --b6: var(--b1);
+    }
+
+    [face] [plate] {
+      background-repeat: no-repeat;
+      background-position: 50% 50%;
+      background-size: 100%;
+    }
+
+    [face].al:hover [plate] {
+      background-image: url('../../../assets/images/arrow-left.png');
+    }
+
+    [face].au:hover [plate] {
+      background-image: url('../../../assets/images/arrow-up.png');
+    }
+
+    [face].ar:hover [plate] {
+      background-image: url('../../../assets/images/arrow-right.png');
+    }
+
+    [face].ad:hover [plate] {
+      background-image: url('../../../assets/images/arrow-down.png');
+    }
+
+    [cubicle] {
+      transform-style: inherit;
+      position: absolute;
+
+      [face] {
+        --tz: calc(var(--plate-size) / 2 - 1px);
+        transform-style: inherit;
+        position: absolute;
+        background-color: black;
+        border-radius: 2px;
+
+        [plate] {
+          --border: calc(var(--plate-size) / 15);
+          --ps: calc(var(--plate-size) - 2 * var(--border));
+          --v1: 2px;
+          --v2: 1px;
+          --v3: -2px;
+          border: var(--border) solid black;
+          border-radius: calc(var(--border) * 2);
+          box-shadow: inset var(--v1) var(--v1) var(--v2) 0 rgba(255, 255, 255, 0.25), inset var(--v3) var(--v3) var(--v2) 0 rgba(0, 0, 0, 0.25);
+          width: var(--ps);
+          height: var(--ps);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        [plate].colorize {
+          font-size: 2em;
+          font-weight: bold;
+        }
+      }
+
+      [face].l {
+        transform: rotateX(0deg) rotateY(-90deg) rotateZ(0deg) translateZ(var(--tz));
+      }
+
+      [face].r {
+        transform: rotateX(0deg) rotateY(90deg) rotateZ(0deg) translateZ(var(--tz));
+      }
+
+      [face].b {
+        transform: rotateX(0deg) rotateY(180deg) rotateZ(0deg) translateZ(var(--tz));
+      }
+
+      [face].f {
+        transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg) translateZ(var(--tz));
+      }
+
+      [face].d {
+        transform: rotateX(-90deg) rotateY(0deg) rotateZ(0deg) translateZ(var(--tz));
+      }
+
+      [face].u {
+        transform: rotateX(90deg) rotateY(0deg) rotateZ(0deg) translateZ(var(--tz));
+      }
+    }
+  }
+
 }
 
-
+[image] {
+  width: 200px;
+  border: 1px solid black;
+}

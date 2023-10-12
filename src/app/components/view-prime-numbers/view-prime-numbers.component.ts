@@ -21,8 +21,8 @@ export class ViewPrimeNumbersComponent {
 
   initList(): void {
     const ret: Num[][] = [];
-    const jMax = 200;
-    for (let i = 0; i < 500; i++) {
+    const jMax = 100;
+    for (let i = 0; i < 100; i++) {
       const row = [];
       for (let j = 0; j < jMax; j++) {
         for (const k of [1, 3, 7, 9]) {

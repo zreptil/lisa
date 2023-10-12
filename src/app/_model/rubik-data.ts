@@ -7,6 +7,7 @@ export class RubikCubicle {
   r?: number = 0;
   b?: number = 0;
   f?: number = 0;
+  inner?: boolean = false;
 
   static clone(src: RubikCubicle): RubikCubicle {
     return {
@@ -43,7 +44,62 @@ export class RubikLayer {
   }
 }
 
+export class TurnDef {
+  a: string;
+  t: string;
+}
+
 export class RubikCube {
+  movements: any = {
+    u6: 'lf',
+    f6: 'ul',
+    l0: 'lU',
+    l6: 'ru',
+    u8: 'rF',
+    f8: 'uR',
+    f24: 'dL',
+    l24: 'rD',
+    l18: 'ld',
+    f26: 'dr',
+    f15: 'le',
+    f17: 'rE',
+    f7: 'um',
+    f25: 'dM',
+    u3: 'ls',
+    u5: 'rS',
+    u0: 'lB',
+    u2: 'rb',
+    l9: 'le',
+    l15: 'rE',
+    u1: 'um',
+    u7: 'dM',
+    l3: 'uS',
+    l21: 'ds',
+    r26: 'ld',
+    r20: 'rD',
+    r23: 'dS',
+    r5: 'us',
+    r8: 'lU',
+    r17: 'le',
+    r2: 'ru',
+    r11: 'rE',
+    b2: 'ur',
+    b1: 'uM',
+    b0: 'uL',
+    b20: 'dR',
+    b19: 'dm',
+    b18: 'dl',
+    b11: 'le',
+    b9: 'rE',
+    d24: 'lF',
+    d26: 'rf',
+    d25: 'um',
+    d19: 'dM',
+    d21: 'lS',
+    d23: 'rs',
+    d20: 'rB',
+    d18: 'lb'
+  };
   layers: RubikLayer[] = [
     {
       cubicles: [
@@ -63,7 +119,7 @@ export class RubikCube {
         {b: 6},
         {r: 4, b: 6},
         {l: 2},
-        {},
+        {l: 2, b: 6, f: 3, r: 4, d: 5, u: 1, inner: true},
         {r: 4},
         {l: 2, f: 3},
         {f: 3},
@@ -83,7 +139,7 @@ export class RubikCube {
       ]
     }];
 
-  colors = {
+  colors: any = {
     0: {b: 'rgba(255,255,255,0.1)', f: 'rgba(255,255,255,0.8)'},
     1: {b: 'white', f: 'rgba(0,0,0,0.8)'},
     2: {b: 'green', f: 'rgba(0,0,0,0.8)'},
@@ -105,42 +161,49 @@ export class RubikCube {
 
   face(dir: string): any[] {
     const ret: any[] = [];
+    let cuby;
     switch (dir) {
       case 'u':
         for (let c = 0; c < 9; c++) {
-          ret.push({l: 0, c: c, n: this.c(0, c).u});
+          cuby = this.c(0, c);
+          ret.push({l: 0, c: c, n: cuby.u, cubicle: cuby});
         }
         break;
       case 'd':
         for (const c of [6, 7, 8, 3, 4, 5, 0, 1, 2]) {
-          ret.push({l: 2, c: c, n: this.c(2, c).d});
+          cuby = this.c(2, c);
+          ret.push({l: 2, c: c, n: cuby.d, cubicle: cuby});
         }
         break;
       case 'l':
         for (const l of [0, 1, 2]) {
           for (const c of [0, 3, 6]) {
-            ret.push({l: l, c: c, n: this.c(l, c).l});
+            cuby = this.c(l, c);
+            ret.push({l: l, c: c, n: cuby.l, cubicle: cuby});
           }
         }
         break;
       case 'r':
         for (const l of [0, 1, 2]) {
           for (const c of [8, 5, 2]) {
-            ret.push({l: l, c: c, n: this.c(l, c).r});
+            cuby = this.c(l, c);
+            ret.push({l: l, c: c, n: cuby.r, cubicle: cuby});
           }
         }
         break;
       case 'f':
         for (const l of [0, 1, 2]) {
           for (const c of [6, 7, 8]) {
-            ret.push({l: l, c: c, n: this.c(l, c).f});
+            cuby = this.c(l, c);
+            ret.push({l: l, c: c, n: cuby.f, cubicle: cuby});
           }
         }
         break;
       case 'b':
         for (const l of [0, 1, 2]) {
           for (const c of [2, 1, 0]) {
-            ret.push({l: l, c: c, n: this.c(l, c).b});
+            cuby = this.c(l, c);
+            ret.push({l: l, c: c, n: cuby.b, cubicle: cuby});
           }
         }
         break;
@@ -156,6 +219,7 @@ export class RubikCube {
         {src: {l: 0, c: 5}, dst: {l: 1, c: 2}, axis: 'x'},
         {src: {l: 0, c: 8}, dst: {l: 0, c: 2}, axis: 'x'},
         {src: {l: 1, c: 8}, dst: {l: 0, c: 5}, axis: 'x'},
+        {src: {l: 1, c: 5}, dst: {l: 1, c: 5}, axis: 'x'},
         {src: {l: 1, c: 2}, dst: {l: 2, c: 5}, axis: 'x'},
         {src: {l: 2, c: 8}, dst: {l: 0, c: 8}, axis: 'x'},
         {src: {l: 2, c: 5}, dst: {l: 1, c: 8}, axis: 'x'},
@@ -166,6 +230,7 @@ export class RubikCube {
         {src: {l: 0, c: 3}, dst: {l: 1, c: 6}, axis: 'X'},
         {src: {l: 0, c: 6}, dst: {l: 2, c: 6}, axis: 'X'},
         {src: {l: 1, c: 0}, dst: {l: 0, c: 3}, axis: 'X'},
+        {src: {l: 1, c: 3}, dst: {l: 1, c: 3}, axis: 'X'},
         {src: {l: 1, c: 6}, dst: {l: 2, c: 3}, axis: 'X'},
         {src: {l: 2, c: 0}, dst: {l: 0, c: 0}, axis: 'X'},
         {src: {l: 2, c: 3}, dst: {l: 1, c: 0}, axis: 'X'},
@@ -176,6 +241,7 @@ export class RubikCube {
         {src: {l: 0, c: 1}, dst: {l: 0, c: 5}, axis: 'z'},
         {src: {l: 0, c: 2}, dst: {l: 0, c: 8}, axis: 'z'},
         {src: {l: 0, c: 3}, dst: {l: 0, c: 1}, axis: 'z'},
+        {src: {l: 0, c: 4}, dst: {l: 0, c: 4}, axis: 'z'},
         {src: {l: 0, c: 5}, dst: {l: 0, c: 7}, axis: 'z'},
         {src: {l: 0, c: 6}, dst: {l: 0, c: 0}, axis: 'z'},
         {src: {l: 0, c: 7}, dst: {l: 0, c: 3}, axis: 'z'},
@@ -186,6 +252,7 @@ export class RubikCube {
         {src: {l: 2, c: 7}, dst: {l: 2, c: 5}, axis: 'Z'},
         {src: {l: 2, c: 8}, dst: {l: 2, c: 2}, axis: 'Z'},
         {src: {l: 2, c: 3}, dst: {l: 2, c: 7}, axis: 'Z'},
+        {src: {l: 2, c: 4}, dst: {l: 2, c: 4}, axis: 'Z'},
         {src: {l: 2, c: 5}, dst: {l: 2, c: 1}, axis: 'Z'},
         {src: {l: 2, c: 0}, dst: {l: 2, c: 6}, axis: 'Z'},
         {src: {l: 2, c: 1}, dst: {l: 2, c: 3}, axis: 'Z'},
@@ -196,6 +263,7 @@ export class RubikCube {
         {src: {l: 0, c: 7}, dst: {l: 1, c: 8}, axis: 'y'},
         {src: {l: 0, c: 8}, dst: {l: 2, c: 8}, axis: 'y'},
         {src: {l: 1, c: 6}, dst: {l: 0, c: 7}, axis: 'y'},
+        {src: {l: 1, c: 7}, dst: {l: 1, c: 7}, axis: 'y'},
         {src: {l: 1, c: 8}, dst: {l: 2, c: 7}, axis: 'y'},
         {src: {l: 2, c: 6}, dst: {l: 0, c: 6}, axis: 'y'},
         {src: {l: 2, c: 7}, dst: {l: 1, c: 6}, axis: 'y'},
@@ -206,6 +274,7 @@ export class RubikCube {
         {src: {l: 2, c: 1}, dst: {l: 1, c: 2}, axis: 'Y'},
         {src: {l: 2, c: 2}, dst: {l: 0, c: 2}, axis: 'Y'},
         {src: {l: 1, c: 0}, dst: {l: 2, c: 1}, axis: 'Y'},
+        {src: {l: 1, c: 1}, dst: {l: 1, c: 1}, axis: 'Y'},
         {src: {l: 1, c: 2}, dst: {l: 0, c: 1}, axis: 'Y'},
         {src: {l: 0, c: 0}, dst: {l: 2, c: 0}, axis: 'Y'},
         {src: {l: 0, c: 1}, dst: {l: 1, c: 0}, axis: 'Y'},
@@ -216,6 +285,7 @@ export class RubikCube {
         {src: {l: 1, c: 3}, dst: {l: 1, c: 7}, axis: 'Z'},
         {src: {l: 1, c: 6}, dst: {l: 1, c: 8}, axis: 'Z'},
         {src: {l: 1, c: 7}, dst: {l: 1, c: 5}, axis: 'Z'},
+        {src: {l: 1, c: 4}, dst: {l: 1, c: 4}, axis: 'Z'},
         {src: {l: 1, c: 8}, dst: {l: 1, c: 2}, axis: 'Z'},
         {src: {l: 1, c: 5}, dst: {l: 1, c: 1}, axis: 'Z'},
         {src: {l: 1, c: 2}, dst: {l: 1, c: 0}, axis: 'Z'},
@@ -226,6 +296,7 @@ export class RubikCube {
         {src: {l: 0, c: 4}, dst: {l: 1, c: 7}, axis: 'X'},
         {src: {l: 0, c: 7}, dst: {l: 2, c: 7}, axis: 'X'},
         {src: {l: 1, c: 7}, dst: {l: 2, c: 4}, axis: 'X'},
+        {src: {l: 1, c: 4}, dst: {l: 1, c: 4}, axis: 'X'},
         {src: {l: 2, c: 7}, dst: {l: 2, c: 1}, axis: 'X'},
         {src: {l: 2, c: 4}, dst: {l: 1, c: 1}, axis: 'X'},
         {src: {l: 2, c: 1}, dst: {l: 0, c: 1}, axis: 'X'},
@@ -236,6 +307,7 @@ export class RubikCube {
         {src: {l: 0, c: 4}, dst: {l: 1, c: 5}, axis: 'y'},
         {src: {l: 0, c: 5}, dst: {l: 2, c: 5}, axis: 'y'},
         {src: {l: 1, c: 5}, dst: {l: 2, c: 4}, axis: 'y'},
+        {src: {l: 1, c: 4}, dst: {l: 1, c: 4}, axis: 'y'},
         {src: {l: 2, c: 5}, dst: {l: 2, c: 3}, axis: 'y'},
         {src: {l: 2, c: 4}, dst: {l: 1, c: 3}, axis: 'y'},
         {src: {l: 2, c: 3}, dst: {l: 0, c: 3}, axis: 'y'},
