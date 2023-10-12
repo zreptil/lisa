@@ -1,4 +1,3 @@
-<img [src]="srcImage" alt="cube image" image/>
 <div (mousedown)="mouseDown($event)"
      (mousemove)="mouseMove($event)"
      (mouseup)="mouseUp($event)"
@@ -51,6 +50,11 @@
   </div>
 </div>
 <div moves>
+  <div style="display:flex;flex-flow:column;max-width:200px">
+    <img [src]="srcImage" alt="cube image" image/>
+    <div>{{rotx}} {{roty}} {{rotz}}</div>
+    <div>{{_mouseDown | json}}</div>
+  </div>
   <!-- button (click)="clickMove(c)" *ngFor="let c of moveButtons" mat-icon-button>{{c}}</button -->
   <button (click)="btnView()" mat-icon-button>
     <mat-icon>{{icons.view[view]}}</mat-icon>

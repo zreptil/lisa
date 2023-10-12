@@ -50,7 +50,7 @@ export class TurnDef {
 }
 
 export class RubikCube {
-  movements: any = {
+  movements: any[] = [{
     u6: 'lf',
     f6: 'ul',
     l0: 'lU',
@@ -99,7 +99,48 @@ export class RubikCube {
     d23: 'rs',
     d20: 'rB',
     d18: 'lb'
-  };
+  }, {
+    u0: 'ul',
+    l0: 'ub',
+    b0: 'ru',
+    u2: 'uR',
+    r2: 'uB',
+    b2: 'lU',
+    f8: 'ru',
+    u8: 'dr',
+    r8: 'uf',
+    u6: 'dL',
+    l6: 'uF',
+    f6: 'lU',
+    l18: 'dB',
+    b18: 'rD',
+    d18: 'dL',
+    b20: 'ld',
+    d20: 'dr',
+    r20: 'db',
+    l24: 'df',
+    f24: 'ld',
+    d24: 'ul',
+    f26: 'rD',
+    r26: 'dF',
+    d26: 'uR',
+    u1: 'lB',
+    b1: 'ru',
+    u3: 'dL',
+    l3: 'ru',
+    u7: 'rF',
+    f7: 'ru',
+    u5: 'uR',
+    r5: 'ru',
+    b19: 'ld',
+    d19: 'rB',
+    l21: 'ld',
+    d21: 'dL',
+    r23: 'ld',
+    d23: 'uR',
+    f25: 'ld',
+    d25: 'lF',
+  }];
   layers: RubikLayer[] = [
     {
       cubicles: [

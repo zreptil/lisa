@@ -48,6 +48,11 @@ export class ViewRubikComponent {
   turnSpeed = 0.2;
   // http://test.reptilefarm.ddns.net/rubik/
   srcImage: string;
+  keysDown = {
+    shift: false,
+    alt: false,
+    ctrl: false
+  };
 
   constructor(public rs: RubikService) {
   }
@@ -174,10 +179,38 @@ export class ViewRubikComponent {
     }
   }
 
+  movementFor(faceId: string, l: number, c: number): string {
+    let ret = this.rs.cube.movements[this.keysDown.ctrl ? 1 : 0][`${faceId}${l * 9 + c}`];
+    if (ret != null && this.keysDown.shift) {
+      let temp = '';
+      switch (ret[0]) {
+        case 'l':
+          temp = 'r';
+          break;
+        case 'r':
+          temp = 'l';
+          break;
+        case 'u':
+          temp = 'd';
+          break;
+        case 'd':
+          temp = 'u';
+          break;
+      }
+      if (ret[1] >= 'a' && ret[1] <= 'z') {
+        temp += ret[1].toUpperCase();
+      } else {
+        temp += ret[1].toLowerCase();
+      }
+      ret = temp;
+    }
+    return ret;
+  }
+
   classForFace(faceId: string, l: number, c: number): string[] {
     const ret = [faceId];
     const cubicle = (this.rs.cube.c(l, c) as any);
-    const def = this.rs.cube.movements[`${faceId}${l * 9 + c}`];
+    const def = this.movementFor(faceId, l, c);
     if (def != null) {
       ret.push(`a${def[0]}`);
     }
@@ -188,7 +221,7 @@ export class ViewRubikComponent {
   }
 
   clickFace(faceId: string, l: number, c: number) {
-    const def = this.rs.cube.movements[`${faceId}${l * 9 + c}`];
+    const def = this.movementFor(faceId, l, c);
     if (def != null) {
       this.turnFaceId = def[1];
     }
@@ -286,8 +319,28 @@ export class ViewRubikComponent {
       return;
     }
     if (this._mouseDown != null) {
-      this.rotx = this._mouseDown.rotx + (this._mouseDown.y - evt.y);
-      this.roty = this._mouseDown.roty + (evt.x - this._mouseDown.x);
+      let rx = this._mouseDown.rotx + (this._mouseDown.y - evt.y);
+      while (rx < 0) {
+        rx += 360;
+      }
+      while (rx >= 360) {
+        rx -= 360;
+      }
+      let ry;
+      const x = evt.x;
+      ry = this._mouseDown.roty + (x - this._mouseDown.x);
+      if (rx > 90 && rx < 270) {
+        const org = this._mouseDown.roty;
+        ry = org - (x - this._mouseDown.x);
+      }
+      // while (ry < 0) {
+      //   ry += 360;
+      // }
+      // while (ry >= 360) {
+      //   ry -= 360;
+      // }
+      this.rotx = rx;
+      this.roty = ry;
     }
   }
 
@@ -299,7 +352,7 @@ export class ViewRubikComponent {
   }
 
   @HostListener('document:keypress', ['$event'])
-  keydown(evt: KeyboardEvent) {
+  keypress(evt: KeyboardEvent) {
     switch (this.mode) {
       case 'colorize':
         if (+evt.key >= 1 && +evt.key <= 9) {
@@ -309,6 +362,20 @@ export class ViewRubikComponent {
           this.currFace = evt.key;
         }
     }
+  }
+
+  @HostListener('document:keydown', ['$event'])
+  keydown(evt: KeyboardEvent) {
+    this.keysDown.alt = evt.altKey;
+    this.keysDown.shift = evt.shiftKey;
+    this.keysDown.ctrl = evt.ctrlKey;
+  }
+
+  @HostListener('document:keyup', ['$event'])
+  keyup(evt: KeyboardEvent) {
+    this.keysDown.alt = evt.altKey;
+    this.keysDown.shift = evt.shiftKey;
+    this.keysDown.ctrl = evt.ctrlKey;
   }
 
   moveAnimation(faceId: string, layer: number, idx: number): any {
