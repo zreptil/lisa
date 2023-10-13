@@ -1,9 +1,11 @@
 import {Component, HostListener} from '@angular/core';
 import {RubikService} from '@/_services/rubik.service';
 import {Utils} from '@/classes/utils';
-import {GLOBALS} from '@/_services/globals.service';
+import {GLOBALS, GlobalsService} from '@/_services/globals.service';
 import {animate, keyframes, style, transition, trigger} from '@angular/animations';
 import * as htmlToImage from 'html-to-image';
+import {MessageService} from '@/_services/message.service';
+import {DialogResultButton} from '@/_model/dialog-data';
 
 @Component({
   selector: 'app-view-rubik',
@@ -53,8 +55,12 @@ export class ViewRubikComponent {
     alt: false,
     ctrl: false
   };
+  doRecord = false;
+  protected readonly Utils = Utils;
 
-  constructor(public rs: RubikService) {
+  constructor(public rs: RubikService,
+              public ms: MessageService,
+              public globals: GlobalsService) {
   }
 
   get view(): string {
@@ -151,17 +157,17 @@ export class ViewRubikComponent {
     return ret;
   }
 
-  clickMove(c: string) {
-    switch (this.view) {
-      case 'three-d':
-      case 'flat':
-        this.rs.cube.move(c);
-        break;
-      case 'three-d1':
-        this.turnFaceId = c;
-        break;
-    }
-  }
+  // clickMove(c: string) {
+  //   switch (this.view) {
+  //     case 'three-d':
+  //     case 'flat':
+  //       this.rs.cube.move(c);
+  //       break;
+  //     case 'three-d1':
+  //       this.turnFaceId = c;
+  //       break;
+  //   }
+  // }
 
   faceFor(faceId: string, x: number, y: number): any {
     return this.rs.cube.face(faceId)[y * 3 + x];
@@ -223,6 +229,14 @@ export class ViewRubikComponent {
   clickFace(faceId: string, l: number, c: number) {
     const def = this.movementFor(faceId, l, c);
     if (def != null) {
+      if (this.doRecord) {
+        if (GLOBALS.viewConfig.rubikRecorded.length > 0 && GLOBALS.viewConfig.rubikRecorded[GLOBALS.viewConfig.rubikRecorded.length - 1] === Utils.toggleCase(def[1])) {
+          GLOBALS.viewConfig.rubikRecorded = GLOBALS.viewConfig.rubikRecorded.substring(0, GLOBALS.viewConfig.rubikRecorded.length - 1);
+        } else {
+          GLOBALS.viewConfig.rubikRecorded += def[1];
+        }
+        GLOBALS.saveSharedData();
+      }
       this.turnFaceId = def[1];
     }
   }
@@ -595,5 +609,22 @@ export class ViewRubikComponent {
         console.error('Das war wohl nix', error);
       });
     }, 1000);
+  }
+
+  btnRecord() {
+    this.doRecord = !this.doRecord;
+  }
+
+  btnClearRecord() {
+    this.ms.confirm($localize`Soll die Aufnahme gelöscht werden?`)
+      .subscribe(result => {
+        switch (result?.btn) {
+          case DialogResultButton.yes:
+            this.doRecord = false;
+            GLOBALS.viewConfig.rubikRecorded = '';
+            GLOBALS.saveSharedData();
+            break;
+        }
+      });
   }
 }

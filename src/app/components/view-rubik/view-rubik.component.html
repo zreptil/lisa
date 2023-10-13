@@ -1,82 +1,98 @@
-<div (mousedown)="mouseDown($event)"
-     (mousemove)="mouseMove($event)"
-     (mouseup)="mouseUp($event)"
-     class="cube">
-  <div [style]="styleForRoot" id="cube">
-    <ng-container *ngIf="view === 'three-d' || view === 'flat'">
-      <div [class]="view" [style]="styleForCube" cube>
-        <div *ngFor="let face of 'ulfrbd'.split('')" class="face {{face}}">
-          <div class="plates">
-            <ng-container *ngFor="let y of [0,1,2]">
-              <div *ngFor="let x of [0,1,2]"
-                   [class]="mode"
-                   [innerHTML]="textForPlate(face, x, y)"
-                   [style]="styleForPlate(face, x,y)"
-                   cell>
-              </div>
-            </ng-container>
+<div upper>
+  <div (mousedown)="mouseDown($event)"
+       (mousemove)="mouseMove($event)"
+       (mouseup)="mouseUp($event)"
+       class="cube">
+    <div [style]="styleForRoot" id="cube">
+      <ng-container *ngIf="view === 'three-d' || view === 'flat'">
+        <div [class]="view" [style]="styleForCube" cube>
+          <div *ngFor="let face of 'ulfrbd'.split('')" class="face {{face}}">
+            <div class="plates">
+              <ng-container *ngFor="let y of [0,1,2]">
+                <div *ngFor="let x of [0,1,2]"
+                     [class]="mode"
+                     [innerHTML]="textForPlate(face, x, y)"
+                     [style]="styleForPlate(face, x,y)"
+                     cell>
+                </div>
+              </ng-container>
+            </div>
           </div>
         </div>
-      </div>
-    </ng-container>
-    <div *ngIf="view === 'three-d1'" [class]="view" [style]="styleForCube" cube>
-      <ng-container *ngFor="let layer of rs.cube.layers, index as l">
-        <ng-container *ngFor="let cubicle of layer.cubicles, index as c">
-          <!-- div style="{{keyframeForCubicle(l,c)}}"></div -->
-          <div
-            (@doturn.done)="turnFaceId !== '_' ? applyTurn() : '_'"
-            [@doturn]="turnFaceId !== '_' ?turnCubicle(l, c): '_'"
-            [style]="styleForCubicle(l, c)"
-            cubicle>
-            <div (click)="clickFace(face, l, c)"
-                 *ngFor="let face of 'udfblr'.split('')"
-                 [class]="classForFace(face, l, c)"
-                 face>
-              <div [class]="mode"
-                   [innerHTML]="textForCubicle(face, l, c)"
-                   [style]="styleForFace(face, cubicle, l, c)"
-                   plate>
+      </ng-container>
+      <div *ngIf="view === 'three-d1'" [class]="view" [style]="styleForCube" cube>
+        <ng-container *ngFor="let layer of rs.cube.layers, index as l">
+          <ng-container *ngFor="let cubicle of layer.cubicles, index as c">
+            <!-- div style="{{keyframeForCubicle(l,c)}}"></div -->
+            <div
+              (@doturn.done)="turnFaceId !== '_' ? applyTurn() : '_'"
+              [@doturn]="turnFaceId !== '_' ?turnCubicle(l, c): '_'"
+              [style]="styleForCubicle(l, c)"
+              cubicle>
+              <div (click)="clickFace(face, l, c)"
+                   *ngFor="let face of 'udfblr'.split('')"
+                   [class]="classForFace(face, l, c)"
+                   face>
+                <div [class]="mode"
+                     [innerHTML]="textForCubicle(face, l, c)"
+                     [style]="styleForFace(face, cubicle, l, c)"
+                     plate>
+                </div>
               </div>
             </div>
-          </div>
+          </ng-container>
         </ng-container>
-      </ng-container>
-      <!--
-            <div *ngFor="let c of l.cubicles" cubicle>
-              {{c | json}}
-            </div>
-      -->
+        <!--
+              <div *ngFor="let c of l.cubicles" cubicle>
+                {{c | json}}
+              </div>
+        -->
+      </div>
     </div>
   </div>
-</div>
-<div moves>
-  <div style="display:flex;flex-flow:column;max-width:200px">
-    <img [src]="srcImage" alt="cube image" image/>
-    <div>{{rotx}} {{roty}} {{rotz}}</div>
-    <div>{{_mouseDown | json}}</div>
+  <div moves>
+    <div style="display:flex;flex-flow:column;max-width:200px">
+      <img [src]="srcImage" alt="cube image" image/>
+      <div>{{rotx}} {{roty}} {{rotz}}</div>
+      <div>{{_mouseDown | json}}</div>
+    </div>
+    <!-- button (click)="clickMove(c)" *ngFor="let c of moveButtons" mat-icon-button>{{c}}</button -->
+    <button (click)="btnView()" mat-icon-button>
+      <mat-icon>{{icons.view[view]}}</mat-icon>
+    </button>
+    <button (click)="rs.reset()" mat-icon-button>
+      <mat-icon>undo</mat-icon>
+    </button>
+    <button (click)="btnMode()" mat-icon-button>
+      <mat-icon>{{icons.mode[mode]}}</mat-icon>
+    </button>
+    <button (click)="btnExplode()" mat-icon-button>
+      <mat-icon>{{icons.explode[explode]}}</mat-icon>
+    </button>
+    <button (click)="btnMix()" mat-icon-button>
+      <mat-icon>blender</mat-icon>
+    </button>
+    <button (click)="btnImage()" mat-icon-button>
+      <mat-icon>image</mat-icon>
+    </button>
+    <button (click)="btnRecord()" mat-icon-button>
+      <mat-icon>{{doRecord ? 'stop' : 'fiber_manual_record'}}</mat-icon>
+    </button>
+    <button (click)="btnClearRecord()" [disabled]="Utils.isEmpty(globals.viewConfig.rubikRecorded)" mat-icon-button>
+      <mat-icon>delete</mat-icon>
+    </button>
   </div>
-  <!-- button (click)="clickMove(c)" *ngFor="let c of moveButtons" mat-icon-button>{{c}}</button -->
-  <button (click)="btnView()" mat-icon-button>
-    <mat-icon>{{icons.view[view]}}</mat-icon>
-  </button>
-  <button (click)="rs.reset()" mat-icon-button>
-    <mat-icon>undo</mat-icon>
-  </button>
-  <button (click)="btnMode()" mat-icon-button>
-    <mat-icon>{{icons.mode[mode]}}</mat-icon>
-  </button>
-  <button (click)="btnExplode()" mat-icon-button>
-    <mat-icon>{{icons.explode[explode]}}</mat-icon>
-  </button>
-  <button (click)="btnMix()" mat-icon-button>
-    <mat-icon>blender</mat-icon>
-  </button>
-  <button (click)="btnImage()" mat-icon-button>
-    <mat-icon>image</mat-icon>
-  </button>
 </div>
-<app-rubik-move (onMove)="doSequence($event)" move="ulULUFuf"></app-rubik-move>
-<app-rubik-move (onMove)="doSequence($event)" move="UFRUruf"></app-rubik-move>
-<app-rubik-move (onMove)="doSequence($event)" move="RERERERE"></app-rubik-move>
-<app-rubik-move (onMove)="doSequence($event)" move="ulURuLUr"></app-rubik-move>
-<app-rubik-move (onMove)="doSequence($event)" move="RfrFRfrF"></app-rubik-move>
+<div lower>
+  <app-rubik-move (onMove)="doSequence($event)" [move]="globals.viewConfig.rubikRecorded"></app-rubik-move>
+  <!-- Cube in Cube in Cube -->
+  <app-rubik-move (onMove)="doSequence($event)" move="ulufRRbRFUbbUbLuFURf"></app-rubik-move>
+  <!-- Cube in Cube -->
+  <app-rubik-move (onMove)="doSequence($event)" move="uuRRFFUbbdlFlFlFDbbU"></app-rubik-move>
+  <app-rubik-move (onMove)="doSequence($event)" move="ulULUFuf"></app-rubik-move>
+  <app-rubik-move (onMove)="doSequence($event)" move="UFRUruf"></app-rubik-move>
+  <app-rubik-move (onMove)="doSequence($event)" move="RERERERE"></app-rubik-move>
+  <app-rubik-move (onMove)="doSequence($event)" move="ulURuLUr"></app-rubik-move>
+  <app-rubik-move (onMove)="doSequence($event)" move="RfrFRfrF"></app-rubik-move>
+  -->
+</div>

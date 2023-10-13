@@ -1,12 +1,24 @@
 :host {
   display: flex;
+  flex-flow: column;
+  height: var(--doc-height);
+}
+
+[upper] {
+  display: flex;
   flex-flow: row;
   align-items: center;
   justify-content: center;
-  height: var(--doc-height);
   width: 100%;
   gap: 5px;
   flex-wrap: wrap;
+}
+
+[lower] {
+  display: flex;
+  flex-flow: column;
+  flex: 1;
+  overflow: auto;
 }
 
 [cross] {
@@ -28,7 +40,7 @@
 
   user-select: none;
   width: calc(var(--cf-size) * 4);
-  height: calc(var(--cf-size) * 3);
+  // height: calc(var(--cf-size) * 3);
   position: relative;
   display: flex;
   align-items: center;

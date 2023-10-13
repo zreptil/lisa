@@ -59,7 +59,8 @@ export class GlobalsService {
     rubikMode: '',
     rubikRotx: -30,
     rubikRoty: 30,
-    rubikRotz: 0
+    rubikRotz: 0,
+    rubikRecorded: ''
   }
   private flags = '';
   private sortOrder: string = '';

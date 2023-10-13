@@ -6,78 +6,112 @@
 
   border: 1px solid black;
   padding: 10px;
+  margin: 2px;
   border-radius: 5px;
   display: flex;
   flex-flow: row;
   flex-wrap: wrap;
   gap: var(--gap);
-  max-width: calc(var(--extents) * 3 + 5 * var(--gap));
+  _max-width: calc(var(--extents) * 3 + 5 * var(--gap));
+  transform-style: preserve-3d;
+  position: relative;
 
   [root] {
-    display: grid;
-    gap: var(--frame);
-    grid-template-columns: var(--size) var(--size) var(--size);
-    grid-template-rows: var(--size) var(--size) var(--size);
-    background-color: black;
-    width: var(--extents);
-    height: var(--extents);
-    padding: var(--frame);
+    --ext: calc(var(--extents) + var(--frame));
+    --tz: calc(var(--size) * 1.6);
+    display: flex;
+    flex-flow: row;
     position: relative;
+    width: calc(var(--ext) * 1.4);
+    height: calc(var(--ext) * 2);
+    transform-style: inherit;
+    transform: rotateX(-30deg) rotateY(-30deg) rotateZ(0deg) translateX(50px) translateZ(50px);
 
-    [cell] {
-      border-radius: 2px;
-      width: var(--size);
-      height: var(--size);
-      background-color: white;
-    }
-
-    [move] {
-      --s: calc(var(--size) * 3 + var(--frame) * 2);
+    [face] {
       position: absolute;
-      transform-origin: calc(var(--s) / 2) calc(var(--s) / 2);
-      top: var(--frame);
-      left: var(--frame);
-      width: var(--s);
-      height: var(--s);
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      width: var(--extents);
+      height: var(--extents);
+      padding: var(--frame);
+      display: grid;
+      gap: var(--frame);
+      grid-template-columns: var(--size) var(--size) var(--size);
+      grid-template-rows: var(--size) var(--size) var(--size);
+      background-color: black;
+      transform-style: inherit;
+      left: 0;
+      top: 0;
 
-      mat-icon {
-        font-size: var(--size);
-        font-weight: bold;
+      [cell] {
+        border-radius: 2px;
         width: var(--size);
         height: var(--size);
-        //        background-color: white;
+        background-color: white;
+      }
+
+      [move] {
+        --s: calc(var(--size) * 3 + var(--frame) * 2);
+        position: absolute;
+        transform-origin: calc(var(--s) / 2) calc(var(--s) / 2);
+        top: var(--frame);
+        left: var(--frame);
+        width: var(--s);
+        height: var(--s);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        mat-icon {
+          font-size: var(--size);
+          font-weight: bold;
+          width: var(--size);
+          height: var(--size);
+          //        background-color: white;
+        }
+      }
+
+      mat-icon.up {
+        transform: rotate(-90deg);
+      }
+
+      mat-icon.down {
+        transform: rotate(90deg);
+      }
+
+      mat-icon.left {
+        transform: scaleX(-1);
+      }
+
+      .top {
+        align-items: flex-start;
+      }
+
+      .bottom {
+        align-items: flex-end;
+      }
+
+      [move].left {
+        justify-content: flex-start;
+      }
+
+      [move].right {
+        justify-content: flex-end;
       }
     }
 
-    mat-icon.up {
-      transform: rotate(-90deg);
+    [flat] {
+      transform: rotateX(30deg) rotateY(30deg) rotateZ(-15deg) translateZ(var(--tz));
     }
 
-    mat-icon.down {
-      transform: rotate(90deg);
+    [top] {
+      transform: rotateX(90deg) rotateY(0deg) rotateZ(0deg) translateZ(var(--tz));
     }
 
-    mat-icon.left {
-      transform: scaleX(-1);
+    [front] {
+      transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg) translateZ(var(--tz));
     }
 
-    .top {
-      align-items: flex-start;
-    }
-
-    .bottom {
-      align-items: flex-end;
-    }
-
-    [move].left {
-      justify-content: flex-start;
-    }
-
-    [move].right {
-      justify-content: flex-end;
+    [right] {
+      transform: rotateX(0deg) rotateY(90deg) rotateZ(0deg) translateZ(var(--tz));
     }
   }
 }

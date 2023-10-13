@@ -428,4 +428,16 @@ export class Utils {
     Utils._uniqueId++;
     return Utils._uniqueId;
   }
+
+  static toggleCase(text: string) {
+    let ret = '';
+    for (let i = 0; i < text?.length ?? 0; i++) {
+      if (text[i] >= 'a' && text[i] <= 'z') {
+        ret += text[i].toUpperCase();
+      } else if (text[i] >= 'A' && text[i] <= 'Z') {
+        ret += text[i].toLowerCase();
+      }
+    }
+    return ret;
+  }
 }

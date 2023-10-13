@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {RubikService} from '@/_services/rubik.service';
+import {Utils} from '@/classes/utils';
 
 @Component({
   selector: 'app-rubik-move',
@@ -15,20 +16,24 @@ export class RubikMoveComponent {
   reversed = false;
 
   cfg: any = {
-    D: {icon: 'east', mc: 'bottom', rev: 'd'},
-    d: {icon: 'west', mc: 'bottom', rev: 'D'},
-    F: {icon: 'replay', ic: 'left', mc: 'center', rev: 'f'},
-    f: {icon: 'replay', ic: 'right', mc: 'center', rev: 'F'},
-    L: {icon: 'east', mc: 'left', ic: 'down', rev: 'l'},
-    l: {icon: 'east', mc: 'left', ic: 'up', rev: 'L'},
-    R: {icon: 'east', mc: 'right', ic: 'up', rev: 'r'},
-    r: {icon: 'east', mc: 'right', ic: 'down', rev: 'R'},
-    U: {icon: 'west', mc: 'top', rev: 'u'},
-    u: {icon: 'east', mc: 'top', rev: 'U'},
-    E: {icon: 'east', rev: 'e'},
-    e: {icon: 'west', rev: 'E'},
-    M: {icon: 'east', ic: 'down', rev: 'm'},
-    m: {icon: 'east', ic: 'up', rev: 'M'},
+    D: {icon: 'east', mc: 'bottom', face: 'f'},
+    d: {icon: 'west', mc: 'bottom', face: 'f'},
+    F: {icon: 'replay', ic: 'left', mc: 'center', face: 'f'},
+    f: {icon: 'replay', ic: 'right', mc: 'center', face: 'f'},
+    L: {icon: 'east', mc: 'left', ic: 'down', face: 'f'},
+    l: {icon: 'east', mc: 'left', ic: 'up', face: 'f'},
+    R: {icon: 'east', mc: 'right', ic: 'up', face: 'f'},
+    r: {icon: 'east', mc: 'right', ic: 'down', face: 'f'},
+    U: {icon: 'west', mc: 'top', face: 'f'},
+    u: {icon: 'east', mc: 'top', face: 'f'},
+    E: {icon: 'east', face: 'f'},
+    e: {icon: 'west', face: 'f'},
+    M: {icon: 'east', ic: 'down', face: 'f'},
+    m: {icon: 'east', ic: 'up', face: 'f'},
+    S: {icon: 'west', ic: 'up', face: 'r'},
+    s: {icon: 'west', ic: 'down', face: 'r'},
+    B: {icon: 'west', ic: 'right', mc: 'top', face: 'u'},
+    b: {icon: 'west', ic: 'left', mc: 'top', face: 'u'},
   };
 
   constructor(public rs: RubikService) {
@@ -39,7 +44,7 @@ export class RubikMoveComponent {
     var i: number;
     if (this.reversed) {
       for (i = this.move?.length - 1; i >= 0; i--) {
-        ret.push(this.cfg[this.move[i]].rev);
+        ret.push(Utils.toggleCase(this.move[i]));
       }
     } else {
       for (i = 0; i < this.move?.length; i++) {
@@ -47,6 +52,10 @@ export class RubikMoveComponent {
       }
     }
     return ret;
+  }
+
+  faceForMove(moveId: string): string {
+    return this.cfg[moveId]?.face;
   }
 
   iconForMove(moveId: string): string {
