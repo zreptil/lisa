@@ -51,12 +51,6 @@
     </div>
   </div>
   <div moves>
-    <div style="display:flex;flex-flow:column;max-width:200px">
-      <ng-container *ngIf="mode==='debug'">
-        <div>{{rotx}} {{roty}} {{rotz}}</div>
-        <div>{{_mouseDown | json}}</div>
-      </ng-container>
-    </div>
     <!-- button (click)="clickMove(c)" *ngFor="let c of moveButtons" mat-icon-button>{{c}}</button -->
     <button (click)="btnView()" mat-icon-button>
       <mat-icon>{{icons.view[view]}}</mat-icon>
@@ -76,6 +70,9 @@
     <button (click)="btnImage()" mat-icon-button>
       <mat-icon>image</mat-icon>
     </button>
+    <button (click)="btnHideUnchanged()" [disabled]="Utils.isEmpty(globals.viewConfig.rubikRecorded)" mat-icon-button>
+      <mat-icon>masks</mat-icon>
+    </button>
     <button (click)="btnRecord()" mat-icon-button>
       <mat-icon>{{doRecord ? 'stop' : 'fiber_manual_record'}}</mat-icon>
     </button>
@@ -84,6 +81,12 @@
     </button>
   </div>
   <img [src]="srcImage" alt="cube image" hideMissingImage image/>
+</div>
+<div style="display:flex;flex-flow:column;max-width:200px">
+  <ng-container *ngIf="mode==='debug'">
+    <div>{{rotx}} {{roty}} {{rotz}}</div>
+    <div>{{_mouseDown | json}}</div>
+  </ng-container>
 </div>
 <div lower>
   <app-rubik-move (onMove)="doSequence($event)" [move]="globals.viewConfig.rubikRecorded"></app-rubik-move>

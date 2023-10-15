@@ -42,7 +42,6 @@ export class ViewRubikComponent {
   }
   // https://rubiks-cube-solver.com
   _mouseDown: any = null;
-  currFace = 'u';
   cubicleSize = 50;
   explode = 'no';
   turnFaceId: string = '_';
@@ -166,12 +165,11 @@ export class ViewRubikComponent {
 
   styleForFace(faceId: string, cubicle: any, l: number, c: number): any {
     let color = cubicle[faceId];
-    const idx = this.rs.cube.face(faceId).findIndex(f => f.l === l && f.c === c);
-    return this.styleForSticker(faceId, idx, color);
+    return this.styleForSticker(faceId, l * 9 + c, color);
   }
 
   styleForSticker(faceId: string, idx: number, color: number): any {
-    if (this.rs.hidden.find(h => h === `${faceId}${idx}`)) {
+    if (color < 0) {
       color = 0;
     }
     const ret: any = {
@@ -228,15 +226,7 @@ export class ViewRubikComponent {
   clickFace(faceId: string, l: number, c: number) {
     switch (this.mode) {
       case 'colorize':
-        const idx = this.rs.cube.face(faceId).findIndex(f => f.l === l && f.c === c);
-        const key = `${faceId}${idx}`;
-        const i = this.rs.hidden.findIndex(h => h === key);
-        if (i >= 0) {
-          this.rs.hidden.splice(i, 1);
-        } else {
-          this.rs.hidden.push(key);
-        }
-        // console.log('AHAAA!', (this.rs.cube.c(l, c) as any)[faceId]);
+        this.rs.toggleHidden(faceId, l * 9 + c);
         break;
       default:
         const def = this.movementFor(faceId, l, c);
@@ -542,20 +532,26 @@ export class ViewRubikComponent {
     this.turnSpeed = 0.2;
     if (this.turnSequence.length > 0) {
       setTimeout(() => this.doSequence(this.turnSequence), 10);
-    } else {
-      const hidden: string[] = [];
-      const cubeOrg = new RubikCube();
-      const faces = 'udlrfb';
-      for (let i = 0; i < faces.length; i++) {
-        const plates = this.rs.cube.face(faces[i]);
-        for (let n = 0; n < plates.length; n++) {
-          const p = plates[n];
-          if (RubikCubicle.equals(cubeOrg.c(p.l, p.c), this.rs.cube.c(p.l, p.c))) {
-            hidden.push(`${faces[i]}${n}`);
+    }
+  }
+
+  btnHideUnchanged() {
+    const cubeOrg = new RubikCube();
+    if (this.rs.hasHidden()) {
+      this.rs.clearHidden();
+      return;
+    }
+    this.rs.clearHidden();
+    for (const l of [0, 1, 2]) {
+      for (let c = 0; c < 9; c++) {
+        if (![4, 10, 12, 14, 16, 22].includes(l * 9 + c)) {
+          if (RubikCubicle.equals(cubeOrg.c(l, c), this.rs.cube.c(l, c))) {
+            for (const faceId of 'udlrfb'.split('')) {
+              this.rs.toggleHidden(faceId, l * 9 + c);
+            }
           }
         }
       }
-      this.rs.hidden = hidden;
     }
   }
 

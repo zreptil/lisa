@@ -21,7 +21,6 @@ export class RubikCubicle {
   }
 
   static equals(a: RubikCubicle, b: RubikCubicle): boolean {
-    console.log(RubikCubicle.encode(a), RubikCubicle.encode(b));
     return RubikCubicle.encode(a) === RubikCubicle.encode(b);
   }
 
@@ -400,6 +399,7 @@ export class RubikCube {
       cube[order[i]] = cube[order[i + 1]];
     }
     cube[order[3]] = t;
-    // dst[move.src.l].cubicles[move.src.c] = {l: 0, u: 0, r: 0, d: 0, b: 0, f: 0};
   }
+
+  // dst[move.src.l].cubicles[move.src.c] = {l: 0, u: 0, r: 0, d: 0, b: 0, f: 0};
 }

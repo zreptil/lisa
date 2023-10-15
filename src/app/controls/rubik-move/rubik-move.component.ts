@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {RubikService} from '@/_services/rubik.service';
 import {Utils} from '@/classes/utils';
 import {GLOBALS} from '@/_services/globals.service';
+import {RubikCube} from '@/_model/rubik-data';
 
 @Component({
   selector: 'app-rubik-move',
@@ -12,10 +13,8 @@ export class RubikMoveComponent {
   @Output()
   onMove = new EventEmitter<string>();
   @Input()
-  move: string;
-  @Input()
   reversed = false;
-
+  cube: RubikCube = new RubikCube();
   cfg: any = {
     D: {icon: 'east', mc: 'bottom', face: 'f'},
     d: {icon: 'west', mc: 'bottom', face: 'f'},
@@ -38,6 +37,20 @@ export class RubikMoveComponent {
   };
 
   constructor(public rs: RubikService) {
+  }
+
+  _move: string;
+
+  get move(): string {
+    return this._move;
+  }
+
+  @Input()
+  set move(value: string) {
+    this._move = value;
+    for (const move of value?.split('') ?? []) {
+      this.cube.move(move);
+    }
   }
 
   get moves(): string[] {
@@ -70,17 +83,17 @@ export class RubikMoveComponent {
   get styleForCube(): any {
     const ret: any = {};
     ret.transform = `rotateX(${this.rotx}deg) rotateY(${this.roty}deg) rotateZ(${this.rotz}deg) translateX(0) translateY(0px) translateZ(0)`;
-    for (const key of Object.keys(this.rs.cube.colors)) {
-      ret[`--b${key}`] = this.rs.cube.colors[key].b;
-      ret[`--f${key}`] = this.rs.cube.colors[key].f;
+    for (const key of Object.keys(this.cube.colors)) {
+      ret[`--b${key}`] = this.cube.colors[key].b;
+      ret[`--f${key}`] = this.cube.colors[key].f;
     }
     return ret;
   }
 
   styleForPlate(faceId: string, x: number, y: number): any {
-    const face = this.rs.cube.face(faceId);
+    const face = this.cube.face(faceId);
     let color = face[y * 3 + x].n;
-    if (this.rs.hidden.find(h => h === `${faceId}${y * 3 + x}`)) {
+    if (color < 0) {
       color = 0;
     }
     return {
@@ -110,24 +123,6 @@ export class RubikMoveComponent {
   }
 
   clickMove() {
-    // const cubeOrg = RubikCube.clone(this.rs.cube);
     this.onMove.emit(this.move);
-    //
-    // for (let move of this.moves) {
-    //   this.rs.cube.move(move);
-    // }
-    //
-    // const hidden: string[] = [];
-    // const faces = 'udlrfb';
-    // for (let i = 0; i < faces.length; i++) {
-    //   const plates = this.rs.cube.face(faces[i]);
-    //   for (let n = 0; n < plates.length; n++) {
-    //     const p = plates[n];
-    //     if (RubikCubicle.equals(cubeOrg.c(p.l, p.c), this.rs.cube.c(p.l, p.c))) {
-    //       hidden.push(`${faces[i]}${n}`);
-    //     }
-    //   }
-    // }
-    // this.rs.hidden = hidden;
   }
 }
