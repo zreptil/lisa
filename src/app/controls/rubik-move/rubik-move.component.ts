@@ -36,6 +36,8 @@ export class RubikMoveComponent {
     b: {icon: 'west', ic: 'left', mc: 'top', face: 'u'},
   };
 
+  showMoves = false;
+
   constructor(public rs: RubikService) {
   }
 
@@ -48,6 +50,7 @@ export class RubikMoveComponent {
   @Input()
   set move(value: string) {
     this._move = value;
+    this.cube = new RubikCube();
     for (const move of value?.split('') ?? []) {
       this.cube.move(move);
     }
@@ -82,7 +85,7 @@ export class RubikMoveComponent {
 
   get styleForCube(): any {
     const ret: any = {};
-    ret.transform = `rotateX(${this.rotx}deg) rotateY(${this.roty}deg) rotateZ(${this.rotz}deg) translateX(0) translateY(0px) translateZ(0)`;
+    ret.transform = `rotateX(${this.rotx}deg) rotateY(${this.roty}deg) rotateZ(${this.rotz}deg) translateX(0) translateY(calc(var(--size) * -1)) translateZ(0)`;
     for (const key of Object.keys(this.cube.colors)) {
       ret[`--b${key}`] = this.cube.colors[key].b;
       ret[`--f${key}`] = this.cube.colors[key].f;
@@ -122,7 +125,13 @@ export class RubikMoveComponent {
     return ret;
   }
 
-  clickMove() {
+  clickMove(evt: MouseEvent) {
+    evt.stopPropagation();
     this.onMove.emit(this.move);
+  }
+
+  clickCube(evt: MouseEvent) {
+    evt.stopPropagation();
+    this.showMoves = !this.showMoves;
   }
 }

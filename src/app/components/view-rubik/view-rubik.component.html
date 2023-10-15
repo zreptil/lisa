@@ -1,4 +1,34 @@
 <div upper>
+  <div moves>
+    <!-- button (click)="clickMove(c)" *ngFor="let c of moveButtons" mat-icon-button>{{c}}</button -->
+    <button (click)="btnView()" mat-icon-button>
+      <mat-icon>{{icons.view[view]}}</mat-icon>
+    </button>
+    <button (click)="rs.reset()" mat-icon-button>
+      <mat-icon>undo</mat-icon>
+    </button>
+    <button (click)="btnMode()" mat-icon-button>
+      <mat-icon>{{icons.mode[mode]}}</mat-icon>
+    </button>
+    <button (click)="btnExplode()" mat-icon-button>
+      <mat-icon>{{icons.explode[explode]}}</mat-icon>
+    </button>
+    <button (click)="btnMix()" mat-icon-button>
+      <mat-icon>blender</mat-icon>
+    </button>
+    <!-- button (click)="btnImage()" mat-icon-button>
+      <mat-icon>image</mat-icon>
+    </button -->
+    <button (click)="btnHideUnchanged()" [disabled]="Utils.isEmpty(globals.viewConfig.rubikRecorded)" mat-icon-button>
+      <mat-icon>masks</mat-icon>
+    </button>
+    <button (click)="btnRecord()" mat-icon-button>
+      <mat-icon>{{doRecord ? 'stop' : 'fiber_manual_record'}}</mat-icon>
+    </button>
+    <button (click)="btnClearRecord()" [disabled]="Utils.isEmpty(globals.viewConfig.rubikRecorded)" mat-icon-button>
+      <mat-icon>delete</mat-icon>
+    </button>
+  </div>
   <div (mousedown)="mouseDown($event)"
        (mousemove)="mouseMove($event)"
        (mouseup)="mouseUp($event)"
@@ -50,36 +80,6 @@
       </div>
     </div>
   </div>
-  <div moves>
-    <!-- button (click)="clickMove(c)" *ngFor="let c of moveButtons" mat-icon-button>{{c}}</button -->
-    <button (click)="btnView()" mat-icon-button>
-      <mat-icon>{{icons.view[view]}}</mat-icon>
-    </button>
-    <button (click)="rs.reset()" mat-icon-button>
-      <mat-icon>undo</mat-icon>
-    </button>
-    <button (click)="btnMode()" mat-icon-button>
-      <mat-icon>{{icons.mode[mode]}}</mat-icon>
-    </button>
-    <button (click)="btnExplode()" mat-icon-button>
-      <mat-icon>{{icons.explode[explode]}}</mat-icon>
-    </button>
-    <button (click)="btnMix()" mat-icon-button>
-      <mat-icon>blender</mat-icon>
-    </button>
-    <button (click)="btnImage()" mat-icon-button>
-      <mat-icon>image</mat-icon>
-    </button>
-    <button (click)="btnHideUnchanged()" [disabled]="Utils.isEmpty(globals.viewConfig.rubikRecorded)" mat-icon-button>
-      <mat-icon>masks</mat-icon>
-    </button>
-    <button (click)="btnRecord()" mat-icon-button>
-      <mat-icon>{{doRecord ? 'stop' : 'fiber_manual_record'}}</mat-icon>
-    </button>
-    <button (click)="btnClearRecord()" [disabled]="Utils.isEmpty(globals.viewConfig.rubikRecorded)" mat-icon-button>
-      <mat-icon>delete</mat-icon>
-    </button>
-  </div>
   <img [src]="srcImage" alt="cube image" hideMissingImage image/>
 </div>
 <div style="display:flex;flex-flow:column;max-width:200px">
@@ -99,5 +99,4 @@
   <app-rubik-move (onMove)="doSequence($event)" move="RERERERE"></app-rubik-move>
   <app-rubik-move (onMove)="doSequence($event)" move="ulURuLUr"></app-rubik-move>
   <app-rubik-move (onMove)="doSequence($event)" move="RfrFRfrF"></app-rubik-move>
-  -->
 </div>

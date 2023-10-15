@@ -1,5 +1,5 @@
-<div (click)="clickMove()" moves>
-  <div class="cube">
+<div (click)="clickMove($event)" moves>
+  <div (click)="clickCube($event)" class="cube">
     <div [style]="styleForCube" cube>
       <div *ngFor="let face of 'dbrlfu'.split('')" class="face {{face}}">
         <div class="plates">
@@ -13,10 +13,12 @@
       </div>
     </div>
   </div>
-  <ng-container
-    *ngFor="let moveId of moves"
-    [ngTemplateOutletContext]="{moveId:moveId}"
-    [ngTemplateOutlet]="tplMove">
+  <ng-container *ngIf="showMoves">
+    <ng-container
+      *ngFor="let moveId of moves"
+      [ngTemplateOutletContext]="{moveId:moveId}"
+      [ngTemplateOutlet]="tplMove">
+    </ng-container>
   </ng-container>
 </div>
 

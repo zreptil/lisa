@@ -55,6 +55,7 @@ export class ViewRubikComponent {
     ctrl: false
   };
   doRecord = false;
+  sequenceRunning = false;
   protected readonly Utils = Utils;
 
   constructor(public rs: RubikService,
@@ -335,13 +336,6 @@ export class ViewRubikComponent {
     }
   }
 
-  mouseUp(_evt: MouseEvent) {
-    if (this.view !== 'three-d') {
-      return;
-    }
-    this._mouseDown = null;
-  }
-
   // @HostListener('document:keypress', ['$event'])
   // keypress(evt: KeyboardEvent) {
   //   switch (this.mode) {
@@ -354,6 +348,13 @@ export class ViewRubikComponent {
   //       }
   //   }
   // }
+
+  mouseUp(_evt: MouseEvent) {
+    if (this.view !== 'three-d') {
+      return;
+    }
+    this._mouseDown = null;
+  }
 
   @HostListener('document:keydown', ['$event'])
   keydown(evt: KeyboardEvent) {
@@ -531,7 +532,9 @@ export class ViewRubikComponent {
     this.turnFaceId = '_';
     this.turnSpeed = 0.2;
     if (this.turnSequence.length > 0) {
-      setTimeout(() => this.doSequence(this.turnSequence), 10);
+      setTimeout(() => this.doSequence(this.turnSequence, this.turnSpeed, false), 10);
+    } else {
+      this.sequenceRunning = false;
     }
   }
 
@@ -555,7 +558,11 @@ export class ViewRubikComponent {
     }
   }
 
-  doSequence(moves: string, speed = 0.1) {
+  doSequence(moves: string, speed = 0.1, init: boolean = true) {
+    if (init && this.sequenceRunning) {
+      return;
+    }
+    this.sequenceRunning = true;
     switch (this.view) {
       case 'three-d':
         this.turnSpeed = speed;
@@ -566,6 +573,7 @@ export class ViewRubikComponent {
         for (let move of moves) {
           this.rs.cube.move(move);
         }
+        this.sequenceRunning = false;
         break;
     }
   }
@@ -576,7 +584,7 @@ export class ViewRubikComponent {
     for (let i = 0; i < 20; i++) {
       ret.push(moves[Math.floor(Math.random() * moves.length)]);
     }
-    this.doSequence(Utils.join(ret, ''), 0.02);
+    this.doSequence(Utils.join(ret, ''), 0.02, true);
   }
 
   async btnImage() {

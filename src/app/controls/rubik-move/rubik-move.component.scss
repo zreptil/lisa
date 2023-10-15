@@ -138,7 +138,7 @@
   --cf-size: calc((var(--plate-size) + 1px) * 3);
   --tz: calc(var(--plate-size) * (47 + var(--border) / 2) / 30);
   width: calc(var(--cf-size) * 2);
-  height: calc(var(--cf-size) * 3);
+  height: calc(var(--cf-size) * 2);
   display: flex;
   align-items: center;
   justify-content: center;
