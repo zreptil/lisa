@@ -6,6 +6,7 @@ import {animate, keyframes, style, transition, trigger} from '@angular/animation
 import * as htmlToImage from 'html-to-image';
 import {MessageService} from '@/_services/message.service';
 import {DialogResultButton} from '@/_model/dialog-data';
+import {RubikCube, RubikCubicle} from '@/_model/rubik-data';
 
 @Component({
   selector: 'app-view-rubik',
@@ -29,7 +30,6 @@ export class ViewRubikComponent {
   icons: any = {
     view: {
       'three-d': 'view_in_ar',
-      'three-d1': 'apps_outage',
       'flat': 'check_box_outline_blank'
     }, mode: {
       '': 'apps',
@@ -108,7 +108,7 @@ export class ViewRubikComponent {
   get styleForRoot(): any {
     const ret: any = {};
     switch (this.view) {
-      case 'three-d1':
+      case 'three-d':
         const s = this.cubicleSize * 5;
         ret.width = `${s}px`;
         ret.height = `${s}px`;
@@ -121,9 +121,6 @@ export class ViewRubikComponent {
     const ret: any = {};
     switch (this.view) {
       case 'three-d':
-        ret.transform = `rotateX(${this.rotx}deg) rotateY(${this.roty}deg) rotateZ(${this.rotz}deg) translateX(0) translateY(0px) translateZ(0)`;
-        break;
-      case 'three-d1':
         ret.transform = `translateX(-50%) translateY(-50%) translateZ(0) rotateX(${this.rotx}deg) rotateY(${this.roty}deg) rotateZ(${this.rotz}deg)`;
         ret['--cs'] = `${this.cubicleSize}px`;
         break;
@@ -157,18 +154,6 @@ export class ViewRubikComponent {
     return ret;
   }
 
-  // clickMove(c: string) {
-  //   switch (this.view) {
-  //     case 'three-d':
-  //     case 'flat':
-  //       this.rs.cube.move(c);
-  //       break;
-  //     case 'three-d1':
-  //       this.turnFaceId = c;
-  //       break;
-  //   }
-  // }
-
   faceFor(faceId: string, x: number, y: number): any {
     return this.rs.cube.face(faceId)[y * 3 + x];
   }
@@ -176,13 +161,27 @@ export class ViewRubikComponent {
   styleForPlate(faceId: string, x: number, y: number): any {
     const face = this.rs.cube.face(faceId);
     let color = face[y * 3 + x].n;
-    if (this.rs.hidden.find(h => h === `${faceId}${y * 3 + x}`)) {
+    return this.styleForSticker(faceId, y * 3 + x, color);
+  }
+
+  styleForFace(faceId: string, cubicle: any, l: number, c: number): any {
+    let color = cubicle[faceId];
+    const idx = this.rs.cube.face(faceId).findIndex(f => f.l === l && f.c === c);
+    return this.styleForSticker(faceId, idx, color);
+  }
+
+  styleForSticker(faceId: string, idx: number, color: number): any {
+    if (this.rs.hidden.find(h => h === `${faceId}${idx}`)) {
       color = 0;
     }
-    return {
+    const ret: any = {
       backgroundColor: `var(--b${color ?? 0})`,
-      color: `var(--f${color ?? 0})`
+      color: `var(--f${color ?? 0})`,
     }
+    if (color == null) {
+      ret['box-shadow'] = 'none';
+    }
+    return ret;
   }
 
   movementFor(faceId: string, l: number, c: number): string {
@@ -227,34 +226,33 @@ export class ViewRubikComponent {
   }
 
   clickFace(faceId: string, l: number, c: number) {
-    const def = this.movementFor(faceId, l, c);
-    if (def != null) {
-      if (this.doRecord) {
-        if (GLOBALS.viewConfig.rubikRecorded.length > 0 && GLOBALS.viewConfig.rubikRecorded[GLOBALS.viewConfig.rubikRecorded.length - 1] === Utils.toggleCase(def[1])) {
-          GLOBALS.viewConfig.rubikRecorded = GLOBALS.viewConfig.rubikRecorded.substring(0, GLOBALS.viewConfig.rubikRecorded.length - 1);
+    switch (this.mode) {
+      case 'colorize':
+        const idx = this.rs.cube.face(faceId).findIndex(f => f.l === l && f.c === c);
+        const key = `${faceId}${idx}`;
+        const i = this.rs.hidden.findIndex(h => h === key);
+        if (i >= 0) {
+          this.rs.hidden.splice(i, 1);
         } else {
-          GLOBALS.viewConfig.rubikRecorded += def[1];
+          this.rs.hidden.push(key);
         }
-        GLOBALS.saveSharedData();
-      }
-      this.turnFaceId = def[1];
+        // console.log('AHAAA!', (this.rs.cube.c(l, c) as any)[faceId]);
+        break;
+      default:
+        const def = this.movementFor(faceId, l, c);
+        if (def != null) {
+          if (this.doRecord) {
+            if (GLOBALS.viewConfig.rubikRecorded.length > 0 && GLOBALS.viewConfig.rubikRecorded[GLOBALS.viewConfig.rubikRecorded.length - 1] === Utils.toggleCase(def[1])) {
+              GLOBALS.viewConfig.rubikRecorded = GLOBALS.viewConfig.rubikRecorded.substring(0, GLOBALS.viewConfig.rubikRecorded.length - 1);
+            } else {
+              GLOBALS.viewConfig.rubikRecorded += def[1];
+            }
+            GLOBALS.saveSharedData();
+          }
+          this.turnFaceId = def[1];
+        }
+        break;
     }
-  }
-
-  styleForFace(faceId: string, cubicle: any, l: number, c: number): any {
-    let color = cubicle[faceId];
-    const idx = this.rs.cube.face(faceId).findIndex(f => f.l === l && f.c === c);
-    if (this.rs.hidden.find(h => h === `${faceId}${idx}`)) {
-      color = 0;
-    }
-    const ret: any = {
-      backgroundColor: `var(--b${color ?? 0})`,
-      color: `var(--f${color ?? 0})`
-    }
-    if (color == null) {
-      ret['box-shadow'] = 'none';
-    }
-    return ret;
   }
 
   textForPlate(faceId: string, x: number, y: number): string {
@@ -264,11 +262,6 @@ export class ViewRubikComponent {
         ret.push(`${this.faceFor(faceId, x, y).l}/${this.faceFor(faceId, x, y).c}`);
         break;
       case 'colorize':
-        if (this.currFace === faceId) {
-          ret.push(`${y * 3 + x + 1}`);
-        } else if (x === 1 && y === 1) {
-          ret.push(faceId.toUpperCase());
-        }
         break;
     }
     return Utils.join(ret, '');
@@ -276,17 +269,11 @@ export class ViewRubikComponent {
 
   textForCubicle(faceId: string, l: number, c: number) {
     const ret: any = [];
-    const idx = this.rs.cube.face(faceId).findIndex(f => f.l === l && f.c === c) + 1;
     switch (this.mode) {
       case 'debug':
         ret.push(`${faceId}${l * 9 + c}`); //idx ?? '??');
         break;
       case 'colorize':
-        if (this.currFace === faceId) {
-          ret.push(idx ?? '??');
-        } else if (idx === 5) {
-          ret.push(faceId.toUpperCase());
-        }
         break;
     }
     return Utils.join(ret, '');
@@ -316,7 +303,7 @@ export class ViewRubikComponent {
   }
 
   mouseDown(evt: MouseEvent) {
-    if (!this.view.startsWith('three-d')) {
+    if (this.view !== 'three-d') {
       return;
     }
     this._mouseDown = {
@@ -329,7 +316,7 @@ export class ViewRubikComponent {
   }
 
   mouseMove(evt: MouseEvent) {
-    if (!this.view.startsWith('three-d')) {
+    if (this.view !== 'three-d') {
       return;
     }
     if (this._mouseDown != null) {
@@ -359,24 +346,24 @@ export class ViewRubikComponent {
   }
 
   mouseUp(_evt: MouseEvent) {
-    if (!this.view.startsWith('three-d')) {
+    if (this.view !== 'three-d') {
       return;
     }
     this._mouseDown = null;
   }
 
-  @HostListener('document:keypress', ['$event'])
-  keypress(evt: KeyboardEvent) {
-    switch (this.mode) {
-      case 'colorize':
-        if (+evt.key >= 1 && +evt.key <= 9) {
-          this.rs.toggleHidden(this.currFace, +evt.key - 1);
-          break;
-        } else if ('ulfrbd'.indexOf(evt.key) >= 0) {
-          this.currFace = evt.key;
-        }
-    }
-  }
+  // @HostListener('document:keypress', ['$event'])
+  // keypress(evt: KeyboardEvent) {
+  //   switch (this.mode) {
+  //     case 'colorize':
+  //       if (+evt.key >= 1 && +evt.key <= 9) {
+  //         this.rs.toggleHidden(this.currFace, +evt.key - 1);
+  //         break;
+  //       } else if ('ulfrbd'.indexOf(evt.key) >= 0) {
+  //         this.currFace = evt.key;
+  //       }
+  //   }
+  // }
 
   @HostListener('document:keydown', ['$event'])
   keydown(evt: KeyboardEvent) {
@@ -555,12 +542,26 @@ export class ViewRubikComponent {
     this.turnSpeed = 0.2;
     if (this.turnSequence.length > 0) {
       setTimeout(() => this.doSequence(this.turnSequence), 10);
+    } else {
+      const hidden: string[] = [];
+      const cubeOrg = new RubikCube();
+      const faces = 'udlrfb';
+      for (let i = 0; i < faces.length; i++) {
+        const plates = this.rs.cube.face(faces[i]);
+        for (let n = 0; n < plates.length; n++) {
+          const p = plates[n];
+          if (RubikCubicle.equals(cubeOrg.c(p.l, p.c), this.rs.cube.c(p.l, p.c))) {
+            hidden.push(`${faces[i]}${n}`);
+          }
+        }
+      }
+      this.rs.hidden = hidden;
     }
   }
 
   doSequence(moves: string, speed = 0.1) {
     switch (this.view) {
-      case 'three-d1':
+      case 'three-d':
         this.turnSpeed = speed;
         this.turnSequence = moves.substring(1);
         this.turnFaceId = moves.substring(0, 1);

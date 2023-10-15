@@ -115,3 +115,117 @@
     }
   }
 }
+
+//.cube {
+//user-select: none;
+//width: calc(var(--cf-size) * 4);
+//position: relative;
+//display: flex;
+//align-items: center;
+//justify-content: center;
+//flex: 1;
+//
+//#cube {
+//  position: relative;
+//  perspective: calc(var(--plate-size) * 10);
+//}
+//
+
+.cube {
+  --border: 1;
+  --borderPX: 1px;
+  --plate-size: 20px;
+  --cf-size: calc((var(--plate-size) + 1px) * 3);
+  --tz: calc(var(--plate-size) * (47 + var(--border) / 2) / 30);
+  width: calc(var(--cf-size) * 2);
+  height: calc(var(--cf-size) * 3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+[cube] {
+  width: 100%;
+  height: 100%;
+  margin: auto;
+  transform-style: preserve-3d;
+  cursor: pointer;
+
+  .face {
+    position: absolute;
+    overflow: visible;
+    top: var(--cf-size);
+    left: calc(var(--cf-size) / 2);
+    border: var(--borderPX) solid black;
+    border-radius: 4px;
+
+    .plates {
+      --size: var(--plate-size);
+      --frame: 1px;
+      --gap: 4px;
+      --extents: calc(var(--size) * 3 + var(--frame) * 2);
+      display: grid;
+      gap: var(--frame);
+      grid-template-columns: var(--size) var(--size) var(--size);
+      grid-template-rows: var(--size) var(--size) var(--size);
+      background-color: black;
+      width: var(--extents);
+      height: var(--extents);
+      padding: var(--frame);
+      position: relative;
+
+      [cell] {
+        --v1: 0.15em;
+        --v2: 0.3rem;
+        --v3: -0.15em;
+        --m: 0px;
+        --s: calc(var(--size) - 2 * var(--m));
+        border-radius: 4px;
+        width: var(--s);
+        height: var(--s);
+        margin: var(--m);
+        background-color: white;
+        font-size: 60%;
+        display: flex;
+        align-items: center;
+        font-weight: bold;
+        justify-content: center;
+      }
+
+      [cell].debug {
+      }
+
+      [cell].colorize {
+        font-size: 2em;
+        font-weight: bold;
+      }
+    }
+  }
+
+  .face.u {
+    transform: rotateX(90deg) translateX(0) translateY(0) translateZ(var(--tz));
+  }
+
+  .face.l {
+    transform: rotateY(-90deg) translateX(0) translateY(0) translateZ(var(--tz));
+  }
+
+  .face.f {
+    transform: translateX(0) translateY(0) translateZ(var(--tz));
+  }
+
+  .face.r {
+    transform: rotateY(90deg) translateX(0) translateY(0) translateZ(var(--tz));
+  }
+
+  .face.b {
+    transform: rotateY(180deg) translateX(0) translateY(0) translateZ(var(--tz));
+  }
+
+  .face.d {
+    transform: rotateX(-90deg) translateX(0) translateY(0) translateZ(var(--tz));
+  }
+}
+
+//}
+

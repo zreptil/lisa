@@ -146,36 +146,36 @@
     }
   }
 
-  [cube].three-d {
-    transform-style: preserve-3d;
-    cursor: pointer;
+  [cube].three-d.colorize {
+    [face]:hover {
 
-    .face.u {
-      transform: rotateX(90deg) translateX(0) translateY(0) translateZ(var(--tz));
-    }
-
-    .face.l {
-      transform: rotateY(-90deg) translateX(0) translateY(0) translateZ(var(--tz));
-    }
-
-    .face.f {
-      transform: translateX(0) translateY(0) translateZ(var(--tz));
-    }
-
-    .face.r {
-      transform: rotateY(90deg) translateX(0) translateY(0) translateZ(var(--tz));
-    }
-
-    .face.b {
-      transform: rotateY(180deg) translateX(0) translateY(0) translateZ(var(--tz));
-    }
-
-    .face.d {
-      transform: rotateX(-90deg) translateX(0) translateY(0) translateZ(var(--tz));
+      [plate] {
+        background-image: url('../../../assets/images/close.png');
+        background-size: 50%;
+        opacity: 0.5 !important;
+      }
     }
   }
 
-  [cube].three-d1 {
+  [cube].three-d:not(.colorize) {
+    [face].al:hover [plate] {
+      background-image: url('../../../assets/images/arrow-left.png');
+    }
+
+    [face].au:hover [plate] {
+      background-image: url('../../../assets/images/arrow-up.png');
+    }
+
+    [face].ar:hover [plate] {
+      background-image: url('../../../assets/images/arrow-right.png');
+    }
+
+    [face].ad:hover [plate] {
+      background-image: url('../../../assets/images/arrow-down.png');
+    }
+  }
+
+  [cube].three-d {
     transform-style: preserve-3d;
     cursor: pointer;
     position: absolute;
@@ -197,22 +197,6 @@
       background-repeat: no-repeat;
       background-position: 50% 50%;
       background-size: 100%;
-    }
-
-    [face].al:hover [plate] {
-      background-image: url('../../../assets/images/arrow-left.png');
-    }
-
-    [face].au:hover [plate] {
-      background-image: url('../../../assets/images/arrow-up.png');
-    }
-
-    [face].ar:hover [plate] {
-      background-image: url('../../../assets/images/arrow-right.png');
-    }
-
-    [face].ad:hover [plate] {
-      background-image: url('../../../assets/images/arrow-down.png');
     }
 
     [cubicle] {

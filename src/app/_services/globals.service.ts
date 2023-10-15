@@ -55,7 +55,7 @@ export class GlobalsService {
   viewConfig = {
     gridColumns: 4,
     showPrimeNumbers: false,
-    rubikView: 'three-d1',
+    rubikView: 'three-d',
     rubikMode: '',
     rubikRotx: -30,
     rubikRoty: 30,

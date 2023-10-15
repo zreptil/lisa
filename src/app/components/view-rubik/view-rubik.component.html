@@ -4,9 +4,9 @@
        (mouseup)="mouseUp($event)"
        class="cube">
     <div [style]="styleForRoot" id="cube">
-      <ng-container *ngIf="view === 'three-d' || view === 'flat'">
+      <ng-container *ngIf="view === 'flat'">
         <div [class]="view" [style]="styleForCube" cube>
-          <div *ngFor="let face of 'ulfrbd'.split('')" class="face {{face}}">
+          <div *ngFor="let face of 'dbrlfu'.split('')" class="face {{face}}">
             <div class="plates">
               <ng-container *ngFor="let y of [0,1,2]">
                 <div *ngFor="let x of [0,1,2]"
@@ -20,7 +20,7 @@
           </div>
         </div>
       </ng-container>
-      <div *ngIf="view === 'three-d1'" [class]="view" [style]="styleForCube" cube>
+      <div *ngIf="view === 'three-d'" [class]="[view, mode]" [style]="styleForCube" cube>
         <ng-container *ngFor="let layer of rs.cube.layers, index as l">
           <ng-container *ngFor="let cubicle of layer.cubicles, index as c">
             <!-- div style="{{keyframeForCubicle(l,c)}}"></div -->
@@ -52,9 +52,10 @@
   </div>
   <div moves>
     <div style="display:flex;flex-flow:column;max-width:200px">
-      <img [src]="srcImage" alt="cube image" image/>
-      <div>{{rotx}} {{roty}} {{rotz}}</div>
-      <div>{{_mouseDown | json}}</div>
+      <ng-container *ngIf="mode==='debug'">
+        <div>{{rotx}} {{roty}} {{rotz}}</div>
+        <div>{{_mouseDown | json}}</div>
+      </ng-container>
     </div>
     <!-- button (click)="clickMove(c)" *ngFor="let c of moveButtons" mat-icon-button>{{c}}</button -->
     <button (click)="btnView()" mat-icon-button>
@@ -82,6 +83,7 @@
       <mat-icon>delete</mat-icon>
     </button>
   </div>
+  <img [src]="srcImage" alt="cube image" hideMissingImage image/>
 </div>
 <div lower>
   <app-rubik-move (onMove)="doSequence($event)" [move]="globals.viewConfig.rubikRecorded"></app-rubik-move>

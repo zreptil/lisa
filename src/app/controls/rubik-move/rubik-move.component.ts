@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {RubikService} from '@/_services/rubik.service';
 import {Utils} from '@/classes/utils';
+import {GLOBALS} from '@/_services/globals.service';
 
 @Component({
   selector: 'app-rubik-move',
@@ -52,6 +53,40 @@ export class RubikMoveComponent {
       }
     }
     return ret;
+  }
+
+  get rotx(): number {
+    return GLOBALS.viewConfig.rubikRotx;
+  }
+
+  get roty(): number {
+    return GLOBALS.viewConfig.rubikRoty;
+  }
+
+  get rotz(): number {
+    return GLOBALS.viewConfig.rubikRotz;
+  }
+
+  get styleForCube(): any {
+    const ret: any = {};
+    ret.transform = `rotateX(${this.rotx}deg) rotateY(${this.roty}deg) rotateZ(${this.rotz}deg) translateX(0) translateY(0px) translateZ(0)`;
+    for (const key of Object.keys(this.rs.cube.colors)) {
+      ret[`--b${key}`] = this.rs.cube.colors[key].b;
+      ret[`--f${key}`] = this.rs.cube.colors[key].f;
+    }
+    return ret;
+  }
+
+  styleForPlate(faceId: string, x: number, y: number): any {
+    const face = this.rs.cube.face(faceId);
+    let color = face[y * 3 + x].n;
+    if (this.rs.hidden.find(h => h === `${faceId}${y * 3 + x}`)) {
+      color = 0;
+    }
+    return {
+      backgroundColor: `var(--b${color ?? 0})`,
+      color: `var(--f${color ?? 0})`
+    }
   }
 
   faceForMove(moveId: string): string {

@@ -21,6 +21,7 @@ export class RubikCubicle {
   }
 
   static equals(a: RubikCubicle, b: RubikCubicle): boolean {
+    console.log(RubikCubicle.encode(a), RubikCubicle.encode(b));
     return RubikCubicle.encode(a) === RubikCubicle.encode(b);
   }
 

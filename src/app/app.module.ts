@@ -32,6 +32,7 @@ import {ViewPrimeNumbersComponent} from './components/view-prime-numbers/view-pr
 import {ViewRubikComponent} from './components/view-rubik/view-rubik.component';
 import {RubikMoveComponent} from './controls/rubik-move/rubik-move.component';
 import {BrowserAnimationsModule, provideAnimations} from '@angular/platform-browser/animations';
+import { HideMissingImageDirective } from './_directives/hide-missing-image.directive';
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import {BrowserAnimationsModule, provideAnimations} from '@angular/platform-brow
     ViewPrimeNumbersComponent,
     ViewRubikComponent,
     RubikMoveComponent,
+    HideMissingImageDirective,
   ],
   imports: [
     BrowserModule,

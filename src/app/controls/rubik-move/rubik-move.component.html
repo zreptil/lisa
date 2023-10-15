@@ -1,4 +1,18 @@
 <div (click)="clickMove()" moves>
+  <div class="cube">
+    <div [style]="styleForCube" cube>
+      <div *ngFor="let face of 'dbrlfu'.split('')" class="face {{face}}">
+        <div class="plates">
+          <ng-container *ngFor="let y of [0,1,2]">
+            <div *ngFor="let x of [0,1,2]"
+                 [style]="styleForPlate(face, x,y)"
+                 cell>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
   <ng-container
     *ngFor="let moveId of moves"
     [ngTemplateOutletContext]="{moveId:moveId}"
