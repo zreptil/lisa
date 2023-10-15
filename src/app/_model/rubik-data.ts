@@ -34,6 +34,13 @@ export class RubikCubicle {
   }
 }
 
+export class RubikFace {
+  l: number;
+  c: number;
+  n: number;
+  cubicle: RubikCubicle;
+}
+
 export class RubikLayer {
   cubicles: RubikCubicle[] = [];
 
@@ -200,7 +207,7 @@ export class RubikCube {
     return ret;
   }
 
-  face(dir: string): any[] {
+  face(dir: string): RubikFace[] {
     const ret: any[] = [];
     let cuby;
     switch (dir) {
@@ -374,6 +381,21 @@ export class RubikCube {
     return this.layers[l].cubicles[c];
   }
 
+  // https://www.youtube.com/watch?v=4-wu5Miyqrw
+  blindName(faceId: string, l: number, c: number): string {
+    let ret = '';
+    const face = this.face(faceId);
+    const idx = face.findIndex(f => f.l === l && f.c === c);
+    if (idx >= 0) {
+      const pos = [0, 0, 1, 3, -1, 1, 3, 2, 2][idx];
+      if (pos >= 0) {
+        const letter = pos + 'ulfrbd'.indexOf(faceId) * 4;
+        ret = String.fromCharCode(letter + 65);
+      }
+    }
+    return ret;
+  }
+
   private _move(move: any, src: RubikLayer[], dst: RubikLayer[], isReverse: boolean): void {
     const s = isReverse ? move.dst : move.src;
     const d = isReverse ? move.src : move.dst;
@@ -400,6 +422,4 @@ export class RubikCube {
     }
     cube[order[3]] = t;
   }
-
-  // dst[move.src.l].cubicles[move.src.c] = {l: 0, u: 0, r: 0, d: 0, b: 0, f: 0};
 }

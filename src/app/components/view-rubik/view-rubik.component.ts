@@ -34,7 +34,8 @@ export class ViewRubikComponent {
     }, mode: {
       '': 'apps',
       'colorize': 'edit',
-      'debug': 'bug_report'
+      'debug': 'bug_report',
+      'blind': 'blind'
     }, explode: {
       'yes': 'accessibility_new',
       'no': 'view_compact'
@@ -265,6 +266,15 @@ export class ViewRubikComponent {
         ret.push(`${faceId}${l * 9 + c}`); //idx ?? '??');
         break;
       case 'colorize':
+        break;
+      case 'blind':
+        ret.push(this.rs.cube.blindName(faceId, l, c));
+        break;
+      default:
+        const def = this.movementFor(faceId, l, c);
+        if (def != null) {
+          ret.push(`<div class="cfm">${def[1]}</div>`);
+        }
         break;
     }
     return Utils.join(ret, '');
