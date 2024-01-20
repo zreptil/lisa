@@ -1,4 +1,5 @@
 <div (click)="clickMove($event)" moves>
+  <div name>{{name}}</div>
   <div (click)="clickCube($event)" class="cube">
     <div [style]="styleForCube" cube>
       <div *ngFor="let face of 'dbrlfu'.split('')" class="face {{face}}">

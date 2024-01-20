@@ -1,25 +1,24 @@
 :host {
   display: flex;
-  flex-flow: column;
+  flex-flow: row;
   height: var(--doc-height);
 }
 
-[upper] {
+[left] {
   display: flex;
-  flex-flow: row;
+  flex-flow: column;
   align-items: center;
   justify-content: center;
-  width: 100%;
   gap: 5px;
   flex-wrap: wrap;
   box-shadow: 0 5px 15px black;
 }
 
-[lower] {
+[right] {
   display: flex;
   flex-flow: row;
   flex-wrap: wrap;
-  flex: 1;
+  flex: auto;
   overflow: auto;
 }
 
@@ -29,8 +28,9 @@
 }
 
 [moves] {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  display: flex;
+  flex-flow: row;
+  flex-wrap: wrap;
 }
 
 .cube {
@@ -41,8 +41,8 @@
   --tz: calc(var(--plate-size) * (47 + var(--border) / 2) / 30);
 
   user-select: none;
-  width: calc(var(--cf-size) * 4);
-  // height: calc(var(--cf-size) * 3);
+  // width: calc(var(--cf-size) * 4);
+  height: 100%;
   position: relative;
   display: flex;
   align-items: center;

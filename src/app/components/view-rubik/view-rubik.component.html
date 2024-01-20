@@ -1,8 +1,8 @@
-<div upper>
+<div left>
   <div moves>
     <!-- button (click)="clickMove(c)" *ngFor="let c of moveButtons" mat-icon-button>{{c}}</button -->
     <button (click)="btnView()" mat-icon-button>
-      <mat-icon>{{icons.view[view]}}</mat-icon>
+      <mat-icon>{{icons.view[view] ?? 'question_mark'}}</mat-icon>
     </button>
     <button (click)="rs.reset()" mat-icon-button>
       <mat-icon>undo</mat-icon>
@@ -88,15 +88,16 @@
     <div>{{_mouseDown | json}}</div>
   </ng-container>
 </div>
-<div lower>
-  <app-rubik-move (onMove)="doSequence($event)" [move]="globals.viewConfig.rubikRecorded"></app-rubik-move>
-  <!-- Cube in Cube in Cube -->
-  <app-rubik-move (onMove)="doSequence($event)" move="ulufRRbRFUbbUbLuFURf"></app-rubik-move>
-  <!-- Cube in Cube -->
-  <app-rubik-move (onMove)="doSequence($event)" move="uuRRFFUbbdlFlFlFDbbU"></app-rubik-move>
-  <app-rubik-move (onMove)="doSequence($event)" move="ulULUFuf"></app-rubik-move>
-  <app-rubik-move (onMove)="doSequence($event)" move="UFRUruf"></app-rubik-move>
-  <app-rubik-move (onMove)="doSequence($event)" move="RERERERE"></app-rubik-move>
-  <app-rubik-move (onMove)="doSequence($event)" move="ulURuLUr"></app-rubik-move>
-  <app-rubik-move (onMove)="doSequence($event)" move="RfrFRfrF"></app-rubik-move>
+<div right>
+  <app-rubik-move (onMove)="doSequence($event)" [move]="globals.viewConfig.rubikRecorded" name="Recorded"></app-rubik-move>
+  <app-rubik-move (onMove)="doSequence($event)" move="uuRRFFUbbdlFlFlFDbbU" name="Cube in Cube"></app-rubik-move>
+  <app-rubik-move (onMove)="doSequence($event)" move="ulufRRbRFUbbUbLuFURf" name="Cube in Cube in Cube"></app-rubik-move>
+  <app-rubik-move (onMove)="doSequence($event)" move="ulULUFuf" name="Spiegel - 2. Ebene"></app-rubik-move>
+  <app-rubik-move (onMove)="doSequence($event)" move="UFRUruf" name="Spiegel - 3. Ebene - Kantentausch"></app-rubik-move>
+  <app-rubik-move (onMove)="doSequence($event)" move="RERERERE" name="Spiegel - 3. Ebene - Kantendrehen"></app-rubik-move>
+  <app-rubik-move (onMove)="doSequence($event)" move="ulURuLUr" name="Spiegel - 3. Ebene - Eckentausch"></app-rubik-move>
+  <app-rubik-move (onMove)="doSequence($event)" move="RfrFRfrF" name="Spiegel - 3 Ebene - Eckendrehen"></app-rubik-move>
+  <app-rubik-move (onMove)="doSequence($event)" move="RUrurFRRuruRUrf" name="Blind Edgeswap"></app-rubik-move>
+  <app-rubik-move (onMove)="doSequence($event)" move="RuruRURDruRdrUUru" name="Blind Parity"></app-rubik-move>
+  <app-rubik-move (onMove)="doSequence($event)" move="RuruRUrfRUrurFR" name="Blind Cornerswap"></app-rubik-move>
 </div>

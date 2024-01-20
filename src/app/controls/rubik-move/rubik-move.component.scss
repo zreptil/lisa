@@ -9,12 +9,19 @@
   margin: 2px;
   border-radius: 5px;
   display: flex;
-  flex-flow: row;
+  flex-flow: column;
   flex-wrap: wrap;
   gap: var(--gap);
   _max-width: calc(var(--extents) * 3 + 5 * var(--gap));
   transform-style: preserve-3d;
   position: relative;
+  align-items: center;
+
+  [name] {
+    // position: absolute;
+    font-size: 75%;
+    font-weight: bold;
+  }
 
   [root] {
     --ext: calc(var(--extents) + var(--frame));
