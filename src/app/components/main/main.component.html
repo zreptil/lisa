@@ -3,7 +3,7 @@
     <div [ngSwitch]="globals.appMode">
       <ng-container *ngSwitchCase="'edit'">
         <button (click)="clickSave($event)" mat-button>
-          <mat-icon>{{globals.iconForToggleEdit}}</mat-icon>
+          <mat-icon>{{ globals.iconForToggleEdit }}</mat-icon>
         </button>
         <button (click)="clickAdd($event)" mat-button>
           <mat-icon>note_add</mat-icon>
@@ -35,27 +35,31 @@
         <button (click)="clickWelcome()" mat-menu-item>
           <mat-icon>school</mat-icon>
         </button>
-        <div *ngFor="let item of ls.languageList; let idx = index" class="btnLanguage">
-          <button (click)="clickLanguage(item)" [class]="languageClass(item)" mat-icon-button>
-            <img alt="language image" class="language" src="{{item.imgPath}}">
-          </button>
-          <a *ngIf="item.crowdin != null" [href]="item.crowdin.languageUrl" class="crowdin" target="_blank" title="Crowdin">
-            <img [src]="item.crowdin.languageBadgeUrl" alt="{{item.crowdin.langName}} proofreading">
-          </a>
-        </div>
+        @for (item of ls.languageList; track $index) {
+          <div class="btnLanguage">
+            <button (click)="clickLanguage(item)" [class]="languageClass(item)" mat-icon-button>
+              <img alt="language image" class="language" src="{{item.imgPath}}">
+            </button>
+            @if (item.crowdin != null) {
+              <a [href]="item.crowdin.languageUrl" class="crowdin" target="_blank" title="Crowdin">
+                <img [src]="item.crowdin.languageBadgeUrl" alt="{{item.crowdin.langName}} proofreading">
+              </a>
+            }
+          </div>
+        }
       </mat-menu>
     </div>
     <div>
       <button (click)="clickViewTool($event, tool)"
               *ngFor="let tool of toolsForView"
               mat-button>
-        <mat-icon>{{tool.icon}}</mat-icon>
+        <mat-icon>{{ tool.icon }}</mat-icon>
       </button>
       <button (click)="clickView($event)" mat-button>
-        <mat-icon>{{iconForView}}</mat-icon>
+        <mat-icon>{{ iconForView }}</mat-icon>
       </button>
       <button (click)="clickDebug($event)" *ngIf="globals.mayDebug" class="debug" mat-icon-button>
-        <mat-icon>{{globals.isDebug ? 'pest_control' : 'bug_report'}}</mat-icon>
+        <mat-icon>{{ globals.isDebug ? 'pest_control' : 'bug_report' }}</mat-icon>
       </button>
       <button (click)="sync.toggleSyncDropbox()" id="sync" mat-icon-button>
         <ng-container *ngIf="!sync.hasSync">
@@ -67,13 +71,27 @@
       </button>
     </div>
   </div>
-  <div [class]="globals.viewMode" [ngSwitch]="globals.viewMode" content>
-    <app-view-world *ngSwitchCase="'world'"></app-view-world>
-    <app-view-flex *ngSwitchCase="'flex'"></app-view-flex>
-    <app-view-grid *ngSwitchCase="'grid'"></app-view-grid>
-    <app-view-thumbling *ngSwitchCase="'thumb'"></app-view-thumbling>
-    <app-view-prime-numbers *ngSwitchCase="'prime'"></app-view-prime-numbers>
-    <app-view-rubik *ngSwitchCase="'rubik'"></app-view-rubik>
+  <div [class]="globals.viewMode" content>
+    @switch (globals.viewMode) {
+      @case ('world') {
+        <app-view-world></app-view-world>
+      }
+      @case ('flex') {
+        <app-view-flex></app-view-flex>
+      }
+      @case ('grid') {
+        <app-view-grid></app-view-grid>
+      }
+      @case ('thumg') {
+        <app-view-thumbling></app-view-thumbling>
+      }
+      @case ('prime') {
+        <app-view-prime-numbers></app-view-prime-numbers>
+      }
+      @case ('rubik') {
+        <app-view-rubik></app-view-rubik>
+      }
+    }
   </div>
 </div>
 <app-progress></app-progress>

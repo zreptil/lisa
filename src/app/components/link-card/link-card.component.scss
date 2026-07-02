@@ -265,6 +265,9 @@ mat-card {
 }
 
 [tools] {
+  position: absolute;
+  right: 0.5em;
+  top: 0.5em;
   display: flex;
   flex: 1;
   align-items: flex-start;

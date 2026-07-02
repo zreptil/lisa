@@ -1,28 +1,36 @@
 <ng-template #icon let-callLink="callLink">
   <div (click)="clickIcon($event, link, callLink)">
-    <img (error)="globals.noImage($event)" *ngIf="link.children==null" [src]="link.iconUrl" alt="favicon">
-    <mat-icon *ngIf="link.children!=null">
-      {{folderIcon}}
-    </mat-icon>
+    @if (link.children == null) {
+      <img (error)="globals.noImage($event)" [src]="link.iconUrl" alt="favicon">
+    }
+    @if (link.children != null) {
+      <mat-icon> {{ folderIcon }}</mat-icon>
+    }
   </div>
 </ng-template>
 <ng-template #footer>
-  <ng-container *ngIf="link.children == null">
-    <div *ngIf="link.lastUsed != null">{{Utils.fmtDate(link.lastUsed)}}</div>
-    <div *ngIf="link.lastUsed == null" i18n>never visited</div>
-  </ng-container>
+  @if (link.children == null) {
+    @if (link.lastUsed != null) {
+      <div>{{ Utils.fmtDate(link.lastUsed) }}</div>
+    } @else {
+      <div i18n>never visited</div>
+    }
+  }
 </ng-template>
 <ng-template #children>
-  <div *ngIf="link.children != null" [class]="classForChildren(link)">
-    <app-link-card *ngFor="let child of link.children"
-                   [link]="child"
-                   [mode]="link.isOpen?'full':'icon'"></app-link-card>
-    <ng-container *ngIf="globals.appMode==='edit'">
-      <button (click)="clickAdd($event, link)" class="add" mat-button>
-        <mat-icon>note_add</mat-icon>
-      </button>
-    </ng-container>
-  </div>
+  @if (link.children != null) {
+    <div [class]="classForChildren(link)">
+      @for (child of link.children; track $index) {
+        <app-link-card [link]="child"
+                       [mode]="link.isOpen?'full':'icon'"></app-link-card>
+      }
+      @if (globals.appMode === 'edit') {
+        <button (click)="clickAdd($event, link)" class="add" mat-button>
+          <mat-icon>note_add</mat-icon>
+        </button>
+      }
+    </div>
+  }
 </ng-template>
 
 <div (cdkDragStarted)="ds.dragstart($event)"
@@ -33,18 +41,20 @@
      [class]="classForDrag"
      cdkDrag
      id="link-{{link.uniqueId}}">
-  <ng-container [ngSwitch]="mode">
-    <div *ngSwitchCase="'icon'" class="dragbase icon">
-      <button (click)="clickLink($event, link)" mat-button>
-        <ng-container [ngTemplateOutletContext]="{callLink:true}" [ngTemplateOutlet]="icon"></ng-container>
-      </button>
-      <div iconlabel>{{link.label}}
-        <div info>{{link.info}}</div>
+  @switch (mode) {
+    @case ('icon') {
+      <div class="dragbase icon">
+        <button (click)="clickLink($event, link)" mat-button>
+          <ng-container [ngTemplateOutletContext]="{callLink:true}" [ngTemplateOutlet]="icon"></ng-container>
+        </button>
+        <div iconlabel>{{ link.label }}
+          <div info>{{ link.info }}</div>
+        </div>
       </div>
-    </div>
-    <ng-container *ngSwitchCase="'full'">
-      <ng-container [ngSwitch]="type">
-        <ng-container *ngSwitchCase="'card'">
+    }
+    @case ('full') {
+      @switch (type) {
+        @case ('card') {
           <mat-card (click)="clickLink($event, link)" class="dragbase" linkcard>
             <mat-card-header>
               <mat-card-title>
@@ -53,7 +63,7 @@
               </mat-card-title>
             </mat-card-header>
             <mat-card-content>
-              <div>{{link.info}}</div>
+              <div>{{ link.info }}</div>
               <ng-container [ngTemplateOutlet]="children"></ng-container>
             </mat-card-content>
             <ng-container *ngIf="globals.appMode==='edit'">
@@ -64,23 +74,26 @@
               </mat-card-footer>
             </ng-container>
           </mat-card>
-        </ng-container>
-        <ng-container *ngSwitchCase="'grid'">
+        }
+        @case ('grid') {
           <div (click)="clickLink($event, link)" class="dragbase" grid linkcard>
             <div header>
               <ng-container *ngTemplateOutlet="icon"></ng-container>
               <span [innerHTML]="link.label" label></span>
               <div tools>
-                <button (click)="clickOpenAll($event)" *ngIf="mayOpenAll" mat-button>
-                  <mat-icon>directions_run</mat-icon>
-                </button>
-                <button (click)="globals.toggleEdit($event)" class="editCard" mat-button>
-                  <mat-icon>{{globals.iconForToggleEdit}}</mat-icon>
-                </button>
+                @if (mayOpenAll) {
+                  <button (click)="clickOpenAll($event)" mat-button>
+                    <mat-icon>directions_run</mat-icon>
+                  </button>
+                } @else {
+                  <button (click)="globals.toggleEdit($event)" class="editCard" mat-button>
+                    <mat-icon>{{ globals.iconForToggleEdit }}</mat-icon>
+                  </button>
+                }
               </div>
             </div>
             <div content>
-              <div>{{link.info}}</div>
+              <div>{{ link.info }}</div>
               <ng-container [ngTemplateOutlet]="children"></ng-container>
             </div>
             <ng-container *ngIf="globals.appMode==='edit'">
@@ -89,11 +102,11 @@
               </div>
             </ng-container>
           </div>
-        </ng-container>
-      </ng-container>
-    </ng-container>
-  </ng-container>
-  <div *ngIf="globals.isDebug" unique>uid{{link.uniqueId}}</div>
+        }
+      }
+    }
+  }
+  <div *ngIf="globals.isDebug" unique>uid{{ link.uniqueId }}</div>
   <div class="icono-arrow2-left"></div>
   <div class="icono-arrow2-right"></div>
 </div>
